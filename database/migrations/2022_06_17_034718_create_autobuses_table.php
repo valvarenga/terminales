@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('autobuses', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('categoria')->nullable();
             $table->string('placa')->nullable();
             $table->string('origen');
             $table->time('hora_salida');
