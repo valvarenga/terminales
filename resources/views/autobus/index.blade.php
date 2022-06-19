@@ -29,9 +29,20 @@
         </label>
     </div>
     <div>
+        <label for="origen"> Sale de: <br>
+            <input type="text" name="origen" id="origen" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="Ingrese el origen del bus">
+        </label>
+    </div>
+    <div>
         <label for="hora_llegada">Hora de salida
             <br>
             <input type="time" name="hora_salida" id="hora_salida" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="Hora de llegada aquí">
+        </label>
+    </div>
+    <div>
+        <label for="destino">Llega a:
+            <br>
+            <input type="text" name="destino" id="destino" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="Ingrese el destino">
         </label>
     </div>
     <div>

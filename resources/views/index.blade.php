@@ -23,7 +23,9 @@
         <tr>
             <th>Nombre</th>
             <th>Placa</th>
+            <th>Sale de:</th>
             <th>Hora de salida</th>
+            <th>Llega a:</th>
             <th>Hora de llegada</th>
         </tr>
     </thead>
@@ -32,7 +34,9 @@
         <tr>
             <td>{{$autobus->nombre}}</td>
             <td>{{$autobus->placa}}</td>
+            <td>{{$autobus->origen}}</td>
             <td>{{$autobus->hora_salida}}</td>
+            <td>{{$autobus->destino}}</td>
             <td>{{$autobus->hora_llegada}}</td>
         </tr>
         @endforeach

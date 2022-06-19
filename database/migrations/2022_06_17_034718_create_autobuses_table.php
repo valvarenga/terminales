@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('autobuses', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('placa');
+            $table->string('placa')->nullable();
+            $table->string('origen');
             $table->time('hora_salida');
+            $table->string('destino');
             $table->time('hora_llegada');
             $table->unsignedBigInteger('terminal_id');
             $table->timestamps();

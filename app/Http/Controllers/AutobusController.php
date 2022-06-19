@@ -20,7 +20,9 @@ class AutobusController extends Controller
         $autobus = new Autobuses();
         $autobus->nombre = $request->nombre;
         $autobus->placa = $request->placa;
+        $autobus->origen = $request->origen;
         $autobus->hora_salida = $request->hora_salida;
+        $autobus->destino = $request->destino;
         $autobus->hora_llegada = $request->hora_llegada;
         $autobus->terminal_id= $request->terminal;
         $autobus->save();
