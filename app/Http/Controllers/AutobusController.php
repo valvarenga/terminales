@@ -29,4 +29,9 @@ class AutobusController extends Controller
         
         return redirect()->route('ruta.index');
     }
+
+    public function edit()
+    {
+        
+    }
 }

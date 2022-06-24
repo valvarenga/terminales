@@ -38,4 +38,13 @@ class Terminal extends Controller
 
         return redirect()->route('ruta.index');
     }
+    public function show(){
+        $terminales = Terminales::all();
+        return view('ruta.showterminales', compact('terminales'));
+    }
+
+    public function edit(Request $request)
+    {
+        
+    }
 }

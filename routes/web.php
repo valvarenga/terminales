@@ -30,6 +30,7 @@ Route::get('ruta',[Terminal::class,'index'])->name('ruta.index');
 //Route::get('new', [Terminal::class,'new']);
 Route::get('newterminal', [Terminal::class,'newterminal'])->name('newterminal');
 Route::post('terminal', [Terminal::class,'store'])->name('terminal');
+Route::get('show',[Terminal::class,'show'])->name('show_terminal');
 
 Route::get('newautobus', [AutobusController::class,'index'])->name('newbus');
 Route::post('autobus', [AutobusController::class,'store'])->name('autobus');

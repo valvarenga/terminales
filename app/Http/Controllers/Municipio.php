@@ -22,4 +22,9 @@ class Municipio extends Controller
         $municipio->save();
         return redirect()->route('ruta.index');
     }
+
+    public function edit(Request $request)
+    {
+        
+    }
 }

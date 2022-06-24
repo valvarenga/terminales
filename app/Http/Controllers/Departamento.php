@@ -24,4 +24,9 @@ class Departamento extends Controller
         
         return redirect()->route('ruta.index');
     }
+
+    public function edit(Request $request)
+    {
+        
+    }
 }
