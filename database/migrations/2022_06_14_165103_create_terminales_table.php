@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('terminales', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('slug');
             $table->time('hora_apertura');
             $table->time('hora_cierre');
             $table->unsignedBigInteger('departamento_id');

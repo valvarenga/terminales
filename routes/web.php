@@ -17,20 +17,24 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//Ruta principal
 Route::get('/', [IndexController::class,'index']);
+
+//Rutas de departamentos
 Route::get('newdepartamento',[Departamento::class,'index'])->name('newdepartamento');
 Route::post('departamento',[Departamento::class,'store'])->name('departamento.store');
 
-
+//Ruta de municipios
 Route::get('newmunicipio',[Municipio::class,'index'])->name('newmunicipio');
 Route::post('municipio',[Municipio::class,'store'])->name('municipio.store');
 
+//Ruta de terminales
 Route::get('ruta',[Terminal::class,'index'])->name('ruta.index');
-//Route::get('new', [Terminal::class,'new']);
 Route::get('newterminal', [Terminal::class,'newterminal'])->name('newterminal');
 Route::post('terminal', [Terminal::class,'store'])->name('terminal');
 Route::get('show',[Terminal::class,'show'])->name('show_terminal');
+Route::get('show/{terminal}/edit', [Terminal::class, 'edit'])->name('terminal.edit');
 
+//Ruta de autobuses
 Route::get('newautobus', [AutobusController::class,'index'])->name('newbus');
 Route::post('autobus', [AutobusController::class,'store'])->name('autobus');
