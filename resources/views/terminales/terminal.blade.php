@@ -28,6 +28,9 @@
           <option value="{{$departamento->id}}">{{$departamento->nombre}}</option>
           @endforeach
         </select>
+        @error('departamento')
+        <span class="text-red-500 text-sm">{{ $message }}</span>
+        @enderror
   </div>
 
 
@@ -40,24 +43,37 @@
       <option value="{{$municipio->id}}">{{$municipio->nombre}}</option>
       @endforeach
     </select>
+    @error('municipio')
+    <span class="text-red-500 text-sm">{{ $message }}</span>
+    @enderror
 </div>
 
     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
         <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre de la terminal <br>
-        <input type="text" name="nombre" id="nombre" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="Nombre aquí">
+        <input type="text" name="nombre" value="{{old('nombre')}}" id="nombre" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="Nombre aquí">
         </label>
+        <input type="hidden" name="slug" value="slug">
+        @error('nombre')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
       </div>
     <div class="form-group">
         <label for="hora_abierta" class="block text-sm font-medium text-gray-700">Hora de apertura: 
           <br>
-        <input type="time" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" name="hora_apertura" id="hora_apertura">
+        <input type="time" value="{{old('hora_apertura')}}" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" name="hora_apertura" id="hora_apertura">
         </label>
+        @error('hora_apertura')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
       </div>
     <div class="form-group">
         <label for="hora_cerrada">Hora de cierre: 
           <br>
-        <input type="time" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" name="hora_cierre" id="hora_cierre">
+        <input type="time" value="{{old('hora_cierre')}}" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" name="hora_cierre" id="hora_cierre">
         </label>
+        @error('hora_cierre')
+        <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
       </div>
 <br>
 <button type="submit" class="btn btn-primary">Crear</button>

@@ -11,11 +11,15 @@ class Departamento extends Controller
     //
     public function index()
     {
-        return view('ruta.departamento');
+        return view('departamentos.departamento');
     }
 
     public function store(Request $request)
     {
+        $request -> validate([
+            'nombre' => 'required',
+        ]);
+
         $departamento = new Departamentos();
         
         $departamento->nombre = $request->nombre;

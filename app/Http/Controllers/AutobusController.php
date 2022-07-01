@@ -17,6 +17,15 @@ class AutobusController extends Controller
 
     public function store(Request $request)
     {
+        $request -> validate([
+            'nombre' => 'required',
+            'origen' => 'required',
+            'hora_salida' => 'required',
+            'destino' => 'required',
+            'hora_llegada' => 'required',
+            'terminal' => 'required',
+        ]);
+        
         $autobus = new Autobuses();
         $autobus->nombre = $request->nombre;
         $autobus->placa = $request->placa;
