@@ -20,17 +20,101 @@
                 body {
                     font-family: 'Nunito', sans-serif;
                 }
+                .active{
+                    color:red;
+                    font-weight:bold;
+                }
             </style>
+            
 </head>
 <body>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v14.0" nonce="tqeTin01"></script>
+  
     @yield('head')
-    <div>
-        <h2> Esta es la cabecera</h2>
-    </div>
+    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{url('/')}}">
+                {{config('app.name','app name')}}
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a href="{{route('home')}}" class="nav-link {{request()->routeIs('home') ? 'active' : ''}}">
+            <span class="icofont-ui-add">Home</span></a>
+         </li>
+       <li class="nav-item"><a href="{{route('newdepartamento')}}" class="nav-link {{request()->routeIs('newdepartamento') ? 'active' : ''}}">
+           <span class="icofont-ui-add">Departamentos</span></a>
+       </li>
+       <li class="nav-item"><a href="{{route('newdepartamento')}}" class=" nav-link {{request()->routeIs('#') ? 'active' : ''}}">
+            <span class="icofont-ui-add">Anuncios</span></a>
+       </li>
+       <li class="nav-item"><a href="{{route('newdepartamento')}}"  class="nav-link {{request()->routeIs('#') ? 'active' : ''}}">
+           <span class="icofont-ui-add">Acerca</span></a>
+       </li>
+       <li><a href="{{route('newdepartamento')}}" class="nav-link {{request()->routeIs('#') ? 'active' : ''}}">
+           <span class="icofont-ui-add">Contacto</span></a>
+       </li>
+      </ul> 
+      <form class="d-flex">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+            </div> 
+            </div> 
+    </nav>
+  
 
     @yield('content')
         
     
     @section('footer')
+
+    <footer class="bg-light text-center text-white">
+        <!-- Grid container -->
+  <div class="container p-4 pb-0">
+    <!-- Section: Social media -->
+    <section class="mb-4">
+      <!-- Facebook -->
+      <a
+        href="#!"
+        role="button"
+        ><img src="{{url('/images/fb.png')}}"></img></a>
+
+      <!-- Instagram -->
+      <a
+        href="#!"
+        role="button"
+        ><img src="{{url('/images/instagram.png')}}"></img></a>
+
+    
+      <!-- whatsApp -->
+      <a
+        href="#!"
+        role="button"
+        ><img src="{{url('/images/WhatsApp.png')}}"></img></a>
+
+        <!-- telegran -->
+        <a
+        href="#!"
+        role="button"
+        ><img src="{{url('/images/Telegram.png')}}"></img></a>
+    </section>
+    <!-- Section: Social media -->
+  </div>
+  <!-- Grid container -->
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2020 Copyright:
+    <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+  </div>
+  <!-- Copyright -->
+  <script src="/js/app.js" type="text/javascript"></script>
+  <script src="/js/bootstrap.js" type="text/javascript"></script>
+  
+  </footer>
 </body>
 </html>
