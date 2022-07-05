@@ -19,8 +19,15 @@ return new class extends Migration
             $table->string('slug');
             $table->time('hora_apertura');
             $table->time('hora_cierre');
-            $table->unsignedBigInteger('departamento_id');
-            $table->unsignedBigInteger('municipio_id');
+            $table->unsignedBigInteger('departamento_id')->nullable();
+            $table->unsignedBigInteger('municipio_id')->nullable();
+
+            $table->foreign('departamento_id')
+            ->references('id')->on('departamentos')->onDelete('set null');
+
+            $table->foreign('municipio_id')
+            ->references('id')->on('municipios')->onDelete('set null');
+           
             $table->timestamps();
         });
     }

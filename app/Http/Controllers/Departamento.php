@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Departamentos;
+use Illuminate\Support\Str;
 
 class Departamento extends Controller
 {
@@ -16,6 +17,8 @@ class Departamento extends Controller
 
     public function store(Request $request)
     {
+        $slug = Str::slug($request->nombre);
+        
         $request -> validate([
             'nombre' => 'required',
         ]);
@@ -23,6 +26,7 @@ class Departamento extends Controller
         $departamento = new Departamentos();
         
         $departamento->nombre = $request->nombre;
+        $departamento->slug= $slug;
 
         $departamento->save();
         

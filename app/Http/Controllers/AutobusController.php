@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Autobuses;
 use App\Models\Terminales;
+use Illuminate\Support\Str;
 class AutobusController extends Controller
 {
     //
@@ -17,6 +18,8 @@ class AutobusController extends Controller
 
     public function store(Request $request)
     {
+        //convierte el nombre a slug(url amigable)
+        $slug = Str::slug($request->nombre);
         $request -> validate([
             'nombre' => 'required',
             'origen' => 'required',
@@ -28,6 +31,7 @@ class AutobusController extends Controller
         
         $autobus = new Autobuses();
         $autobus->nombre = $request->nombre;
+        $autobus->slug= $slug;
         $autobus->placa = $request->placa;
         $autobus->origen = $request->origen;
         $autobus->hora_salida = $request->hora_salida;

@@ -13,4 +13,12 @@ class Terminales extends Model
     {
         return 'slug';
     }
+
+    public function municipios(){
+        return $this->belongsTo('App\Models\Municipios','municipio_id');
+    }
+
+    public function departamentos(){
+        return $this->belongsTo('App\Models\Departamentos','departamento_id');
+    }
 }
