@@ -16,7 +16,11 @@ return new class extends Migration
         Schema::create('municipios', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->unsignedBigInteger('departamento_id');
+            $table->string('slug');
+            $table->unsignedBigInteger('departamento_id')->nullable();
+
+            $table->foreign('departamento_id')
+            ->references('id')->on('departamentos')->onDelete('set null');
             $table->timestamps();
         });
     }

@@ -2,17 +2,17 @@
 @section('title', 'Editar terminal')
 @section('content')
 
-<form action="{{route('terminal')}}" class="" method="POST">
+<form action="{{route('terminal.update', $terminal)}}" class="" method="POST">
     @csrf
-
+    @method('PUT')
 
     <div>
         <label for="departamento" class="sr-only">Departamento</label>
           <br>
         <select id="departamento" name="departamento" class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
-          <option value="{{$terminal->departamento_id}}">{{$departamentos->nombre}}</option>
+          <option value="{{$departamento->id}}">{{$departamento->nombre}}</option>
           
-          @foreach ($departamentos as $departamento)
+          @foreach ($todos_departamentos as $departamento)
           <option value="{{$departamento->id}}">{{$departamento->nombre}}</option>
           @endforeach
         </select>
@@ -23,8 +23,8 @@
     <label for="municipio" class="sr-only">Municipio</label>
       <br>
     <select id="municipio" name="municipio" class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
-      <option value="{{$terminal->municipio_id}}">{{$terminal->municipio_id}}</option>
-      @foreach ($municipios as $municipio)
+      <option value="{{$municipio->id}}">{{$municipio->nombre}}</option>
+      @foreach ($todos_municipios as $municipio)
       <option value="{{$municipio->id}}">{{$municipio->nombre}}</option>
       @endforeach
     </select>
@@ -48,6 +48,6 @@
         </label>
       </div>
 <br>
-<button type="submit" class="btn btn-primary">Editar</button>
+<button type="submit" class="btn btn-primary">Actualizar</button>
 </form>
 @endsection

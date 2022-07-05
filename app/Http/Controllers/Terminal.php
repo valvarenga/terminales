@@ -54,27 +54,57 @@ class Terminal extends Controller
 
         return redirect()->route('ruta.index');
     }
+
     public function show(){
         $terminales = Terminales::all();
         return view('terminales.showterminales', compact('terminales'));
     }
 
+    public function verterminal(Terminales $terminales){
+        
+        $departamento = Departamentos::find($terminales->departamento_id);
+        $municipio = Municipios::find($terminales->municipio_id);
+        
+        //return $terminales;
+        return view('terminales.verterminal', compact('terminales','departamento','municipio'));
+    }
+
     public function edit(Terminales $terminal)
     {
-        $departamentos = Departamentos::pluck('nombre', 'id');
-        $municipios = Municipios::all();   
-        return view('terminales.edit',compact('terminal', 'departamentos', 'municipios'));
+        //obtiene el departamento de la terminal
+        $departamento = Departamentos::find($terminal->departamento_id);
+        //obtiene todos los departamentos
+        $todos_departamentos=Departamentos::all()->where('id','<>',$terminal->departamento_id);
+        //obtiene el municipio de la terminal
+        $municipio = Municipios::find($terminal->municipio_id);
+        //obtiene todos lo municipios
+        $todos_municipios = Municipios::all()->where('id','<>',$terminal->municipio_id);
+        //obtiene el municipio de la terminal;
+        //$departamentos->terminales;
+         //return $departamento;
+
+        return view('terminales.edit',compact('terminal','municipio','todos_municipios', 'departamento', 'todos_departamentos'));
     }
+
     public function update(Request $request, Terminales $terminal)
     {
 
-
+        $slug = Str::slug($request->nombre);
         $terminal->nombre = $request->nombre;
+        $terminal->slug=$slug;
         $terminal->hora_apertura = $request->hora_apertura;
         $terminal->hora_cierre = $request->hora_cierre;
         $terminal->departamento_id = $request->departamento;
         $terminal->municipio_id = $request->municipio;
+        $terminales=$terminal;
         $terminal->save();
-        return redirect()->route('terminales.show');
+        return $this->verterminal($terminales);
+        
+    }
+
+    public function destroy(Terminales $terminales)
+    {
+        $terminales->delete();
+        return redirect()->route('show_terminal');   
     }
 }
