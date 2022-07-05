@@ -5,6 +5,7 @@ use App\Http\Controllers\Terminal;
 use App\Http\Controllers\Municipio;
 use App\Http\Controllers\AutobusController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\AnunciosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,3 +49,7 @@ Route::delete('delete/{terminales}',[Terminal::class,'destroy'])->name('terminal
 //Ruta de autobuses
 Route::get('newautobus', [AutobusController::class,'index'])->name('newbus');
 Route::post('autobus', [AutobusController::class,'store'])->name('autobus');
+
+//Ruta de Anuncios
+Route::get('anuncios',[AnunciosController::class,'index'])->name('anuncios');
+
