@@ -6,8 +6,8 @@
 <div class="container-fluid bg-light.bg-gradient" id="about">
         <div class="row">
           <div class="col-md-6 shadow-lg p-3 mb-5 bg-body rounded">
-          <video class="section d-flex justify-content-center embed-responsive embed-responsive-21by9" autoplay loop muted>
-        <source src="https://mdbcdn.b-cdn.net/img/video/Tropical.mp4" type="video/mp4" />
+              <video class="img-fluid" autoplay loop muted>
+        <source src="{{url('/images/video.mp4')}}" type="video/mp4" />
       </video>
     
     
