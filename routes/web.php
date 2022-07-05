@@ -5,6 +5,7 @@ use App\Http\Controllers\Terminal;
 use App\Http\Controllers\Municipio;
 use App\Http\Controllers\AutobusController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\AnunciosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,12 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 //Ruta principal
 Route::get('/', [IndexController::class,'index']);
-<<<<<<< HEAD
 Route::get('/',[IndexController::class,'index'])->name('home');
-=======
-
-//Rutas de departamentos
->>>>>>> 9fe5902718fd08a72a61f87a236dbd8bed5c9dbd
 Route::get('newdepartamento',[Departamento::class,'index'])->name('newdepartamento');
 Route::post('departamento',[Departamento::class,'store'])->name('departamento.store');
 
@@ -42,3 +38,7 @@ Route::get('show/{terminal}/edit', [Terminal::class, 'edit'])->name('terminal.ed
 //Ruta de autobuses
 Route::get('newautobus', [AutobusController::class,'index'])->name('newbus');
 Route::post('autobus', [AutobusController::class,'store'])->name('autobus');
+
+//Ruta de Anuncios
+Route::get('anuncios',[AnunciosController::class,'index'])->name('anuncios');
+

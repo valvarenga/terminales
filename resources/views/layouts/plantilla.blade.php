@@ -48,7 +48,7 @@
        <li class="nav-item"><a href="{{route('newdepartamento')}}" class="nav-link {{request()->routeIs('newdepartamento') ? 'active' : ''}}">
            <span class="icofont-ui-add">Departamentos</span></a>
        </li>
-       <li class="nav-item"><a href="{{route('newdepartamento')}}" class=" nav-link {{request()->routeIs('#') ? 'active' : ''}}">
+       <li class="nav-item"><a href="{{route('anuncios')}}" class=" nav-link {{request()->routeIs('anuncios') ? 'active' : ''}}">
             <span class="icofont-ui-add">Anuncios</span></a>
        </li>
        <li class="nav-item"><a href="{{route('newdepartamento')}}"  class="nav-link {{request()->routeIs('#') ? 'active' : ''}}">
