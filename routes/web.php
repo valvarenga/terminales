@@ -6,7 +6,9 @@ use App\Http\Controllers\Municipio;
 use App\Http\Controllers\AutobusController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\AnunciosController;
+use App\Http\Controllers\EnlacesController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +62,7 @@ Route::post('autobus', [AutobusController::class,'store'])->name('autobus');
 //Ruta de Anuncios
 Route::get('anuncios',[AnunciosController::class,'index'])->name('anuncios');
 
+//Ruta de acerca
+Route::get('Acerca',[EnlacesController::class,'index'])->name('Acerca');
+//Ruta de contacto
+Route::get('contactos',[EnlacesController::class,'show'])->name('contactos');
