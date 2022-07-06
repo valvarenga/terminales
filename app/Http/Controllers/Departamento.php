@@ -37,4 +37,10 @@ class Departamento extends Controller
     {
         
     }
+
+    public function show()
+    {
+        $departamento = Departamentos::all();
+        return view('departamentos.showdepartamentos', compact('departamento'));
+    }
 }

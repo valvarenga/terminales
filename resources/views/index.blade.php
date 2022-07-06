@@ -6,17 +6,11 @@
 <div class="container-fluid bg-light.bg-gradient" id="about">
         <div class="row">
           <div class="col-md-6 shadow-lg p-3 mb-5 bg-body rounded">
-            <img
-              style="
-                height: 100px;
-                width: 100%;
-                height: auto;
-              "
-              class="img-responsive"
-              class="ms-5"
-              src="{{url('/images/inicio.png')}}"
-              alt="Honolulu"
-            />
+              <video class="img-fluid" autoplay loop muted>
+        <source src="{{url('/images/video.mp4')}}" type="video/mp4" />
+      </video>
+    
+    
           </div>
           <div class="col-md-6">
 </br>

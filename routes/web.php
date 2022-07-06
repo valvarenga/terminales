@@ -20,9 +20,10 @@ use Illuminate\Support\Facades\Route;
 */
 //Ruta principal
 Route::get('/',[IndexController::class,'index'])->name('home');
-
+//Ruta Departamentos
 Route::get('newdepartamento',[Departamento::class,'index'])->name('newdepartamento');
 Route::post('departamento',[Departamento::class,'store'])->name('departamento.store');
+Route::get('Departamentos',[Departamento::class,'show'])->name('Departamentos');
 
 //Ruta de municipios
 Route::get('newmunicipio',[Municipio::class,'index'])->name('newmunicipio');
