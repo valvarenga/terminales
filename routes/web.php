@@ -28,6 +28,11 @@ Route::post('departamento',[Departamento::class,'store'])->name('departamento.st
 Route::get('newmunicipio',[Municipio::class,'index'])->name('newmunicipio');
 Route::post('municipio',[Municipio::class,'store'])->name('municipio.store');
 Route::get('municipio',[Municipio::class,'show'])->name('municipio.show');
+Route::get('municipio/{municipio}/edit',[Municipio::class,'edit'])->name('municipio.edit');
+Route::put('municipio/{municipio}',[Municipio::class,'update'])->name('municipio.update');
+Route::delete('municipio/{municipio}',[Municipio::class,'destroy'])->name('municipio.destroy');
+
+Route::get('municipio/{municipio}',[Municipio::class,'ver'])->name('municipio.ver');
 
 //Ruta de terminales
 Route::get('ruta',[Terminal::class,'index'])->name('ruta.index');
