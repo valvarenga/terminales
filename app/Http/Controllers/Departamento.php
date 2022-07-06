@@ -38,9 +38,21 @@ class Departamento extends Controller
         
     }
 
-    public function show()
+    public function show(){
+        $departamentos = Departamentos::all();
+        return view('departamentos.show', compact('departamentos'));
+    }
+
+
+    public function listar()
     {
-        $departamento = Departamentos::all();
-        return view('departamentos.showdepartamentos', compact('departamento'));
+        $departamentos = Departamentos::all();
+        return view('departamentos.listar_departamentos', compact('departamentos'));
+    }
+
+    public function departamentos_municipios(Departamentos $departamento){
+        $municipios= $departamento->municipios;
+        //return $departamento;
+        return view('departamentos.municipios', compact('municipios'));
     }
 }
