@@ -54,7 +54,7 @@
        <li class="nav-item"><a href="{{route('Acerca')}}"  class="nav-link {{request()->routeIs('Acerca') ? 'active' : ''}}">
            <span class="icofont-ui-add">Acerca</span></a>
        </li>
-       <li><a href="{{route('contactos')}}" class="nav-link {{request()->routeIs('contactos') ? 'active' : ''}}">
+       <li><a href="{{route('contacto')}}" class="nav-link {{request()->routeIs('contacto') ? 'active' : ''}}">
            <span class="icofont-ui-add">Contacto</span></a>
        </li>
       </ul> 

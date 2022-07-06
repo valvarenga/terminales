@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 //Ruta principal
 Route::get('/',[IndexController::class,'index'])->name('home');
+
 //Ruta Departamentos
 Route::get('newdepartamento',[Departamento::class,'index'])->name('newdepartamento');
 Route::post('departamento',[Departamento::class,'store'])->name('departamento.store');
@@ -65,4 +66,5 @@ Route::get('anuncios',[AnunciosController::class,'index'])->name('anuncios');
 //Ruta de acerca
 Route::get('Acerca',[EnlacesController::class,'index'])->name('Acerca');
 //Ruta de contacto
-Route::get('contactos',[EnlacesController::class,'show'])->name('contactos');
+//Route::get('contactos',[EnlacesController::class,'show'])->name('contactos');
+Route::view('contacto', 'enlaces.contacto')->name('contacto');
