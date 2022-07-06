@@ -17,7 +17,7 @@
 <nav class="menu">
     <ul>
         <li><a href="{{route('show_terminal')}}">Listar terminales</a></li>
-        <li><a href="#">Listar municipios</a></li>
+        <li><a href="{{route('municipio.show')}}">Listar municipios</a></li>
         <li><a href="#">Listar departamentos</a></li>
     </ul>
 </nav>

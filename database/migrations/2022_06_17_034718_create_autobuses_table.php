@@ -23,7 +23,10 @@ return new class extends Migration
             $table->time('hora_salida');
             $table->string('destino');
             $table->time('hora_llegada');
-            $table->unsignedBigInteger('terminal_id');
+            $table->unsignedBigInteger('terminal_id')->nullable();
+
+            $table->foreign('terminal_id')->
+            references('id')->on('terminales')->onDelete('set null');
             $table->timestamps();
         });
     }
