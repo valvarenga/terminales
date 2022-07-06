@@ -51,10 +51,10 @@
        <li class="nav-item"><a href="{{route('anuncios')}}" class=" nav-link {{request()->routeIs('anuncios') ? 'active' : ''}}">
             <span class="icofont-ui-add">Anuncios</span></a>
        </li>
-       <li class="nav-item"><a href="{{route('newdepartamento')}}"  class="nav-link {{request()->routeIs('#') ? 'active' : ''}}">
+       <li class="nav-item"><a href="{{route('Acerca')}}"  class="nav-link {{request()->routeIs('Acerca') ? 'active' : ''}}">
            <span class="icofont-ui-add">Acerca</span></a>
        </li>
-       <li><a href="{{route('newdepartamento')}}" class="nav-link {{request()->routeIs('#') ? 'active' : ''}}">
+       <li><a href="{{route('contactos')}}" class="nav-link {{request()->routeIs('contactos') ? 'active' : ''}}">
            <span class="icofont-ui-add">Contacto</span></a>
        </li>
       </ul> 
@@ -108,7 +108,7 @@
 
   <!-- Copyright -->
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    © 2020 Copyright:
+    © 2022 Copyright:
     <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
   </div>
   <!-- Copyright -->
