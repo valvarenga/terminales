@@ -45,7 +45,7 @@
         <li class="nav-item"><a href="{{route('home')}}" class="nav-link {{request()->routeIs('home') ? 'active' : ''}}">
             <span class="icofont-ui-add">Home</span></a>
          </li>
-       <li class="nav-item"><a href="{{route('departamentos.listar')}}" class="nav-link {{request()->routeIs('Departamentos') ? 'active' : ''}}">
+       <li class="nav-item"><a href="{{route('departamentos.listar')}}" class="nav-link {{request()->routeIs('departamentos.listar') ? 'active' : ''}}">
            <span class="icofont-ui-add">Departamentos</span></a>
        </li>
        <li class="nav-item"><a href="{{route('anuncios')}}" class=" nav-link {{request()->routeIs('anuncios') ? 'active' : ''}}">
