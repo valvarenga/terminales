@@ -20,17 +20,17 @@
         
          @foreach ($departamentos as $departamento)
       <!-- Gallery item -->
-      <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-       
-        <a href="{{route('departamento.municipios', $departamento)}}" class="text-dark fw-bolder">
-        <div class="bg-white rounded shadow-sm"><img src="{{url('/images/ocotal.jpg')}}" alt="" class="img-fluid card-img-top">
-          <div class="mx-auto p-4 text-center" style="width: 300px;">
-                 <h4>{{$departamento->nombre}} </h4>
-                <!--<button type="button" class="btn btn-secondary">Ver</button>-->
-           </div>
-        </div>
-            </a>
-      </div>
+          <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+          
+            <a href="{{route('departamento.municipios', $departamento)}}" class="text-dark fw-bolder">
+            <div class="bg-white rounded shadow-sm"><img src="{{url('/images/ocotal.jpg')}}" alt="" class="img-fluid card-img-top">
+              <div class="mx-auto p-4 text-center" style="width: 300px;">
+                    <h4>{{$departamento->nombre}} </h4>
+                    <!--<button type="button" class="btn btn-secondary">Ver</button>-->
+              </div>
+            </div>
+                </a>
+          </div>
       <!-- End -->
          @endforeach
             

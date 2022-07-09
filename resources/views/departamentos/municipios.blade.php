@@ -8,8 +8,11 @@
 
 <ul>
     @foreach ($municipios as $municipio)
+    <a href="{{route('departamento.terminales', [$departamento, $municipio->slug])}}">
         <li {{$municipio->id}}>{{$municipio->nombre}}</li>
+    </a>
     @endforeach
 </ul>
+
 @endif
 @endsection

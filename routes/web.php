@@ -7,6 +7,7 @@ use App\Http\Controllers\AutobusController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\AnunciosController;
 use App\Http\Controllers\EnlacesController;
+use App\Models\Departamentos;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,6 +29,8 @@ Route::get('newdepartamento',[Departamento::class,'index'])->name('newdepartamen
 Route::post('departamento',[Departamento::class,'store'])->name('departamento.store');
 Route::get('Departamentos',[Departamento::class,'listar'])->name('departamentos.listar');
 Route::get('departamento/{departamento}',[Departamento::class,'departamentos_municipios'])->name('departamento.municipios');
+Route::get('/departamento/{departamento}/municipio/{municipio:slug}',
+[Departamento::class,'departamento_terminales'])->scopeBindings()->name('departamento.terminales');
 
 //Ruta de municipios
 Route::get('newmunicipio',[Municipio::class,'index'])->name('newmunicipio');

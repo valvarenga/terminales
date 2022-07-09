@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Departamentos;
+use App\Models\Municipios;
 use Illuminate\Support\Str;
 
 class Departamento extends Controller
@@ -53,6 +54,15 @@ class Departamento extends Controller
     public function departamentos_municipios(Departamentos $departamento){
         $municipios= $departamento->municipios;
         //return $departamento;
-        return view('departamentos.municipios', compact('municipios'));
+        return view('departamentos.municipios', compact('departamento','municipios'));
     }
+
+    public function departamento_terminales(Departamentos $departamento, Municipios $municipio){
+        $terminales= $departamento->terminales()->where('municipio_id', $municipio->id)->get();
+        
+        //return $terminales;
+        return view('departamentos.terminales_departamentos', compact('terminales'));
+    }
+
+
 }
