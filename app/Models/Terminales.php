@@ -21,4 +21,8 @@ class Terminales extends Model
     public function departamentos(){
         return $this->belongsTo('App\Models\Departamentos','departamento_id');
     }
+
+    public function autobuses(){
+        return $this->belongsToMany('App\Models\Autobuses','autobus_terminal','terminal_id','autobus_id');
+    }
 }
