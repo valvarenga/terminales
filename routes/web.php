@@ -31,6 +31,7 @@ Route::get('departamentos',[Departamento::class,'listar'])->name('departamentos.
 Route::get('departamento/{departamento}',[Departamento::class,'departamentos_municipios'])->name('departamento.municipios');
 Route::get('/departamento/{departamento}/municipio/{municipio:slug}',
 [Departamento::class,'departamento_terminales'])->scopeBindings()->name('departamento.terminales');
+Route::get('/departamento/terminal/{terminal}',[Departamento::class,'buscar_autobuses'])->name('departamento.autobuses');
 
 //Ruta de municipios
 Route::get('newmunicipio',[Municipio::class,'index'])->name('newmunicipio');
