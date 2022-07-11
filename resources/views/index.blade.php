@@ -21,6 +21,7 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
             </p>
 
             <div class="row">
+            <form class="row g-3 needs-validation">
   <div class="col">
     <label class="text-info fs-3">Origen</label>
     <input type="text" class="form-control" placeholder="Escriba la ciudad de origen" aria-label="Nombre">
@@ -29,6 +30,10 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
   <label class="text-info fs-3">Destino</label>
     <input type="text" class="form-control" placeholder="Escriba la ciudad de destino" aria-label="Apellido">
   </div>
+  <div class="col-12">
+    <button class="btn btn-warning" type="submit">Buscar</button>
+  </div>
+  </form>
 </div>
 <!--
             <form action="">

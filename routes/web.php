@@ -27,7 +27,7 @@ Route::get('/',[IndexController::class,'index'])->name('home');
 Route::get('newdepartamento',[Departamento::class,'index'])->name('newdepartamento');
 Route::post('departamento',[Departamento::class,'store'])->name('departamento.store');
 Route::get('departamentos',[Departamento::class,'listar'])->name('departamentos.listar');
-Route::get('departamento/{departamento}',[Departamento::class,'departamentos_municipios'])->name('departamento.municipios');
+Route::get('departamento/{departamento}',[Departamento::class,'departamentos_municipios'])->name('departamentos.municipios');
 
 //Ruta de municipios
 Route::get('newmunicipio',[Municipio::class,'index'])->name('newmunicipio');
