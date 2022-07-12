@@ -14,8 +14,9 @@ class Autobuses extends Model
         return 'slug';
     }
     
-    public function terminales()
-    {
-        return $this->belongsTo('App\Models\Terminales', 'terminal_id');
+
+
+    public function terminales(){
+        return $this->belongsToMany('App\Models\Terminales','autobus_terminal','autobus_id','terminal_id');
     }
 }

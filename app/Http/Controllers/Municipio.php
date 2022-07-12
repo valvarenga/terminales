@@ -69,4 +69,11 @@ class Municipio extends Controller
         $municipio->save();
         return $this->ver($municipio);
     }
+    public function municipio_terminales(Municipio $municipio){
+        $terminales= $municipio->terminales;
+        return $terminales;
+        //return view('departamentos.terminales_departamentos', compact('municipio'));
+    }
 }
+
+ 

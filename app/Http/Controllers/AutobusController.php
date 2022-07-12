@@ -37,9 +37,10 @@ class AutobusController extends Controller
         $autobus->hora_salida = $request->hora_salida;
         $autobus->destino = $request->destino;
         $autobus->hora_llegada = $request->hora_llegada;
-        $autobus->terminal_id= $request->terminal;
+        //$autobus->terminal_id= $request->terminal;
         $autobus->save();
         
+        $autobus->terminales()->attach($request->terminal);
         return redirect()->route('ruta.index');
     }
 

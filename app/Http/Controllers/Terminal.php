@@ -107,4 +107,7 @@ class Terminal extends Controller
         $terminales->delete();
         return redirect()->route('show_terminal');   
     }
+
+
 }
+

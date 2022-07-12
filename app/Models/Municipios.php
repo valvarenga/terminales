@@ -17,4 +17,8 @@ class Municipios extends Model
     public function departamentos(){
         return $this->belongsTo('App\Models\Departamentos', 'departamento_id');
     }
+
+    public function terminales(){
+        return $this->hasMany('App\Models\Terminales', 'municipio_id');
+    }
 }

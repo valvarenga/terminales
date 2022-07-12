@@ -25,7 +25,7 @@
       <!-- card Municipios -->
       <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
        
-        <a href="#" class="text-dark fw-bolder">
+        <a href="{{route('departamento.terminales', [$departamento, $municipio->slug])}}" class="text-dark fw-bolder">
         <div class="bg-white rounded shadow-sm"><img src="{{url('/images/ocotal.jpg')}}" alt="" class="img-fluid card-img-top">
           <div class="mx-auto p-4 text-center" style="width: 300px;">
                  <h4>{{$municipio->nombre}} </h4>

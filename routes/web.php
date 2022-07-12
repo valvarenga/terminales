@@ -7,6 +7,7 @@ use App\Http\Controllers\AutobusController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\AnunciosController;
 use App\Http\Controllers\EnlacesController;
+use App\Models\Departamentos;
 use Illuminate\Support\Facades\Route;
 
 
