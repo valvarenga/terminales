@@ -6,9 +6,8 @@
     
         <div class="card">
             <div class="card-header">
-                <a href="{{route('departamento.autobuses',$terminal)}}">
+
                     <h3 >{{$terminal->nombre}}</h3>
-                </a>
             </div>
         </div>
   
@@ -16,9 +15,24 @@
     @foreach($autobuses as $autobus)
         <div class="card">
             <div class="card-header">
-                <a href="#">
-                    <h3 {{$autobus->id}}>{{$autobus->nombre}}</h3>
-                </a>
+                <table class="table table-dark table-striped-columns">
+                    <thead>
+                        <tr>
+                            <th>Nombre del bus</th>
+                            <th>Placa</th>
+                            <th>Sale a:</th>
+                            <th>Hora de salida:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{$autobus->nombre}}</td>
+                            <td>{{$autobus->placa}}</td>
+                            <td>{{$autobus->destino}}</td>
+                            <td>{{$autobus->hora_salida}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
