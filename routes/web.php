@@ -39,6 +39,7 @@ Route::get('municipio',[Municipio::class,'show'])->name('municipio.show');
 Route::get('municipio/{municipio}/edit',[Municipio::class,'edit'])->name('municipio.edit');
 Route::put('municipio/{municipio}',[Municipio::class,'update'])->name('municipio.update');
 Route::delete('municipio/{municipio}',[Municipio::class,'destroy'])->name('municipio.destroy');
+Route::post('municipio/ajax{$departamento?}',[Municipio::class,'ajax'])->name('municipio.ajax');
 
 Route::get('municipio/{municipio}',[Municipio::class,'ver'])->name('municipio.ver');
 

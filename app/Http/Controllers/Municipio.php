@@ -74,6 +74,12 @@ class Municipio extends Controller
         return $terminales;
         //return view('departamentos.terminales_departamentos', compact('municipio'));
     }
+
+    public function ajax(Request $request)
+    {
+        $municipios = Municipios::where('departamento_id', $request->departamento_id)->get();
+        return response()->json($municipios);
+    }
 }
 
  
