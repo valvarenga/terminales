@@ -69,22 +69,7 @@
 
 @section('scripts')
 <script>
-  var departamento = document.getElementById('departamento');
-  $(document).ready(function(){
-    $.ajax({
-      url: '{{route('municipio.ajax')}}',
-      type: 'POST',
-      data: {
-        departamento: departamento.value,
-        _token:$('input[name=_token]').val()
-      }
-    }).done(function(data){
-      alert(data);
-    });
-      /*success: function(data){
-        $('#municipio').html(data);
-      }*/
-    //});
-  });
+var departamento = document.getElementById('departamento');
+
 </script>
 @endsection
