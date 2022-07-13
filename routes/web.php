@@ -27,7 +27,7 @@ Route::get('/',[IndexController::class,'index'])->name('home');
 Route::get('newdepartamento',[Departamento::class,'index'])->name('newdepartamento');
 Route::post('departamento',[Departamento::class,'store'])->name('departamento.store');
 Route::get('departamentos',[Departamento::class,'listar'])->name('departamentos.listar');
-Route::get('departamento/{departamento}',[Departamento::class,'departamentos_municipios'])->name('departamento.municipios');
+Route::get('departamento/{departamento}',[Departamento::class,'departamentos_municipios'])->name('departamentos.municipios');
 Route::get('/departamento/{departamento}/municipio/{municipio:slug}',
 [Departamento::class,'departamento_terminales'])->scopeBindings()->name('departamento.terminales');
 Route::get('/departamento/terminal/{terminal}',[Departamento::class,'buscar_autobuses'])->name('departamento.autobuses');
