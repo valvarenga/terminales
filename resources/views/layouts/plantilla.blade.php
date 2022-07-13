@@ -114,6 +114,7 @@
   <!-- Copyright -->
   <script src="/js/app.js" type="text/javascript"></script>
   <script src="/js/bootstrap.js" type="text/javascript"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   @yield('scripts')
   
   </footer>
