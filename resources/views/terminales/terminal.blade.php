@@ -9,7 +9,7 @@
     <div>
         <label for="departamento" class="sr-only">Departamento</label>
           <br>
-        <select id="departamento" name="departamento" class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
+        <select id="departamento" name="departamento"  class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
           <option value="">Seleccione un departamento</option>
           @foreach ($departamentos as $departamento)
           <option value="{{$departamento->id}}">{{$departamento->nombre}}</option>
@@ -69,7 +69,30 @@
 
 @section('scripts')
 <script>
-var departamento = document.getElementById('departamento');
-
+var id_departamento = document.getElementById('departamento');
+var id_municipio = document.getElementById('municipio');
+$(document).ready(function(){
+  $('#departamento').on('change', function(){
+    var id_departamento = $(this).val();
+    if(id_departamento){
+      $.ajax({
+        type:'GET',
+        url:'{{route('municipio.ajax')}}'+'/'+id_departamento,
+        dataType:'JSON',
+        success:function(data){
+          console.log(data);
+          /*id_municipio.innerHTML = `<option value="">Seleccionar Municipio...</option>`
+          for(i of data){
+            console.log(i);
+            id_municipio.innerHTML += `<option value="${i.id}">${i.nombre}</option>`
+          }*/
+        }
+      });
+    }else{
+     alert ('No selecciono nada');
+      // $('#municipio').empty();
+    }
+  });
+});
 </script>
 @endsection
