@@ -69,8 +69,9 @@
 
 @section('scripts')
 <script>
-var id_departamento = document.getElementById('departamento');
+//var id_departamento = document.getElementById('departamento');
 var id_municipio = document.getElementById('municipio');
+//var ruta = "{{route('municipio.ajax')}}";
 $(document).ready(function(){
   $('#departamento').on('change', function(){
     var id_departamento = $(this).val();
@@ -80,12 +81,12 @@ $(document).ready(function(){
         url:'{{route('municipio.ajax')}}'+'/'+id_departamento,
         dataType:'JSON',
         success:function(data){
-          console.log(data);
-          /*id_municipio.innerHTML = `<option value="">Seleccionar Municipio...</option>`
+          //console.log(data);
+          id_municipio.innerHTML = `<option value="">Seleccionar Municipio...</option>`
           for(i of data){
-            console.log(i);
+            //console.log(i);
             id_municipio.innerHTML += `<option value="${i.id}">${i.nombre}</option>`
-          }*/
+          }
         }
       });
     }else{
