@@ -31,7 +31,7 @@ Route::get('departamentos',[Departamento::class,'listar'])->name('departamentos.
 Route::get('departamento/{departamento}',[Departamento::class,'departamentos_municipios'])->name('departamentos.municipios');
 Route::get('/departamento/{departamento}/municipio/{municipio:slug}',
 [Departamento::class,'departamento_terminales'])->scopeBindings()->name('departamento.terminales');
-Route::get('/departamento/terminal/{terminal}',[Departamento::class,'buscar_autobuses'])->name('departamento.autobuses');
+Route::get('/departamento/terminal/{terminal?}',[Departamento::class,'buscar_autobuses'])->name('departamento.autobuses');
 
 //Ruta de municipios
 Route::get('newmunicipio',[Municipio::class,'index'])->name('newmunicipio');
@@ -40,7 +40,7 @@ Route::get('municipio',[Municipio::class,'show'])->name('municipio.show');
 Route::get('municipio/{municipio}/edit',[Municipio::class,'edit'])->name('municipio.edit');
 Route::put('municipio/{municipio}',[Municipio::class,'update'])->name('municipio.update');
 Route::delete('municipio/{municipio}',[Municipio::class,'destroy'])->name('municipio.destroy');
-Route::post('municipio/ajax{$departamento?}',[Municipio::class,'ajax'])->name('municipio.ajax');
+Route::get('municipio/ajax/{departamento:id?}',[Municipio::class,'ajax'])->name('municipio.ajax');
 
 Route::get('municipio/{municipio}',[Municipio::class,'ver'])->name('municipio.ver');
 
