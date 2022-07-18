@@ -7,6 +7,7 @@ use App\Http\Controllers\AutobusController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\AnunciosController;
 use App\Http\Controllers\EnlacesController;
+use App\Http\Controllers\BuscarController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -72,3 +73,6 @@ Route::get('Acerca',[EnlacesController::class,'index'])->name('Acerca');
 //Ruta de contacto
 //Route::get('contactos',[EnlacesController::class,'show'])->name('contactos');
 Route::view('contacto', 'enlaces.contacto')->name('contacto');
+
+//Ruta de resultado de Busqueda
+Route::get('buscar',[BuscarController::class,'index'])->name('buscar.index');
