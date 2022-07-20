@@ -9,6 +9,7 @@ use App\Http\Controllers\AnunciosController;
 use App\Http\Controllers\EnlacesController;
 use App\Http\Controllers\PeticionAjaxController;
 use App\Models\Departamentos;
+use App\Http\Controllers\BuscarController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -81,3 +82,5 @@ Route::view('contacto', 'enlaces.contacto')->name('contacto');
 
 //Rutas para hacer peticiones a traves de ajax
 Route::get('ajax/{departamento:id?}', [PeticionAjaxController::class,'ajax_municipios'])->name('municipio.ajax');
+//Ruta de resultado de Busqueda
+Route::get('buscar',[BuscarController::class,'index'])->name('buscar.index');

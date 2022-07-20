@@ -24,56 +24,17 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
             <form class="row g-3 needs-validation">
   <div class="col">
     <label class="text-info fs-3">Origen</label>
-    <input type="text" class="form-control" placeholder="Escriba la ciudad de origen" aria-label="Nombre">
+    <input type="text" class="form-control" placeholder="Escriba la ciudad de origen" aria-label="origen">
   </div>
   <div class="col">
   <label class="text-info fs-3">Destino</label>
-    <input type="text" class="form-control" placeholder="Escriba la ciudad de destino" aria-label="Apellido">
+    <input type="text" class="form-control" placeholder="Escriba la ciudad de destino" aria-label="destino">
   </div>
   <div class="col-12">
-    <button class="btn btn-warning" type="submit">Buscar</button>
+    <a href="{{route('buscar.index')}}" class="btn btn-warning">Buscar</a> 
   </div>
   </form>
 </div>
-<!--
-            <form action="">
-    <div>
-        <label for="terminal">
-            <br>
-            <select name="terminal" id="terminal">
-                <option value="">Seleccione una opción</option>
-                @foreach ($terminales as $terminal)
-                <option value="{{$terminal->id}}">{{$terminal->nombre}}</option>
-                @endforeach
-            </select>
-        </label>
-    </div>
-</form>
-<table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Placa</th>
-            <th>Sale de:</th>
-            <th>Hora de salida</th>
-            <th>Llega a:</th>
-            <th>Hora de llegada</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($autobuses as $autobus)
-        <tr>
-            <td>{{$autobus->nombre}}</td>
-            <td>{{$autobus->placa}}</td>
-            <td>{{$autobus->origen}}</td>
-            <td>{{$autobus->hora_salida}}</td>
-            <td>{{$autobus->destino}}</td>
-            <td>{{$autobus->hora_llegada}}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
- -->
 
  <!-- seccion de anuncios -->
 </br>

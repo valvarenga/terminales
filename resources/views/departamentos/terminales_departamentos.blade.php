@@ -18,7 +18,7 @@
     
         <div class="card">
             <div class="card-body">
-                <table class="table table-dark table-striped-columns" id="buses">
+                <table id="buses" class="table table-dark" style="width:100%" >
                     <thead>
                         <tr>
                             <th>Nombre del bus</th>
@@ -27,8 +27,9 @@
                             <th>Hora de salida:</th>
                         </tr>
                     </thead>
-                    @foreach($autobuses as $autobus)
+                   
                     <tbody>
+                         @foreach($autobuses as $autobus)
                         <tr>
                             <td>{{$autobus->nombre}}</td>
                             <td>{{$autobus->placa}}</td>
