@@ -37,14 +37,31 @@ class Departamento extends Controller
         return redirect()->route('ruta.index');
     }
 
-    public function edit(Request $request)
+    public function update(Request $request, Departamentos $departamento)
     {
-        
+        $slug = Str::slug($request->nombre);
+
+        $request -> validate([
+            'nombre' => 'required',
+        ]);
+
+        $departamento->nombre = $request->nombre_departamento;
+        $departamento->slug= $slug;
+        $departamento->save();
+
+        return response()->json(['success'=>'Departamento actualizado correctamente.']);
+
     }
 
     public function show(){
         $departamentos = Departamentos::all();
-        return view('departamentos.show', compact('departamentos'));
+        return view('departamentos.show_departamentos', compact('departamentos'));
+    }
+    
+    public function ver_departamento(Departamentos $departamento)
+    {
+        $departamentos = Departamentos::find($departamento->id);
+        return view('departamentos.edit', compact('departamentos'));
     }
 
 
@@ -63,11 +80,6 @@ class Departamento extends Controller
     public function departamento_terminales(Departamentos $departamento, Municipios $municipio){
         $terminales= $departamento->terminales()->where('municipio_id', $municipio->id)->get();
         
-        //$autobuses= $this->buscar_autobuses($terminales);
-        //$busqueda_terminales= $this->buscar_autobus($terminales->id);
-        
-        //return $busqueda_terminales;
-        //return $terminales;
         return view('departamentos.terminales_departamentos', compact('terminales'));
     }
 

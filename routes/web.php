@@ -7,6 +7,8 @@ use App\Http\Controllers\AutobusController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\AnunciosController;
 use App\Http\Controllers\EnlacesController;
+use App\Http\Controllers\PeticionAjaxController;
+use App\Models\Departamentos;
 use Illuminate\Support\Facades\Route;
 
 
@@ -26,10 +28,14 @@ Route::get('/',[IndexController::class,'index'])->name('home');
 //Ruta Departamentos
 Route::get('newdepartamento',[Departamento::class,'index'])->name('newdepartamento');
 Route::post('departamento',[Departamento::class,'store'])->name('departamento.store');
+Route::get('departamento',[Departamento::class,'show'])->name('departamentos.show');
+Route::get('departamento/{departamento:slug?}',[Departamento::class,'ver_departamento'])->name('departamento.ver');
+Route::put('departamento/{departamento:id?}',[Departamento::class,'update'])->name('departamento.update');
+Route::delete('departamento/{departamento:id?}',[Departamento::class,'destroy'])->name('departamento.destroy');
+
 Route::get('departamentos',[Departamento::class,'listar'])->name('departamentos.listar');
 Route::get('departamento/{departamento}',[Departamento::class,'departamentos_municipios'])->name('departamentos.municipios');
-Route::get('/departamento/{departamento}/municipio/{municipio:slug}',
-[Departamento::class,'departamento_terminales'])->scopeBindings()->name('departamento.terminales');
+Route::get('/departamento/{departamento}/municipio/{municipio:slug}',[Departamento::class,'departamento_terminales'])->name('departamento.terminales');
 Route::get('/departamento/terminal/{terminal?}',[Departamento::class,'buscar_autobuses'])->name('departamento.autobuses');
 
 //Ruta de municipios
@@ -39,7 +45,7 @@ Route::get('municipio',[Municipio::class,'show'])->name('municipio.show');
 Route::get('municipio/{municipio}/edit',[Municipio::class,'edit'])->name('municipio.edit');
 Route::put('municipio/{municipio}',[Municipio::class,'update'])->name('municipio.update');
 Route::delete('municipio/{municipio}',[Municipio::class,'destroy'])->name('municipio.destroy');
-Route::get('municipio/ajax/{departamento:id?}',[Municipio::class,'ajax'])->name('municipio.ajax');
+
 
 Route::get('municipio/{municipio}',[Municipio::class,'ver'])->name('municipio.ver');
 
@@ -72,3 +78,6 @@ Route::get('Acerca',[EnlacesController::class,'index'])->name('Acerca');
 //Ruta de contacto
 //Route::get('contactos',[EnlacesController::class,'show'])->name('contactos');
 Route::view('contacto', 'enlaces.contacto')->name('contacto');
+
+//Rutas para hacer peticiones a traves de ajax
+Route::get('ajax/{departamento:id?}', [PeticionAjaxController::class,'ajax_municipios'])->name('municipio.ajax');
