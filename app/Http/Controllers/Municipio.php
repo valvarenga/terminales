@@ -75,6 +75,25 @@ class Municipio extends Controller
         //return view('departamentos.terminales_departamentos', compact('municipio'));
     }
 
+    //Funcion que busca los departamentos desde el cuadro de busqueda
+    public function search(Request $request)
+    {
+        $term = $request->get('term');
+        
+        $municipios = Municipios::where('nombre', 'like', '%' . $term . '%')->get();
+        $data = [];
+
+        foreach ($municipios as $municipio) {
+            $data[] = [
+                'id' => $municipio->id,
+                'value' => $municipio->nombre
+            ];
+        }
+        return response()->json($data);
+
+        
+    }
+
 
 }
 

@@ -2,6 +2,9 @@
 
 @section('title', 'Home')
 
+@section('estilos')
+<link rel="stylesheet" href="{{asset('vendor/jquery-ui/jquery-ui.min.css')}}">
+@endsection
 @section('content')
 <div class="container-fluid bg-light.bg-gradient" id="about">
         <div class="row">
@@ -21,17 +24,18 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
             </p>
 
             <div class="row">
-            <form class="row g-3 needs-validation">
+  <form method="GET" action="{{route('buscar.index')}}" class="row g-3 needs-validation" >
   <div class="col">
     <label class="text-info fs-3">Origen</label>
-    <input type="text" class="form-control" placeholder="Escriba la ciudad de origen" aria-label="origen">
+    <input type="text" class="form-control" placeholder="Escriba la ciudad de origen" aria-label="origen" id="origen">
   </div>
   <div class="col">
   <label class="text-info fs-3">Destino</label>
-    <input type="text" class="form-control" placeholder="Escriba la ciudad de destino" aria-label="destino">
+    <input type="text" class="form-control" placeholder="Escriba la ciudad de destino" aria-label="destino" id="destino">
   </div>
   <div class="col-12">
-    <a href="{{route('buscar.index')}}" class="btn btn-warning">Buscar</a> 
+    <button type="submit" class="btn btn-warning">Buscar</button>
+    
   </div>
   </form>
 </div>
@@ -87,6 +91,27 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
 
 
 
+@endsection
+@section('scripts')
+<script src="{{asset('vendor/jquery-ui/jquery-ui.min.js')}}"></script>
+<script>
+  $('#origen').autocomplete({
+    source: function(request, response) {
+        $.ajax({
+            url: "{{route('municipios.search')}}",
+            dataType: "json",
+            data: {
+                term : request.term
+            },
+            success: function(data) {
+                response(data);
+                
+            }
+        });
+    },
+  })
+
+</script>
 @endsection
 
 
