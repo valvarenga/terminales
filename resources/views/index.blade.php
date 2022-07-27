@@ -21,22 +21,24 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
             </p>
 
             <div class="row">
-            <form class="row g-3 needs-validation">
+              <!--action="{{route('buscar.index')}}"-->
+            <form class="row g-3" >
   <div class="col">
     <label class="text-info fs-3">Origen</label>
-    <input type="text" class="form-control" placeholder="Escriba la ciudad de origen" aria-label="origen">
+    <input type="text" class="form-control" placeholder="Escriba la ciudad de origen" aria-label="origen" required>
   </div>
   <div class="col">
   <label class="text-info fs-3">Destino</label>
-    <input type="text" class="form-control" placeholder="Escriba la ciudad de destino" aria-label="destino">
+    <input type="text" class="form-control" placeholder="Escriba la ciudad de destino" aria-label="destino" required>
   </div>
   <div class="col-12">
-    <a href="{{route('buscar.index')}}" class="btn btn-warning">Buscar</a> 
+   <!-- <button class="btn btn-info ">Buscar</button> -->
+   <a href="{{route('buscar.index')}}">buscar</a>
   </div>
   </form>
 </div>
 
- <!-- seccion de anuncios -->
+  <!--seccion de anuncios -->
 </br>
 <div class="row bg-primary">
     Anuncios

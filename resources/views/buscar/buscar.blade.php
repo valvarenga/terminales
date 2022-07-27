@@ -14,6 +14,28 @@
     </div>
   </div>
 
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre del bus</th>
+        <th>Placa</th>
+        <th>Sale a:</th>
+        <th>Hora de salida:</th>
+    </tr>
+    </thead>
+    <tbody>
+      @foreach ($busc as $buscar)
+      <tr>
+        <td>{{$buscar->nombre}}</td>
+        <td>{{$buscar->placa}}</td>
+        <td>{{$buscar->destino}}</td>
+        <td>{{$buscar->hora_salida}}</td>
+    </tr>
+      @endforeach
+    </tbody>
+  </table>
+  
+
   </div>
 </div>
 @endsection
