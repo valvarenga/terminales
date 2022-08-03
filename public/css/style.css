@@ -3,3 +3,139 @@
     display: flex;
     justify-content: center;
 }
+
+
+.mainbody-section {
+    padding-top: 50px;
+    padding-bottom: 30px;
+}
+
+
+
+.menu-item {
+    color: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	
+}
+@media only screen 
+and (min-width : 992px) 
+and (max-width : 1199px) {
+    
+.menu-item a {
+    color: #fff;
+    display: block;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.menu-item a p {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.menu-item a i {
+    font-size: 50px;
+    padding-bottom: 20px;
+}
+}
+@media only screen 
+and (min-width : 600px) 
+and (max-width : 991px) {
+.menu-item {
+    display: inline-block;
+    width: 32.8%;
+}
+
+.menu-item.responsive {
+    width: 49.5%;
+    float: left;
+    margin-right: 3px;
+}
+
+.menu-item.responsive-2 {
+    width: 49.5%;
+    float: right;
+}
+}
+
+@media only screen 
+and (min-width : 992px) 
+and (max-width : 1199px) {
+    
+
+.menu-item {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.menu-item a i {
+    font-size: 32px;
+}
+
+.menu-item a p {
+    font-size: 16px;
+}
+}
+.menu-item:hover a {
+    text-decoration: none;
+    color: #333;
+	animation: wobble;
+	-webkit-animation: wobble;
+	animation-duration: 1000ms;
+	-webkit-animation-duration: 1000ms;
+}
+.light-red {
+    background: #FB6648;
+}
+
+
+.blue {
+    background: #28ABE3;
+}
+
+.green {
+    background: #72bf48;
+}
+
+.red {
+    background: #FF432E;
+}
+
+.color {
+    background: #0ECEAB;
+}
+
+.light-orange {
+    background: #FA6900;
+}
+.menu-item.responsive {
+    width: 49.5%;
+    float: left;
+    margin-right: 3px;
+}
+
+.menu-item.responsive-2 {
+    width: 49.5%;
+    float: right;
+}
+
+
+
+.home-slider img {
+    width: 100%;
+    height: auto;
+}
+
+.home-slider .carousel-indicators {
+    position: absolute;
+    bottom: 10%;
+}
+
+.home-slider .carousel-indicators .active {
+	background-color: #FF432E;
+}

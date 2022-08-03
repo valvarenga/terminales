@@ -2,6 +2,9 @@
 
 @section('title', 'Home')
 
+@section('estilos')
+<link rel="stylesheet" href="{{asset('vendor/jquery-ui/jquery-ui.min.css')}}">
+@endsection
 @section('content')
 <div class="container-fluid bg-light.bg-gradient" id="about">
         <div class="row">
@@ -13,7 +16,7 @@
     
           </div>
           <div class="col-md-6">
-</br>
+<br/>
            <h1 class="text-success"> Horarios de las terminales de buses de Nicaragua </h1>
            <p class="fst-italic fs-3">
  Conoce fácilmente todos los horarios de los buses de las terminales de 
@@ -39,11 +42,11 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
 </div>
 
   <!--seccion de anuncios -->
-</br>
+<br/>
 <div class="row bg-primary">
     Anuncios
 </div>
-</br>
+<br/>
 <div class="container ">
 <div class="row ">
     <div class="col-md-7 offset-md-3">
@@ -77,7 +80,7 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
 </div>
 
 </div> <!-- fin de container anuncios -->
-</br>       
+<br/>       
     </div> <!--fin del container about -->
    
 
@@ -85,10 +88,31 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
     <p class="text-center text-white">Los Nicaraguenses opinan... !</p>
 </div>
 <!-- seccion de comentarios de facebook-->
-<div class="fb-comments" data-href="http://127.0.0.1:8000" data-width="100%" data-numposts="3"></div>
+<div class="fb-comments" data-href="{{Request::url()}}" data-width="100%" data-numposts="3"></div>
 
 
 
+@endsection
+@section('scripts')
+<script src="{{asset('vendor/jquery-ui/jquery-ui.min.js')}}"></script>
+<script>
+  $('#origen').autocomplete({
+    source: function(request, response) {
+        $.ajax({
+            url: "{{route('municipios.search')}}",
+            dataType: "json",
+            data: {
+                term : request.term
+            },
+            success: function(data) {
+                response(data);
+                
+            }
+        });
+    },
+  })
+
+</script>
 @endsection
 
 

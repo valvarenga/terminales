@@ -13,6 +13,14 @@
       </div>
     </div>
   </div>
+  <div>
+    <ul>
+      @foreach($terminales as $terminal)
+      <li  id="{{$terminal->id}}">
+          <a href="{{route('ver.terminal', $terminal)}}">{{$terminal->nombre}}</a>
+  
+      @endforeach
+  </div>
 
   <table class="table">
     <thead>
