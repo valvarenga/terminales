@@ -14,8 +14,6 @@
             </div>
         </div>
   
-
-    
         <div class="card">
             <div class="card-body">
                 <table id="buses" class="table table-dark" style="width:100%" >

@@ -1,10 +1,7 @@
-function buscar_origen (origen)
-{
-    $.ajax({
-        URL:'',
-        type:'POST',
-        dataType:'json',
-        data:{origen:origen},
-    });
-
-}
+$(document).ready(function(){
+    $('#buscar').click(function(e){
+        e.preventDefault();
+        var origen = $('#origen').val();
+        alert(origen);
+    })   
+})

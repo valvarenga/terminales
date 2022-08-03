@@ -23,18 +23,15 @@
 Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
             </p>
 
+
             <div class="row">
-  <form method="GET" action="{{route('buscar.index')}}" class="row g-3 needs-validation" >
+  <form method="GET" class="row g-3 needs-validation" >
   <div class="col">
     <label class="text-info fs-3">Origen</label>
-    <input type="text" class="form-control" placeholder="Escriba la ciudad de origen" aria-label="origen" id="origen">
-  </div>
-  <div class="col">
-  <label class="text-info fs-3">Destino</label>
-    <input type="text" class="form-control" placeholder="Escriba la ciudad de destino" aria-label="destino" id="destino">
+    <input type="text" class="form-control" placeholder="Escriba la ciudad de origen" aria-label="origen" id="origen" name="origen">
   </div>
   <div class="col-12">
-    <button type="submit" class="btn btn-warning">Buscar</button>
+    <button type="button" class="btn btn-warning" id="buscar" onclick="buscar_origen()">Buscar</button>
     
   </div>
   </form>
@@ -103,13 +100,20 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
             data: {
                 term : request.term
             },
-            success: function(data) {
+            success: function(data) {             
+              console.log(data);
                 response(data);
                 
             }
         });
     },
+    select: function(event, ui) {
+        console.log(ui.item.id);
+                $('#origen').val(ui.item.id);
+                
+            }
   })
+
 
 </script>
 @endsection

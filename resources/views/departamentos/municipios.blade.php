@@ -15,7 +15,7 @@
       </div>
     </div>
     <!-- End -->
-    @if ($municipios==[''])
+    @if (is_null($municipios))
     <h1>No hay datos que mostrar</h1>    
 @else
 

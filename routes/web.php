@@ -88,4 +88,4 @@ Route::view('contacto', 'enlaces.contacto')->name('contacto');
 //Rutas para hacer peticiones a traves de ajax
 Route::get('ajax/{departamento:id?}', [PeticionAjaxController::class,'ajax_municipios'])->name('municipio.ajax');
 //Ruta de resultado de Busqueda
-Route::get('municipios/{municipio?}',[BuscarController::class,'index'])->name('buscar.index');
+Route::get('municipios/{municipio:id?}',[BuscarController::class,'index'])->name('buscar.index');

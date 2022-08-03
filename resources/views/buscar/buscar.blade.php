@@ -20,6 +20,7 @@
           <a href="{{route('ver.terminal', $terminal)}}">{{$terminal->nombre}}</a>
   
       @endforeach
+    </ul>
   </div>
 
   </div>

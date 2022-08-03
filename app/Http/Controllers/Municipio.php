@@ -89,7 +89,7 @@ class Municipio extends Controller
                 'value' => $municipio->nombre
             ];
         }
-        return response()->json($data);
+        return $data;
 
         
     }
