@@ -1,18 +1,15 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Municipios;
-use App\Models\Terminales;
+use App\Model\Post;
+use Illuminate\Support\Facades\DB;
 
 class BuscarController extends Controller
 {
-    public function index(Request $request){
-        return $request;
-        
-        //$terminales=Terminales::where('municipio_id','=',$request->id)->get();
-       // return $terminales;
-        //return view('buscar.buscar', compact('terminales')); 
+    public function index(){
+        $busc = DB::table('autobuses')->get();
+        return view('buscar.buscar',compact('busc')); 
     }
+
 }

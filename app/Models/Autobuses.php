@@ -19,4 +19,6 @@ class Autobuses extends Model
     public function terminales(){
         return $this->belongsToMany('App\Models\Terminales','autobus_terminal','autobus_id','terminal_id');
     }
+
+    
 }
