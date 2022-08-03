@@ -31,7 +31,7 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
     <input type="text" class="form-control" placeholder="Escriba la ciudad de origen" aria-label="origen" id="origen" name="origen">
   </div>
   <div class="col-12">
-    <button type="button" class="btn btn-warning" id="buscar" onclick="buscar_origen()">Buscar</button>
+    <button type="button" class="btn btn-warning" id="buscar" >Buscar</button>
     
   </div>
   </form>
