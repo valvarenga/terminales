@@ -11,8 +11,7 @@ class IndexController extends Controller
     //
     public function index()
     {
-        $terminales = Terminales::all();
-        $autobuses = Autobuses::all();
-        return view('index', compact('terminales','autobuses'));
+       
+        return view('index');
     }
 }

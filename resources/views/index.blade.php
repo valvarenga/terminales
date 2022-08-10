@@ -23,15 +23,24 @@
 Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
             </p>
 
-
+@php
+   $municipio_id ="";   
+@endphp
             <div class="row">
-  <form method="GET" class="row g-3 needs-validation" >
+  <form method="POST" class="row g-3 needs-validation"  action="{{route('buscar.index')}}">
+    @csrf
   <div class="col">
     <label class="text-info fs-3">Origen</label>
-    <input type="text" class="form-control" placeholder="Escriba la ciudad de origen" aria-label="origen" id="origen" name="origen">
+    <input type="text" class="form-control" placeholder="Escriba la ciudad que desea buscar" aria-label="origen" id="origen" name="origen">
   </div>
+  <div class="col">
+    <input type="hidden" class="form-control"  aria-label="destino" id="id_municipio" name="id_municipio">
+  </div>
+  @php
+      $municipio_id="<script>document.getElementById(origen);</script>"
+  @endphp 
   <div class="col-12">
-    <button type="button" class="btn btn-warning" id="buscar" >Buscar</button>
+    <button type="submit" class="btn btn-warning" id="buscar" >Buscar</button>
     
   </div>
   </form>
@@ -96,21 +105,22 @@ Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
     source: function(request, response) {
         $.ajax({
             url: "{{route('municipios.search')}}",
+            type: 'get',
             dataType: "json",
             data: {
                 term : request.term
             },
             success: function(data) {             
-              console.log(data);
                 response(data);
                 
             }
         });
     },
     select: function(event, ui) {
+      var municipio = ui.item.id;
         console.log(ui.item.id);
-                $('#origen').val(ui.item.id);
-                
+                $('#id_municipio').val(ui.item.id);
+                return false;              
             }
   })
 

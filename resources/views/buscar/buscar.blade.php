@@ -23,6 +23,7 @@
     </ul>
   </div>
 
+<!--
   <table class="table">
     <thead>
       <tr>
@@ -33,16 +34,18 @@
     </tr>
     </thead>
     <tbody>
-      @foreach ($busc as $buscar)
+      
+      //foreach ($busc as $buscar)
       <tr>
-        <td>{{$buscar->nombre}}</td>
-        <td>{{$buscar->placa}}</td>
-        <td>{{$buscar->destino}}</td>
-        <td>{{$buscar->hora_salida}}</td>
+        <td>//$buscar->nombre}}</td>
+        <td>//$buscar->placa}}</td>
+        <td>//$buscar->destino}}</td>
+        <td>//$buscar->hora_salida}}</td>
     </tr>
-      @endforeach
+      //endforeach 
     </tbody>
   </table>
+  -->
   
 
   </div>
