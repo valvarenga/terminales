@@ -17,7 +17,7 @@
     <ul>
       @foreach($terminales as $terminal)
       <li  id="{{$terminal->id}}">
-          <a href="{{route('ver.terminal', $terminal)}}">{{$terminal->nombre}}</a>
+          <a href="{{route('departamento.autobuses', $terminal)}}">{{$terminal->nombre}}</a>
   
       @endforeach
     </ul>
