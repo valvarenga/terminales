@@ -20,22 +20,19 @@ class BuscarController extends Controller
         }
         elseif(count($terminales)==1){
             
-            $autobus=Autobuses::all()->where('id',$terminales);
             $terminal=$terminales;
-            json_decode($terminal);
             foreach($terminal as $ter){
                 $nombre= $ter->slug;
                 return redirect(route('departamento.autobuses', $ter));
             }
         }
-            else{
-                echo "No hay terminales";
-            }
+        else
+        {
+           echo "No hay terminales";
+        }
             
-           // return route(route('departamento.autobuses', $terminal));
-            //view('departamentos.terminales_departamentos', compact('autobuses','terminal'));
                 
-        }        
+    }        
         
     
 
