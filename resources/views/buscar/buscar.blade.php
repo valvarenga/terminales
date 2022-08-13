@@ -13,15 +13,21 @@
       </div>
     </div>
   </div>
-  <div>
-    <ul>
-      @foreach($terminales as $terminal)
-      <li  id="{{$terminal->id}}">
-          <a href="{{route('departamento.autobuses', $terminal)}}">{{$terminal->nombre}}</a>
-  
-      @endforeach
-    </ul>
-  </div>
+  <div class="row justify-content-center">
+    @foreach($terminales as $terminal)
+    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+        <a href="{{route('departamento.autobuses',$terminal)}}" class="text-dark fw-bolder">
+            <div class="bg-white rounded shadow-sm"><img src="{{url('/images/ocotal.jpg')}}" alt="" class="img-fluid card-img-top">
+              <div class="mx-auto p-4 text-center" style="width: 300px;">
+                     <h4>{{$terminal->nombre}} </h4>
+                   
+               </div>
+            </div>
+                </a>
+    </div>
+
+ @endforeach
+</div>        
 
 <!--
   <table class="table">

@@ -5,6 +5,9 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"> 
 @endsection
 @section('content')
+<div class="container-fluid">
+    <div class="px-lg-5">
+<br/>
 @if(isset($autobuses))
     
         <div class="card">
@@ -42,15 +45,22 @@
 
     
 @else
+<div class="row justify-content-center">
     @foreach($terminales as $terminal)
-    <div class="card">
-        <div class="card-header">
-            <a href="{{route('departamento.autobuses',$terminal)}}">
-                <h3 {{$terminal->id}}>{{$terminal->nombre}}</h3>
-            </a>
-        </div>
+    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+        <a href="{{route('departamento.autobuses',$terminal)}}" class="text-dark fw-bolder">
+            <div class="bg-white rounded shadow-sm"><img src="{{url('/images/ocotal.jpg')}}" alt="" class="img-fluid card-img-top">
+              <div class="mx-auto p-4 text-center" style="width: 300px;">
+                     <h4>{{$terminal->nombre}} </h4>
+                   
+               </div>
+            </div>
+                </a>
     </div>
-    @endforeach
-        
+
+ @endforeach
+</div>       
  @endif
+    </div>
+</div>
 @endsection
