@@ -9,6 +9,7 @@ use App\Models\Municipios;
 use App\Models\Terminales;
 use App\Trait\Recursos;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class Departamento extends Controller
 {
@@ -25,14 +26,18 @@ class Departamento extends Controller
         
         $request -> validate([
             'nombre' => 'required',
-        ]);
+            'file_D' => 'required|image|max:2048'
+        ],$message =['required'=>'el campo :attribute es requerido', 'image'=> 'El archivo debe ser una imagen',
+        'max'=> 'Ha superado el tamaño limite']);
 
-        $departamento = new Departamentos();
-        
+       $departamento = new Departamentos();
         $departamento->nombre = $request->nombre;
         $departamento->slug= $slug;
-
-        $departamento->save();
+        $imagenes= $request->file('file_D')->store('public/imagenes'); //guarda la imagen carpeta local
+        $url=Storage::url($imagenes); //captura la url de la img
+       $departamento->url=$url;
+       $departamento->save();
+        
         
         return redirect()->route('ruta.index');
     }

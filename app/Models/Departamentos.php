@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Departamentos extends Model
 {
     use HasFactory;
+   // protected $fillable=[''];
     public function getRouteKeyName()
     {
         return 'slug';
     }
+    
 
     //relación uno a muchos
     public function municipios(){
