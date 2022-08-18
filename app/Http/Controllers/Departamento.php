@@ -33,7 +33,7 @@ class Departamento extends Controller
        $departamento = new Departamentos();
         $departamento->nombre = $request->nombre;
         $departamento->slug= $slug;
-        $imagenes= $request->file('file_D')->store('public/imagenes'); //guarda la imagen carpeta local
+        $imagenes= $request->file('file_D')->store('public/imagenes/departamento'); //guarda la imagen carpeta local
         $url=Storage::url($imagenes); //captura la url de la img
        $departamento->url=$url;
        $departamento->save();

@@ -49,7 +49,7 @@
     @foreach($terminales as $terminal)
     <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
         <a href="{{route('departamento.autobuses',$terminal)}}" class="text-dark fw-bolder">
-            <div class="bg-white rounded shadow-sm"><img src="{{url('/images/ocotal.jpg')}}" alt="" class="img-fluid card-img-top">
+            <div class="bg-white rounded shadow-sm"><img src="{{ asset($terminal->url_T) }}" alt="" class="img-fluid card-img-top">
               <div class="mx-auto p-4 text-center" style="width: 300px;">
                      <h4>{{$terminal->nombre}} </h4>
                    

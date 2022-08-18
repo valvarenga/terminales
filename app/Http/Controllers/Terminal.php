@@ -8,6 +8,8 @@ use App\Models\Terminales;
 use App\Models\Autobuses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class Terminal extends Controller
@@ -40,7 +42,9 @@ class Terminal extends Controller
             'hora_cierre' => 'required',
             'departamento' => 'required',
             'municipio' => 'required',
-        ]);
+            'file_T' => 'required|image|max:2048'
+        ],$message =['image'=> 'El archivo debe ser una imagen',
+        'max'=> 'Ha superado el tamaño limite']);
 
         //guardar los datos del formulario en la base de datos
         $terminal = new Terminales();
@@ -50,6 +54,9 @@ class Terminal extends Controller
         $terminal->hora_cierre = $request->hora_cierre;
         $terminal->departamento_id = $request->departamento;
         $terminal->municipio_id = $request->municipio;
+        $imagenes= $request->file('file_T')->store('public/imagenes/terminal'); //guarda la imagen carpeta local
+        $url=Storage::url($imagenes); //captura la url de la img
+       $terminal->url_T=$url;
         $terminal->save();
 
         return redirect()->route('ruta.index');

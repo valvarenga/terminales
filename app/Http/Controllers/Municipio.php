@@ -7,6 +7,7 @@ use App\Models\Departamentos;
 use App\Models\Municipios;
 use App\Models\Terminales;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class Municipio extends Controller
 {
@@ -23,12 +24,18 @@ class Municipio extends Controller
         $request -> validate([
             'nombre' => 'required',
             'departamento_id' => 'required',
-        ]);
+            'file_M' => 'required|image|max:2048'
+        ],$message =['required'=>'el campo :attribute es requerido', 'image'=> 'El archivo debe ser una imagen',
+        'max'=> 'Ha superado el tamaño limite']);
+        
         
         $municipio = new Municipios();
         $municipio->nombre = $request->nombre;
         $municipio->slug= $slug;
         $municipio->departamento_id = $request->departamento_id;
+        $imagen= $request->file('file_M')->store('public/imagenes/municipio'); //guarda la imagen carpeta local
+        $url=Storage::url($imagen); //captura la url de la img
+        $municipio->url_M=$url;
         $municipio->save();
         return redirect()->route('ruta.index');
     }
