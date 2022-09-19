@@ -14,6 +14,7 @@
 <ul class="list-group">
     
    <strong> <li class="list-group-item active" aria-current="true">{{$departamentos->nombre}}</li></strong>
+   <img src="{{ asset($departamentos->url)}} " alt="400" width="400">
   
 </ul>
 
@@ -28,12 +29,15 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="#" method="">
+        <form action="#" method="post">
           @csrf
           @method('PUT')
           <div class="form-group">
             <label for="nombre">Nombre del departamento</label>
             <input type="text" name="nombre" id="nombre_departamento" class="form-control" value="{{$departamentos->nombre}}">
+
+            <label for="image">Imagen</label>
+            <input type="file" name="image" id="image" class="form-control" value="{{$departamentos->url}}">
         </form>
       </div>
       <div class="modal-footer">

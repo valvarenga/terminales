@@ -37,7 +37,7 @@ Route::get('/departamento/terminal/{terminal?}',[Departamento::class,'buscar_aut
 Route::get('newdepartamento',[Departamento::class,'index'])->name('newdepartamento'); //Ruta para mostrar el formulario de crear departamento
 Route::post('departamento',[Departamento::class,'store'])->name('departamento.store'); //Ruta para guardar el departamento
 Route::get('departamento',[Departamento::class,'show'])->name('departamentos.show'); //Ruta para mostrar los departamento
-Route::get('departamento/{departamento:slug?}',[Departamento::class,'ver_departamento'])->name('departamento.ver'); //Ruta para mostrar un departamento
+Route::get('departamentos/{departamento:slug?}',[Departamento::class,'ver_departamento'])->name('departamento.ver'); //Ruta para mostrar un departamento
 Route::put('departamento/{departamento:id?}',[Departamento::class,'update'])->name('departamento.update'); //Ruta para actualizar un departamento
 Route::delete('departamento/{departamento:id?}',[Departamento::class,'destroy'])->name('departamento.destroy'); //Ruta para eliminar un departamento
 
