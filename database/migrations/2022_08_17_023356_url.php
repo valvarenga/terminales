@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('departamentos', function (Blueprint $table) {
-            $table->LONGTEXT('url');
+            $table->LONGTEXT('url')->after('slug');
         });
     }
 
