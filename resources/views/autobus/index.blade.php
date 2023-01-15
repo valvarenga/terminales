@@ -74,7 +74,15 @@
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
 <br/>
+<div class="form-group">
+    <label for="categoria" class="h4">Categoria </label>
+        <select name="categoria" id="categoria" class="form-select" aria-label="Default select example">
+            <option value="Expreso" selected>Expreso</option>
+            <option value="Ruteado">Ruteado</option>
+        </select>
     
+</div>
+<br/> 
 <button type="submit" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-ok"></span>
  Guardar
 </button>
