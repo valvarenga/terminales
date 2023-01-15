@@ -26,6 +26,7 @@
                             <th>Placa</th>
                             <th>Sale a:</th>
                             <th>Hora de salida:</th>
+                            <th>Tipo</th>
                         </tr>
                     </thead>
                    
@@ -36,6 +37,7 @@
                             <td>{{$autobus->placa}}</td>
                             <td>{{$autobus->destino}}</td>
                             <td>{{$autobus->hora_salida}}</td>
+                            <td>{{$autobus->categoria}}</td>
                         </tr>
                         @endforeach
                     </tbody>
