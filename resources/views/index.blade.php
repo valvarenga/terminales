@@ -23,9 +23,6 @@
 Nicaragua y ¡planea con exactitud la hora de tu próximo viaje!
             </p>
 
-@php
-   $municipio_id ="";   
-@endphp
             <div class="row">
   <form method="POST" class="row g-3 needs-validation"  action="{{route('buscar.index')}}">
     @csrf

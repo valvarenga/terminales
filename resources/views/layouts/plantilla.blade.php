@@ -60,7 +60,7 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a href="{{route('home')}}" class="nav-link {{request()->routeIs('home') ? 'active' : ''}}">
-            <span class="icofont-ui-add">Home</span></a>
+            <span class="icofont-ui-add">Inicio</span></a>
          </li>
        <li class="nav-item"><a href="{{route('departamentos.listar')}}" class="nav-link {{request()->routeIs('departamentos.*') ? 'active' : ''}}">
            <span class="icofont-ui-add">Departamentos</span></a>
