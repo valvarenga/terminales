@@ -29,9 +29,6 @@
       <br>
     <select id="municipio" name="municipio" class="focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-2 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md">
       <option value="">Seleccione un municipio</option>
-      @foreach ($municipios as $municipio)
-      <option value="{{$municipio->id}}">{{$municipio->nombre}}</option>
-      @endforeach
     </select>
     @error('municipio')
     <span class="text-danger text-sm">{{ $message }}</span>
@@ -91,14 +88,13 @@
 <script>
 //var id_departamento = document.getElementById('departamento');
 var id_municipio = document.getElementById('municipio');
-//var ruta = "{{route('municipio.ajax')}}";
 $(document).ready(function(){
   $('#departamento').on('change', function(){
     var id_departamento = $(this).val();
     if(id_departamento){
       $.ajax({
         type:'GET',
-        url:'{{route('municipio.ajax')}}'+'/'+id_departamento,
+        url:'{{ url('ajax') }}/'+id_departamento,
         dataType:'JSON',
         success:function(data){
           //console.log(data);

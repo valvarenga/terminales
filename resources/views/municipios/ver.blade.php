@@ -4,10 +4,11 @@
 @section('content')
 
 <a href="{{route('municipio.edit', $municipio)}}"><button type="button" class="btn btn-outline-primary">Editar</button></a>
-<form action="" method="POST">
+@error('municipio') <div class="alert alert-danger">{{ $message }}</div> @enderror
+<form action="{{ route('municipio.destroy', $municipio) }}" method="POST">
     @csrf 
     @method('delete')
-    <button type="button" class="btn btn-outline-danger">Eliminar</button>
+    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('¿Eliminar este municipio?')">Eliminar</button>
     <ul class="list-group">
         <li class="list-group-item active" aria-current="true">{{$municipio->nombre}}</li>
         <li class="list-group-item">{{$departamento->nombre}}</li>

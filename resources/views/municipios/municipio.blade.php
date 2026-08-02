@@ -28,6 +28,8 @@
             <label for="nombre" class="h4 ">Nombre del municipio</label>
             <input type="text" name="nombre" id="nombre" class="form-control" value="{{old('nombre')}}">
      </div>
+     <div class="row mt-3"><div class="col-md-6"><label for="latitud" class="h4">Latitud aproximada</label><input type="number" step="0.0000001" name="latitud" id="latitud" class="form-control" value="{{ old('latitud') }}" placeholder="Ej. 13.0910"></div><div class="col-md-6"><label for="longitud" class="h4">Longitud aproximada</label><input type="number" step="0.0000001" name="longitud" id="longitud" class="form-control" value="{{ old('longitud') }}" placeholder="Ej. -86.3545"></div></div>
+     @error('latitud')<div class="alert alert-danger mt-2">{{ $message }}</div>@enderror @error('longitud')<div class="alert alert-danger mt-2">{{ $message }}</div>@enderror
      <br/>
     <div class="form-group">
         <label for="nombre" class="h4 ">Foto del municipio</label>

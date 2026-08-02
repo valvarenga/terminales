@@ -21,10 +21,13 @@
 
     <div class="form-group">
         <label for="nombre">Nombre del municipio</label>
-        <input type="text" name="nombre" id="nombre" class="form-control" value="{{$municipio->nombre, old('nombre')}}">
+        <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre', $municipio->nombre) }}">
     </div>
     @error('nombre')
     <div class="alert alert-danger">{{ $message }}</div>
     @enderror
+    <div class="row"><div class="col-md-6 form-group"><label for="latitud">Latitud aproximada</label><input type="number" step="0.0000001" name="latitud" id="latitud" class="form-control" value="{{ old('latitud', $municipio->latitud) }}"></div><div class="col-md-6 form-group"><label for="longitud">Longitud aproximada</label><input type="number" step="0.0000001" name="longitud" id="longitud" class="form-control" value="{{ old('longitud', $municipio->longitud) }}"></div></div>
+    @error('latitud')<div class="alert alert-danger">{{ $message }}</div>@enderror @error('longitud')<div class="alert alert-danger">{{ $message }}</div>@enderror
     <button type="submit" class="btn btn-primary">Actualizar</button>
+</form>
 @endsection

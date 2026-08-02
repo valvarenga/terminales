@@ -21,4 +21,14 @@ class Municipios extends Model
     public function terminales(){
         return $this->hasMany('App\Models\Terminales', 'municipio_id');
     }
+
+    public function autobusesOrigen()
+    {
+        return $this->hasMany(Autobuses::class, 'municipio_origen_id');
+    }
+
+    public function autobusesDestino()
+    {
+        return $this->hasMany(Autobuses::class, 'municipio_destino_id');
+    }
 }

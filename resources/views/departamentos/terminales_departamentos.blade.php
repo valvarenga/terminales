@@ -1,68 +1,13 @@
 @extends('layouts.plantilla')
-@section('title','Terminales')
-@section('css')
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"> 
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css"> 
-@endsection
+@section('title', isset($autobuses) ? 'Horarios de '.$terminal->nombre : 'Terminales')
 @section('content')
-<div class="container-fluid">
-    <div class="px-lg-5">
-<br/>
+<section class="container">
 @if(isset($autobuses))
-    
-        <div class="card">
-            <div class="card-header">
-
-                    <h3 >{{$terminal->nombre}}</h3>
-            </div>
-        </div>
-  
-        <div class="card">
-            <div class="card-body">
-                <table id="buses" class="table table-dark" style="width:100%" >
-                    <thead>
-                        <tr>
-                            <th>Nombre del bus</th>
-                            <th>Placa</th>
-                            <th>Sale a:</th>
-                            <th>Hora de salida:</th>
-                            <th>Tipo</th>
-                        </tr>
-                    </thead>
-                   
-                    <tbody>
-                         @foreach($autobuses as $autobus)
-                        <tr>
-                            <td>{{$autobus->nombre}}</td>
-                            <td>{{$autobus->placa}}</td>
-                            <td>{{$autobus->destino}}</td>
-                            <td>{{$autobus->hora_salida}}</td>
-                            <td>{{$autobus->categoria}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    
+    <header class="page-header"><a href="{{ url()->previous() }}" class="eyebrow">← Volver</a><h1 class="mt-2">{{ $terminal->nombre }}</h1><p>Horarios y servicios disponibles desde esta terminal.</p></header>
+    <div class="content-card p-3 p-md-4">@if($autobuses->isEmpty())<div class="empty-state"><h2>Próximamente</h2><p class="mb-0">Aún no hay horarios registrados para esta terminal.</p></div>@else <div class="table-responsive"><table id="buses" class="table table-hover align-middle mb-0"><thead><tr><th>Autobús</th><th>Placa</th><th>Destino</th><th>Salida</th><th>Servicio</th></tr></thead><tbody>@foreach($autobuses as $autobus)<tr><td class="fw-bold">{{ $autobus->nombre }}</td><td>{{ $autobus->placa ?: '—' }}</td><td>{{ $autobus->destino }}</td><td>{{ $autobus->hora_salida }}</td><td><span class="badge rounded-pill bg-success">{{ $autobus->categoria }}</span></td></tr>@endforeach</tbody></table></div>@endif</div>
 @else
-<div class="row justify-content-center">
-    @foreach($terminales as $terminal)
-    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
-        <a href="{{route('departamento.autobuses',$terminal)}}" class="text-dark fw-bolder">
-            <div class="bg-white rounded shadow-sm"><img src="{{ asset($terminal->url_T) }}" alt="" class="img-fluid card-img-top">
-              <div class="mx-auto p-4 text-center" style="width: 300px;">
-                     <h4>{{$terminal->nombre}} </h4>
-                   
-               </div>
-            </div>
-                </a>
-    </div>
-
- @endforeach
-</div>       
- @endif
-    </div>
-</div>
+    <header class="page-header"><p class="eyebrow">Terminales disponibles</p><h1>Elige tu terminal</h1><p>Selecciona una terminal para revisar los horarios de salida.</p></header>
+    <div class="row g-4">@forelse($terminales as $terminal)<div class="col-sm-6 col-lg-4 col-xl-3"><a href="{{ route('departamento.autobuses', $terminal) }}" class="destination-card"><img src="{{ asset($terminal->url_T) }}" alt="{{ $terminal->nombre }}"><div class="destination-card__body"><h3>{{ $terminal->nombre }}</h3><span>Consultar horarios →</span></div></a></div>@empty <div class="empty-state content-card"><h2>No hay terminales disponibles</h2><p class="mb-0">Todavía no existen horarios para este municipio.</p></div>@endforelse</div>
+@endif
+</section>
 @endsection

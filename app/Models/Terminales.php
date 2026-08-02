@@ -9,6 +9,8 @@ class Terminales extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nombre', 'hora_apertura', 'hora_cierre', 'departamento_id', 'municipio_id'];
+
     public function getRouteKeyName()
     {
         return 'slug';

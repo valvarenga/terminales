@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('slug');
-            $table->boolean('categoria')->nullable();
+            $table->string('categoria');
             $table->string('placa')->nullable();
             $table->string('origen');
             $table->time('hora_salida');

@@ -56,14 +56,13 @@
 <script>
 //var id_departamento = document.getElementById('departamento');
 var id_municipio = document.getElementById('municipio');
-//var ruta = "{{route('municipio.ajax')}}";
 $(document).ready(function(){
   $('#departamento').on('change', function(){
     var id_departamento = $(this).val();
     if(id_departamento){
       $.ajax({
         type:'GET',
-        url:'{{route('municipio.ajax')}}'+'/'+id_departamento,
+        url:'{{ url('ajax') }}/'+id_departamento,
         dataType:'JSON',
         success:function(data){
           //console.log(data);

@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
 use App\Models\Departamentos;
 use App\Models\Municipios;
 use App\Models\Terminales;
-use App\Trait\Recursos;
-use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class Departamento extends Controller
 {
-    use Recursos;
-    //
     public function index()
     {
         return view('departamentos.departamento');
@@ -22,77 +19,85 @@ class Departamento extends Controller
 
     public function store(Request $request)
     {
-        $slug = Str::slug($request->nombre);
-        
-        $request -> validate([
-            'nombre' => 'required',
-            'file_D' => 'required|image|max:2048'
-        ],$message =['required'=>'el campo :attribute es requerido', 'image'=> 'El archivo debe ser una imagen',
-        'max'=> 'Ha superado el tamaño limite']);
+        $data = $request->validate([
+            'nombre' => ['required', 'string', 'max:255', 'unique:departamentos,nombre'],
+            'file_D' => ['required', 'image', 'max:2048'],
+        ]);
 
-       $departamento = new Departamentos();
-        $departamento->nombre = $request->nombre;
-        $departamento->slug= $slug;
-        $imagenes= $request->file('file_D')->store('public/imagenes/departamento'); //guarda la imagen carpeta local
-        $url=Storage::url($imagenes); //captura la url de la img
-       $departamento->url=$url;
-       $departamento->save();
-        
-        
-        return redirect()->route('ruta.index');
+        $departamento = new Departamentos();
+        $departamento->nombre = $data['nombre'];
+        $departamento->slug = Str::slug($data['nombre']);
+        $departamento->url = Storage::url($request->file('file_D')->store('public/imagenes/departamento'));
+        $departamento->save();
+
+        return redirect()->route('departamentos.show')->with('success', 'Departamento creado correctamente.');
     }
 
     public function update(Request $request, Departamentos $departamento)
     {
-        $slug = Str::slug($request->nombre);
-
-        $request -> validate([
-            'nombre' => 'required',
+        $data = $request->validate([
+            'nombre' => ['required', 'string', 'max:255', Rule::unique('departamentos', 'nombre')->ignore($departamento)],
         ]);
 
-        $departamento->nombre = $request->nombre_departamento;
-        $departamento->slug= $slug;
+        $departamento->nombre = $data['nombre'];
+        $departamento->slug = Str::slug($data['nombre']);
         $departamento->save();
 
-        return response()->json(['success'=>'Departamento actualizado correctamente.']);
-
+        return redirect()->route('departamento.ver', $departamento)->with('success', 'Departamento actualizado correctamente.');
     }
 
-    public function show(){
-        $departamentos = Departamentos::all();
-        return view('departamentos.show_departamentos', compact('departamentos'));
+    public function destroy(Departamentos $departamento)
+    {
+        if ($departamento->municipios()->exists() || $departamento->terminales()->exists()) {
+            return back()->withErrors(['departamento' => 'No se puede eliminar un departamento que todavía tiene municipios o terminales.']);
+        }
+
+        $departamento->delete();
+
+        return redirect()->route('departamentos.show')->with('success', 'Departamento eliminado correctamente.');
     }
-    
+
+    public function show()
+    {
+        return view('departamentos.show_departamentos', [
+            'departamentos' => Departamentos::orderBy('nombre')->get(),
+        ]);
+    }
+
     public function ver_departamento(Departamentos $departamento)
     {
-        $departamentos = Departamentos::find($departamento->id);
-        return view('departamentos.edit', compact('departamentos'));
+        return view('departamentos.edit', compact('departamento'));
     }
-
 
     public function listar()
     {
-        $departamentos = Departamentos::all();
-        return view('departamentos.listar_departamentos', compact('departamentos'));
+        return view('departamentos.listar_departamentos', [
+            'departamentos' => Departamentos::orderBy('nombre')->get(),
+        ]);
     }
 
-    public function departamentos_municipios(Departamentos $departamento){
-        $municipios= $departamento->municipios;
-        //return $departamento;
-        return view('departamentos.municipios', compact('departamento','municipios'));
+    public function departamentos_municipios(Departamentos $departamento)
+    {
+        return view('departamentos.municipios', [
+            'departamento' => $departamento,
+            'municipios' => $departamento->municipios()->orderBy('nombre')->get(),
+        ]);
     }
 
-    public function departamento_terminales(Departamentos $departamento, Municipios $municipio){
-        $terminales= $departamento->terminales()->where('municipio_id', $municipio->id)->get();
-        
-        return view('departamentos.terminales_departamentos', compact('terminales'));
+    public function departamento_terminales(Departamentos $departamento, Municipios $municipio)
+    {
+        abort_unless($municipio->departamento_id === $departamento->id, 404);
+
+        return view('departamentos.terminales_departamentos', [
+            'terminales' => $municipio->terminales()->orderBy('nombre')->get(),
+        ]);
     }
 
-    public function buscar_autobuses(Terminales $terminal){
-        $autobuses = $terminal->autobuses;
-        //return $autobuses;
-        return view('departamentos.terminales_departamentos', compact('terminal','autobuses'));
+    public function buscar_autobuses(Terminales $terminal)
+    {
+        return view('departamentos.terminales_departamentos', [
+            'terminal' => $terminal,
+            'autobuses' => $terminal->autobuses()->orderBy('hora_salida')->get(),
+        ]);
     }
-
-
 }
