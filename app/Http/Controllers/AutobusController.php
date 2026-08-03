@@ -10,19 +10,6 @@ use Illuminate\Support\Str;
 
 class AutobusController extends Controller
 {
-    public function index()
-    {
-        return view('autobus.index', [
-            'terminales' => Terminales::with('municipios')->orderBy('nombre')->get(),
-            'municipios' => Municipios::orderBy('nombre')->get(),
-            'autobusesPendientes' => Autobuses::query()
-                ->whereNull('municipio_origen_id')
-                ->orWhereNull('municipio_destino_id')
-                ->orderBy('nombre')
-                ->get(),
-        ]);
-    }
-
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -36,15 +23,15 @@ class AutobusController extends Controller
             'categoria' => ['required', 'in:Expreso,Ruteado'],
         ]);
 
+        $origen = Municipios::findOrFail($data['municipio_origen_id']);
         $terminal = Terminales::findOrFail($data['terminal']);
-        if ((int) $terminal->municipio_id !== (int) $data['municipio_origen_id']) {
-            return back()->withInput()->withErrors(['terminal' => 'La terminal debe pertenecer al municipio de origen seleccionado.']);
+        if ((int) $terminal->departamento_id !== (int) $origen->departamento_id) {
+            return back()->withInput()->withErrors(['terminal' => 'La terminal y el municipio de origen deben pertenecer al mismo departamento.']);
         }
 
-        $origen = Municipios::findOrFail($data['municipio_origen_id']);
         $destino = Municipios::findOrFail($data['municipio_destino_id']);
         $autobus = new Autobuses();
-        $autobus->fill(collect($data)->except('terminal')->all());
+        $autobus->fill(array_diff_key($data, ['terminal' => true]));
         // Preserve the legacy text fields while the data is transitioned to municipality IDs.
         $autobus->origen = $origen->nombre;
         $autobus->destino = $destino->nombre;
@@ -53,6 +40,33 @@ class AutobusController extends Controller
         $autobus->terminales()->sync([$data['terminal']]);
 
         return redirect()->route('departamento.autobuses', $data['terminal'])->with('success', 'Autobús creado correctamente.');
+    }
+
+    public function index()
+    {
+        return view('autobus.index', [
+            'terminales' => Terminales::with('municipios')->orderBy('nombre')->get(),
+            'municipios' => Municipios::orderBy('nombre')->get(),
+            'autobusesPendientes' => Autobuses::query()
+                ->whereNull('municipio_origen_id')
+                ->orWhereNull('municipio_destino_id')
+                ->orderBy('nombre')
+                ->get(),
+        ]);
+    }
+
+    public function list()
+    {
+        return view('autobus.listar', [
+            'autobuses' => Autobuses::with(['origenMunicipio', 'destinoMunicipio', 'terminales'])->orderBy('nombre')->get(),
+        ]);
+    }
+
+    public function show(Autobuses $autobus)
+    {
+        $autobus->load(['origenMunicipio', 'destinoMunicipio', 'terminales']);
+
+        return view('autobus.show', compact('autobus'));
     }
 
     public function edit(Autobuses $autobus)
@@ -76,5 +90,12 @@ class AutobusController extends Controller
         $autobus->save();
 
         return redirect()->route('newbus')->with('success', 'Servicio vinculado a sus municipios correctamente.');
+    }
+
+    public function destroy(Autobuses $autobus)
+    {
+        $autobus->delete();
+
+        return redirect()->route('autobuses.list')->with('success', 'Autobus eliminado correctamente.');
     }
 }

@@ -7,7 +7,7 @@
 <form action="{{route('terminal.destroy', $terminales)}}" method="POST">
     @csrf
     @method('delete')
-    <button type="submit" class="btn btn-danger"> Eliminar</button>
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Eliminar esta terminal?')"> Eliminar</button>
 </form>
 
 <ul class="list-group">

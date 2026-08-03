@@ -48,9 +48,12 @@ Route::middleware(['admin'])->group(function () {
     Route::put('show/{terminal}', [Terminal::class, 'update'])->name('terminal.update');
     Route::delete('delete/{terminales}', [Terminal::class, 'destroy'])->name('terminal.destroy');
     Route::get('newautobus', [AutobusController::class, 'index'])->name('newbus');
+    Route::get('autobuses', [AutobusController::class, 'list'])->name('autobuses.list');
     Route::post('autobus', [AutobusController::class, 'store'])->name('autobus');
+    Route::get('autobus/{autobus}', [AutobusController::class, 'show'])->name('autobus.show');
     Route::get('autobus/{autobus}/edit', [AutobusController::class, 'edit'])->name('autobus.edit');
     Route::put('autobus/{autobus}', [AutobusController::class, 'update'])->name('autobus.update');
+    Route::delete('autobus/{autobus}', [AutobusController::class, 'destroy'])->name('autobus.destroy');
 });
 
 // Consulta pública: departamento -> municipio -> terminal -> horarios.
@@ -61,7 +64,7 @@ Route::get('terminal/{terminal}/autobuses', [Departamento::class, 'buscar_autobu
 Route::match(['get', 'post'], 'rutas', [BuscarController::class, 'index'])->name('buscar.index');
 Route::get('search/municipios', [Municipio::class, 'search'])->name('municipios.search');
 
-Route::get('ajax/{departamento}', [PeticionAjaxController::class, 'ajax_municipios'])->name('municipio.ajax');
+Route::get('ajax/{departamento_id}', [PeticionAjaxController::class, 'ajax_municipios'])->name('municipio.ajax');
 Route::get('anuncios', [AnunciosController::class, 'index'])->name('anuncios');
 Route::get('Acerca', [EnlacesController::class, 'index'])->name('Acerca');
 Route::view('contacto', 'enlaces.contacto')->name('contacto');

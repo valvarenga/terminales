@@ -54,30 +54,52 @@
 
 @section('scripts')
 <script>
-//var id_departamento = document.getElementById('departamento');
-var id_municipio = document.getElementById('municipio');
-$(document).ready(function(){
-  $('#departamento').on('change', function(){
+$(document).ready(function () {
+  var $departamento = $('#departamento');
+  var $municipio = $('#municipio');
+  var currentMunicipioId = '{{ old("municipio", $municipio->id ?? "") }}';
+
+  $departamento.on('change', function () {
     var id_departamento = $(this).val();
-    if(id_departamento){
-      $.ajax({
-        type:'GET',
-        url:'{{ url('ajax') }}/'+id_departamento,
-        dataType:'JSON',
-        success:function(data){
-          //console.log(data);
-          id_municipio.innerHTML = `<option value="">Seleccionar Municipio...</option>`
-          for(i of data){
-            //console.log(i);
-            id_municipio.innerHTML += `<option value="${i.id}">${i.nombre}</option>`
-          }
-        }
-      });
-    }else{
-     alert ('No selecciono nada');
-      // $('#municipio').empty();
+
+    $municipio.empty().append('<option value="">Cargando municipios...</option>').prop('disabled', true);
+
+    if (!id_departamento) {
+      $municipio.empty().append('<option value="">Seleccione un departamento</option>').prop('disabled', true);
+      return;
     }
+
+    $.ajax({
+      type: 'GET',
+      url: '{{ url("ajax") }}/' + id_departamento,
+      dataType: 'json',
+      success: function (data) {
+        $municipio.empty();
+
+        if (data.length) {
+          $municipio.append('<option value="">Seleccione un municipio</option>');
+          $.each(data, function (_, municipio) {
+            $municipio.append('<option value="' + municipio.id + '">' + municipio.nombre + '</option>');
+          });
+        } else {
+          $municipio.append('<option value="">No hay municipios disponibles</option>');
+        }
+
+        if (currentMunicipioId) {
+          $municipio.val(currentMunicipioId);
+        }
+
+        $municipio.prop('disabled', false);
+      },
+      error: function () {
+        $municipio.empty().append('<option value="">No se pudieron cargar los municipios</option>').prop('disabled', false);
+      }
+    });
   });
+
+  if ($departamento.val()) {
+    $departamento.trigger('change');
+  }
 });
 </script>
 @endsection

@@ -20,8 +20,11 @@
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body">
                     <h2 class="h5">Departamentos</h2>
-                    <p class="text-muted">Crear o editar departamentos.</p>
-                    <a href="{{ route('newdepartamento') }}" class="btn btn-primary">Ir a departamentos</a>
+                    <p class="text-muted">Crear, consultar y administrar departamentos.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{{ route('newdepartamento') }}" class="btn btn-primary">Registrar</a>
+                        <a href="{{ route('departamentos.show') }}" class="btn btn-outline-primary">Listar</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,17 +32,35 @@
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body">
                     <h2 class="h5">Municipios</h2>
-                    <p class="text-muted">Gestionar municipios y sus datos.</p>
-                    <a href="{{ route('newmunicipio') }}" class="btn btn-primary">Ir a municipios</a>
+                    <p class="text-muted">Crear, consultar y administrar municipios.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{{ route('newmunicipio') }}" class="btn btn-primary">Registrar</a>
+                        <a href="{{ route('municipio.show') }}" class="btn btn-outline-primary">Listar</a>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-lg-4">
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body">
-                    <h2 class="h5">Terminales y autobuses</h2>
-                    <p class="text-muted">Administrar terminales, horarios y servicios.</p>
-                    <a href="{{ route('ruta.index') }}" class="btn btn-primary">Ir a terminales</a>
+                    <h2 class="h5">Terminales</h2>
+                    <p class="text-muted">Crear, consultar y administrar terminales.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{{ route('newterminal') }}" class="btn btn-primary">Registrar</a>
+                        <a href="{{ route('show_terminal') }}" class="btn btn-outline-primary">Listar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h2 class="h5">Autobuses</h2>
+                    <p class="text-muted">Ver, editar y administrar los servicios registrados.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{{ route('newbus') }}" class="btn btn-primary">Registrar</a>
+                        <a href="{{ route('autobuses.list') }}" class="btn btn-outline-primary">Listar</a>
+                    </div>
                 </div>
             </div>
         </div>

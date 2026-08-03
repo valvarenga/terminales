@@ -21,7 +21,7 @@ class Municipio extends Controller
         $data = $request->validate([
             'nombre' => ['required', 'string', 'max:255', 'unique:municipios,nombre'],
             'departamento_id' => ['required', 'exists:departamentos,id'],
-            'file_M' => ['required', 'image', 'max:2048'],
+            'file_M' => ['nullable', 'image', 'max:2048'],
             'latitud' => ['nullable', 'numeric', 'between:-90,90'],
             'longitud' => ['nullable', 'numeric', 'between:-180,180'],
         ]);
@@ -30,9 +30,13 @@ class Municipio extends Controller
         $municipio->nombre = $data['nombre'];
         $municipio->slug = Str::slug($data['nombre']);
         $municipio->departamento_id = $data['departamento_id'];
-        $municipio->latitud = $data['latitud'];
-        $municipio->longitud = $data['longitud'];
-        $municipio->url_M = Storage::url($request->file('file_M')->store('public/imagenes/municipio'));
+        $municipio->latitud = $data['latitud'] ?? null;
+        $municipio->longitud = $data['longitud'] ?? null;
+
+        if ($request->hasFile('file_M')) {
+            $municipio->url_M = Storage::url($request->file('file_M')->store('public/imagenes/municipio'));
+        }
+
         $municipio->save();
 
         return redirect()->route('municipio.show')->with('success', 'Municipio creado correctamente.');

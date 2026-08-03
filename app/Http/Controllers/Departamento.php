@@ -21,13 +21,17 @@ class Departamento extends Controller
     {
         $data = $request->validate([
             'nombre' => ['required', 'string', 'max:255', 'unique:departamentos,nombre'],
-            'file_D' => ['required', 'image', 'max:2048'],
+            'file_D' => ['nullable', 'image', 'max:2048'],
         ]);
 
         $departamento = new Departamentos();
         $departamento->nombre = $data['nombre'];
         $departamento->slug = Str::slug($data['nombre']);
-        $departamento->url = Storage::url($request->file('file_D')->store('public/imagenes/departamento'));
+
+        if ($request->hasFile('file_D')) {
+            $departamento->url = Storage::url($request->file('file_D')->store('public/imagenes/departamento'));
+        }
+
         $departamento->save();
 
         return redirect()->route('departamentos.show')->with('success', 'Departamento creado correctamente.');

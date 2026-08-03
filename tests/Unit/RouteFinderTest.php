@@ -49,6 +49,20 @@ class RouteFinderTest extends TestCase
         $this->assertSame(2, $routes[0]['transbordos']);
     }
 
+    public function test_it_finds_a_route_that_requires_changing_buses_in_an_intermediate_municipality(): void
+    {
+        $routes = (new RouteFinder())->findFromServices($this->services([
+            $this->bus(1, 3, '06:00', '07:30'),
+            $this->bus(3, 2, '08:00', '10:00'),
+        ]), 1, 2);
+
+        $this->assertCount(1, $routes);
+        $this->assertSame(1, $routes[0]['transbordos']);
+        $this->assertCount(2, $routes[0]['tramos']);
+        $this->assertSame(3, $routes[0]['tramos'][0]->municipio_destino_id);
+        $this->assertSame(3, $routes[0]['tramos'][1]->municipio_origen_id);
+    }
+
     private function services(array $buses): Collection
     {
         return collect($buses)->groupBy('municipio_origen_id');
