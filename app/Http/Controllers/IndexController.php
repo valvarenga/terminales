@@ -12,6 +12,6 @@ class IndexController extends Controller
     public function index()
     {
        
-        return view('index');
+        return view('index_con_sugerencias');
     }
 }

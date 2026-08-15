@@ -7,7 +7,7 @@
     @if($itinerarios->isEmpty())
         <div class="empty-state content-card"><h2>No hay rutas disponibles</h2><p class="mb-0">Aún no hay una combinación registrada para este trayecto.</p></div>
     @else
-        <div id="route-map" class="rounded shadow-sm mb-4" style="height: 360px"></div>
+        <div id="route-map" class="rounded shadow-sm mb-4" style="height: 300px"></div>
         <div class="row g-4">
             @foreach($itinerarios as $itinerario)
                 <div class="col-12"><article class="content-card p-4">

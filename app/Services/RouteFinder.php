@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 class RouteFinder
 {
     /**
-     * Finds same-day itineraries of up to three bus legs.
+     * Finds same-day itineraries of up to four bus legs (three transfers).
      */
     public function find(int $originId, int $destinationId): Collection
     {
@@ -67,7 +67,9 @@ class RouteFinder
                 continue;
             }
 
-            if (count($nextLegs) < 3) {
+            // A journey can include four services: the initial bus plus up to
+            // three transfers. Keep visited municipalities to avoid loops.
+            if (count($nextLegs) < 4) {
                 $visited[$nextId] = true;
                 $this->search($servicesByOrigin, $nextId, $destinationId, $nextLegs, $visited, $arrival, $itineraries);
             }

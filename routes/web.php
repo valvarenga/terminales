@@ -9,17 +9,19 @@ use App\Http\Controllers\EnlacesController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Municipio;
 use App\Http\Controllers\PeticionAjaxController;
+use App\Http\Controllers\SugerenciaTerminalController;
 use App\Http\Controllers\Terminal;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::post('/sugerencias-terminales', [SugerenciaTerminalController::class, 'store'])->name('sugerencias-terminales.store');
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
-
 Route::middleware(['admin'])->group(function () {
     Route::get('/admin', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
+
 
     // Administración de departamentos.
     Route::get('newdepartamento', [Departamento::class, 'index'])->name('newdepartamento');

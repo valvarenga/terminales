@@ -36,17 +36,22 @@ class RouteFinderTest extends TestCase
         $this->assertSame('11:00:00', $routes[0]['llegada']);
     }
 
-    public function test_it_allows_at_most_two_transfers_and_orders_equal_options_by_arrival(): void
+    public function test_it_allows_at_most_three_transfers_and_orders_equal_options_by_arrival(): void
     {
         $routes = (new RouteFinder())->findFromServices($this->services([
             $this->bus(1, 3, '06:00', '06:30'), $this->bus(3, 4, '06:45', '07:00'), $this->bus(4, 2, '07:10', '08:30'),
             $this->bus(1, 5, '06:00', '06:20'), $this->bus(5, 6, '06:30', '07:00'), $this->bus(6, 2, '07:10', '08:00'),
             $this->bus(1, 7, '06:00', '06:10'), $this->bus(7, 8, '06:20', '06:30'), $this->bus(8, 9, '06:40', '06:50'), $this->bus(9, 2, '07:00', '07:30'),
+            $this->bus(1, 10, '06:00', '06:10'), $this->bus(10, 11, '06:20', '06:30'), $this->bus(11, 12, '06:40', '06:50'), $this->bus(12, 2, '07:00', '07:30'),
+            $this->bus(1, 14, '06:00', '06:10'), $this->bus(14, 15, '06:20', '06:30'), $this->bus(15, 16, '06:40', '06:50'), $this->bus(16, 17, '07:00', '07:10'), $this->bus(17, 2, '07:20', '07:30'),
         ]), 1, 2);
 
-        $this->assertCount(2, $routes);
+        $this->assertCount(4, $routes);
         $this->assertSame('08:00:00', $routes[0]['llegada']);
         $this->assertSame(2, $routes[0]['transbordos']);
+        $this->assertSame(3, $routes[2]['transbordos']);
+        $this->assertCount(4, $routes[2]['tramos']);
+        $this->assertFalse($routes->contains(fn (array $route) => count($route['tramos']) > 4));
     }
 
     public function test_it_finds_a_route_that_requires_changing_buses_in_an_intermediate_municipality(): void

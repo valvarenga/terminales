@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SugerenciaTerminal;
 use Illuminate\Http\Request;
 
 class AdminAuthController extends Controller
@@ -24,12 +25,10 @@ class AdminAuthController extends Controller
         $expectedPassword = env('ADMIN_PASSWORD', 'admin123');
 
         if ($data['username'] === $expectedUsername && $data['password'] === $expectedPassword) {
-            session()->put('admin_authenticated', true);
-            session()->regenerate();
+            $request->session()->put('admin_authenticated', true);
+            $request->session()->regenerate();
 
-            $redirect = $request->input('redirect', route('admin.dashboard'));
-
-            return redirect($redirect);
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->withErrors([
@@ -37,15 +36,18 @@ class AdminAuthController extends Controller
         ])->withInput();
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        session()->forget('admin_authenticated');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('home');
     }
 
     public function dashboard()
     {
-        return view('admin.dashboard');
+        return view('admin.dashboard', [
+            'sugerenciasTerminales' => SugerenciaTerminal::latest()->get(),
+        ]);
     }
 }
