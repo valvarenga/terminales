@@ -29,7 +29,7 @@ class Departamento extends Controller
         $departamento->slug = Str::slug($data['nombre']);
 
         if ($request->hasFile('file_D')) {
-            $departamento->url = Storage::url($request->file('file_D')->store('public/imagenes/departamento'));
+             $departamento->url = Storage::url($request->file('file_D')->store('public/imagenes/departamento'));
         }
 
         $departamento->save();

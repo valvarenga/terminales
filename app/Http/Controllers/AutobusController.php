@@ -38,8 +38,13 @@ class AutobusController extends Controller
         $autobus->slug = Str::slug($data['nombre'] . '-' . $data['placa']);
         $autobus->save();
         $autobus->terminales()->sync([$data['terminal']]);
+         return redirect()
+    ->route('newbus') // o el nombre correcto de tu ruta
+    ->with('success', 'El servicio de autobús se guardó correctamente.');
 
-        return redirect()->route('departamento.autobuses', $data['terminal'])->with('success', 'Autobús creado correctamente.');
+        
+
+       
     }
 
     public function index()

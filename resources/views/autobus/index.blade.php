@@ -30,31 +30,13 @@
                 <button type="submit" class="btn btn-info btn-lg mt-4">Guardar servicio</button>
             </form>
         </div>
-    </div>@if($autobusesPendientes->isNotEmpty())<div class="card mt-4">
-        <div class="card-header">
-            <h4 class="mb-0">Servicios pendientes de vincular</h4>
-        </div>
-        <div class="card-body">
-            <p class="text-muted">Completa sus municipios para que aparezcan en el buscador de rutas.</p>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Servicio</th>
-                            <th>Origen actual</th>
-                            <th>Destino actual</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>@foreach($autobusesPendientes as $autobus)<tr>
-                            <td>{{ $autobus->nombre }}</td>
-                            <td>{{ $autobus->origen }}</td>
-                            <td>{{ $autobus->destino }}</td>
-                            <td><a class="btn btn-outline-primary btn-sm" href="{{ route('autobus.edit', $autobus) }}">Vincular municipios</a></td>
-                        </tr>@endforeach</tbody>
-                </table>
-            </div>
-        </div>
-    </div>@endif
+    </div>
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+@endif
+   
 </div>
 @endsection
