@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_terminal');
             $table->string('ubicacion')->nullable();
-            $table->string('foto');
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

@@ -14,13 +14,14 @@ use App\Http\Controllers\Terminal;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
-Route::post('/sugerencias-terminales', [SugerenciaTerminalController::class, 'store'])->name('sugerencias-terminales.store');
+Route::post('/sugerencias-terminales', [SugerenciaTerminalController::class, 'store'])->middleware('throttle:terminal-suggestions')->name('sugerencias-terminales.store');
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
-Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
-Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->middleware('throttle:admin-login')->name('admin.login.submit');
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->middleware('admin')->name('admin.logout');
 Route::middleware(['admin'])->group(function () {
     Route::get('/admin', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/sugerencias-terminales/{sugerencia}/foto', [AdminAuthController::class, 'suggestionPhoto'])->name('admin.suggestions.photo');
 
 
     // Administración de departamentos.

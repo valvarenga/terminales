@@ -32,6 +32,7 @@ class Municipio extends Controller
         $municipio->departamento_id = $data['departamento_id'];
         $municipio->latitud = $data['latitud'] ?? null;
         $municipio->longitud = $data['longitud'] ?? null;
+        $municipio->url_M = null;
 
         if ($request->hasFile('file_M')) {
             $municipio->url_M = Storage::url($request->file('file_M')->store('public/imagenes/municipio'));

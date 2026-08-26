@@ -77,7 +77,9 @@
         @forelse($sugerenciasTerminales as $sugerencia)
             <article class="card shadow-sm border-0 mb-3 overflow-hidden">
                 <div class="row g-0">
-                    <div class="col-md-3"><img src="{{ asset($sugerencia->foto) }}" class="img-fluid h-100 w-100" style="object-fit: cover; min-height: 180px" alt="Foto de {{ $sugerencia->nombre_terminal }}"></div>
+                    @if ($sugerencia->foto)
+                        <div class="col-md-3"><img src="{{ route('admin.suggestions.photo', $sugerencia) }}" class="img-fluid h-100 w-100" style="object-fit: cover; min-height: 180px" alt="Foto de {{ $sugerencia->nombre_terminal }}"></div>
+                    @endif
                     <div class="col-md-9"><div class="card-body"><h3 class="h5">{{ $sugerencia->nombre_terminal }}</h3><p class="mb-2"><strong>Ubicación:</strong> {{ $sugerencia->ubicacion ?: 'No indicada' }}</p><small class="text-muted">Enviada el {{ $sugerencia->created_at->format('d/m/Y H:i') }}</small></div></div>
                 </div>
             </article>

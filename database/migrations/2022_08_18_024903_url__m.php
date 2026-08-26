@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('municipios', function (Blueprint $table) {
-            $table->LONGTEXT('url_M')->after('departamento_id');
+            $table->LONGTEXT('url_M')->nullable()->after('departamento_id');
         });
     }
 

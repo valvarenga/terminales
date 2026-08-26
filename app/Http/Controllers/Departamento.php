@@ -27,6 +27,7 @@ class Departamento extends Controller
         $departamento = new Departamentos();
         $departamento->nombre = $data['nombre'];
         $departamento->slug = Str::slug($data['nombre']);
+        $departamento->url = null;
 
         if ($request->hasFile('file_D')) {
              $departamento->url = Storage::url($request->file('file_D')->store('public/imagenes/departamento'));

@@ -13,17 +13,20 @@ class SugerenciaTerminalController extends Controller
         $data = $request->validate([
             'nombre_terminal' => ['required', 'string', 'max:255'],
             'ubicacion' => ['nullable', 'string', 'max:255'],
-            'foto' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'foto' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ]);
 
-        $image = $request->file('foto');
-        $filename = Str::uuid().'.'.$image->extension();
-        $image->move(public_path('imagenes/sugerencias-terminales'), $filename);
+        $photoPath = null;
+        if ($request->hasFile('foto')) {
+            $image = $request->file('foto');
+            $filename = Str::uuid().'.'.$image->extension();
+            $photoPath = $image->storeAs('sugerencias-terminales', $filename, 'local');
+        }
 
         SugerenciaTerminal::create([
             'nombre_terminal' => $data['nombre_terminal'],
             'ubicacion' => $data['ubicacion'] ?? null,
-            'foto' => 'imagenes/sugerencias-terminales/'.$filename,
+            'foto' => $photoPath,
         ]);
 
         return redirect()->route('home')->with('success', 'Gracias. Tu foto fue enviada para revisión administrativa.');

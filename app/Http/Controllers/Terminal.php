@@ -27,11 +27,13 @@ class Terminal extends Controller
 
     public function store(Request $request)
     {
-        $data = $this->validatedData($request, true);
+        $data = $this->validatedData($request);
         $terminal = new Terminales();
         $terminal->fill($data);
         $terminal->slug = Str::slug($data['nombre']);
-        $terminal->url_T = Storage::url($request->file('file_T')->store('public/imagenes/terminal'));
+        if ($request->hasFile('file_T')) {
+            $terminal->url_T = Storage::url($request->file('file_T')->store('public/imagenes/terminal'));
+        }
         $terminal->save();
 
         return redirect()->route('show_terminal')->with('success', 'Terminal creada correctamente.');
@@ -79,7 +81,7 @@ class Terminal extends Controller
         return redirect()->route('show_terminal')->with('success', 'Terminal eliminada correctamente.');
     }
 
-    private function validatedData(Request $request, bool $requireImage = false): array
+    private function validatedData(Request $request): array
     {
         $rules = [
             'nombre' => ['required', 'string', 'max:255'],
@@ -90,7 +92,7 @@ class Terminal extends Controller
                 'required',
                 Rule::exists('municipios', 'id')->where(fn ($query) => $query->where('departamento_id', $request->input('departamento'))),
             ],
-            'file_T' => [$requireImage ? 'required' : 'nullable', 'image', 'max:2048'],
+            'file_T' => ['nullable', 'image', 'max:2048'],
         ];
         $data = $request->validate($rules);
 

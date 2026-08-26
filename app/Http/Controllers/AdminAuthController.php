@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\SugerenciaTerminal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class AdminAuthController extends Controller
 {
@@ -21,14 +24,22 @@ class AdminAuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        $expectedUsername = env('ADMIN_USERNAME', 'admin');
-        $expectedPassword = env('ADMIN_PASSWORD', 'admin123');
+        $expectedUsername = config('admin.username');
+        $passwordHash = config('admin.password_hash');
 
-        if ($data['username'] === $expectedUsername && $data['password'] === $expectedPassword) {
+        if (! is_string($expectedUsername) || ! is_string($passwordHash) || $expectedUsername === '' || $passwordHash === '') {
+            Log::critical('Administrative login attempted without configured credentials.');
+
+            return back()->withErrors([
+                'username' => 'El acceso administrativo no esta configurado. Contacte al administrador del sitio.',
+            ]);
+        }
+
+        if (hash_equals($expectedUsername, $data['username']) && Hash::check($data['password'], $passwordHash)) {
             $request->session()->put('admin_authenticated', true);
             $request->session()->regenerate();
 
-            return redirect()->route('admin.dashboard');
+            return redirect($this->safeRedirect($request->input('redirect')));
         }
 
         return back()->withErrors([
@@ -49,5 +60,30 @@ class AdminAuthController extends Controller
         return view('admin.dashboard', [
             'sugerenciasTerminales' => SugerenciaTerminal::latest()->get(),
         ]);
+    }
+
+    public function suggestionPhoto(SugerenciaTerminal $sugerencia)
+    {
+        abort_unless($sugerencia->foto, 404);
+
+        $path = 'sugerencias-terminales/'.basename($sugerencia->foto);
+        if (Storage::disk('local')->exists($path)) {
+            return Storage::disk('local')->response($path, null, ['Cache-Control' => 'private, no-store']);
+        }
+
+        // Legacy uploads remain protected by the directory access rule above.
+        $legacyPath = public_path($sugerencia->foto);
+        abort_unless(is_file($legacyPath), 404);
+
+        return response()->file($legacyPath, ['Cache-Control' => 'private, no-store']);
+    }
+
+    private function safeRedirect(?string $redirect): string
+    {
+        if (is_string($redirect) && str_starts_with($redirect, '/') && ! str_starts_with($redirect, '//')) {
+            return $redirect;
+        }
+
+        return route('admin.dashboard');
     }
 }
