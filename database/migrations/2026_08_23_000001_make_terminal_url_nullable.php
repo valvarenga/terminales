@@ -7,11 +7,11 @@ return new class extends Migration
 {
     public function up()
     {
-        DB::statement('ALTER TABLE terminales MODIFY url_T LONGTEXT NULL');
+        \Illuminate\Support\Facades\Schema::table('terminales', fn ($table) => $table->longText('url_T')->nullable()->change());
     }
 
     public function down()
     {
-        DB::statement('ALTER TABLE terminales MODIFY url_T LONGTEXT NOT NULL');
+        \Illuminate\Support\Facades\Schema::table('terminales', fn ($table) => $table->longText('url_T')->nullable(false)->change());
     }
 };

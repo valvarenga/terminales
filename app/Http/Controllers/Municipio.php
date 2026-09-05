@@ -6,6 +6,8 @@ use App\Models\Departamentos;
 use App\Models\Municipios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -58,7 +60,7 @@ class Municipio extends Controller
         return view('municipios.edit', [
             'municipio' => $municipio,
             'departamento' => $municipio->departamentos,
-            'todos_departamentos' => Departamentos::whereKeyNot($municipio->departamento_id)->orderBy('nombre')->get(),
+            'todos_departamentos' => Departamentos::orderBy('nombre')->get(),
         ]);
     }
 
@@ -66,17 +68,42 @@ class Municipio extends Controller
     {
         $data = $request->validate([
             'nombre' => ['required', 'string', 'max:255', Rule::unique('municipios', 'nombre')->ignore($municipio)],
+            'file_M' => ['nullable', 'image', 'max:2048'],
+            'remove_photo' => ['nullable', 'boolean'],
             'departamento_id' => ['required', 'exists:departamentos,id'],
             'latitud' => ['nullable', 'numeric', 'between:-90,90'],
             'longitud' => ['nullable', 'numeric', 'between:-180,180'],
         ]);
 
-        $municipio->nombre = $data['nombre'];
-        $municipio->slug = Str::slug($data['nombre']);
-        $municipio->departamento_id = $data['departamento_id'];
-        $municipio->latitud = $data['latitud'];
-        $municipio->longitud = $data['longitud'];
-        $municipio->save();
+        DB::transaction(function () use ($request, $municipio, $data) {
+            if ((int) $municipio->departamento_id !== (int) $data['departamento_id'] &&
+                ($municipio->terminales()->exists() || $municipio->autobusesOrigen()->exists() || $municipio->autobusesDestino()->exists())) {
+                throw ValidationException::withMessages(['departamento_id' => 'No se puede trasladar un municipio con terminales o servicios asociados. Reasigne primero sus relaciones.']);
+            }
+            $nombreCambio = $municipio->nombre !== $data['nombre'];
+            $municipio->nombre = $data['nombre'];
+            $municipio->departamento_id = $data['departamento_id'];
+            $municipio->latitud = $data['latitud'] ?? null;
+            $municipio->longitud = $data['longitud'] ?? null;
+            if ($request->boolean('remove_photo')) {
+                $municipio->url_M = null;
+            }
+            if ($request->hasFile('file_M')) {
+                $municipio->url_M = Storage::url($request->file('file_M')->store('public/imagenes/municipio'));
+            }
+            $municipio->save();
+            if ($nombreCambio) {
+                // Save each service so the audit observer records its changed label.
+                $municipio->autobusesOrigen()->each(function ($autobus) use ($municipio) {
+                    $autobus->origen = $municipio->nombre;
+                    $autobus->save();
+                });
+                $municipio->autobusesDestino()->each(function ($autobus) use ($municipio) {
+                    $autobus->destino = $municipio->nombre;
+                    $autobus->save();
+                });
+            }
+        });
 
         return redirect()->route('municipio.ver', $municipio)->with('success', 'Municipio actualizado correctamente.');
     }

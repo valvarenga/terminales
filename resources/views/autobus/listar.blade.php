@@ -2,9 +2,6 @@
 @section('title', 'Autobuses')
 @section('content')
 <div class="container py-4">
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
             <h1 class="h3 mb-1">Autobuses registrados</h1>
@@ -26,7 +23,7 @@
                                 <th>Terminal</th>
                                 <th>Origen</th>
                                 <th>Destino</th>
-                                <th>Salida</th>
+                                <th>Salida</th><th>Tarifa</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -41,7 +38,7 @@
                                     </td>
                                     <td>{{ $autobus->origenMunicipio?->nombre ?? $autobus->origen }}</td>
                                     <td>{{ $autobus->destinoMunicipio?->nombre ?? $autobus->destino }}</td>
-                                    <td>{{ $autobus->hora_salida }}</td>
+                                    <td>{{ $autobus->hora_salida }}</td><td>{{ $autobus->tarifa !== null ? 'C$ '.number_format((float) $autobus->tarifa, 2) : 'Tarifa por confirmar' }}</td>
                                     <td>
                                         <a href="{{ route('autobus.show', $autobus) }}" class="btn btn-outline-info btn-sm">Ver</a>
                                         <a href="{{ route('autobus.edit', $autobus) }}" class="btn btn-outline-primary btn-sm">Editar</a>

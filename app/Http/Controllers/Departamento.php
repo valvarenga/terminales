@@ -7,6 +7,7 @@ use App\Models\Municipios;
 use App\Models\Terminales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -42,11 +43,20 @@ class Departamento extends Controller
     {
         $data = $request->validate([
             'nombre' => ['required', 'string', 'max:255', Rule::unique('departamentos', 'nombre')->ignore($departamento)],
+            'file_D' => ['nullable', 'image', 'max:2048'],
+            'remove_photo' => ['nullable', 'boolean'],
         ]);
 
-        $departamento->nombre = $data['nombre'];
-        $departamento->slug = Str::slug($data['nombre']);
-        $departamento->save();
+        DB::transaction(function () use ($request, $departamento, $data) {
+            $departamento->nombre = $data['nombre'];
+            if ($request->boolean('remove_photo')) {
+                $departamento->url = null;
+            }
+            if ($request->hasFile('file_D')) {
+                $departamento->url = Storage::url($request->file('file_D')->store('public/imagenes/departamento'));
+            }
+            $departamento->save();
+        });
 
         return redirect()->route('departamento.ver', $departamento)->with('success', 'Departamento actualizado correctamente.');
     }

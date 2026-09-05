@@ -1,31 +1,17 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create('sugerencias_terminales', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        // The table is created by the earlier 2026_08_14 migration. This
+        // migration was kept in production history, so it must be a no-op.
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists('sugerencias_terminales');
+        // Do not drop the table owned by the earlier migration.
     }
 };

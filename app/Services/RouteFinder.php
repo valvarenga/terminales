@@ -60,6 +60,9 @@ class RouteFinder
             if ($nextId === $destinationId) {
                 $itineraries->push([
                     'tramos' => $nextLegs,
+                    'tarifa_total' => collect($nextLegs)->contains(fn ($leg) => $leg->tarifa === null)
+                        ? null
+                        : number_format(collect($nextLegs)->sum(fn ($leg) => (int) round((float) $leg->tarifa * 100)) / 100, 2, '.', ''),
                     'transbordos' => count($nextLegs) - 1,
                     'salida' => $nextLegs[0]->hora_salida,
                     'llegada' => $service->hora_llegada,

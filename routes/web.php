@@ -19,8 +19,17 @@ Route::post('/sugerencias-terminales', [SugerenciaTerminalController::class, 'st
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->middleware('throttle:admin-login')->name('admin.login.submit');
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->middleware('admin')->name('admin.logout');
-Route::middleware(['admin'])->group(function () {
+Route::middleware(['admin', 'admin.transaction'])->group(function () {
     Route::get('/admin', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/sugerencias-terminales', [\App\Http\Controllers\SugerenciaRevisionController::class, 'index'])->name('admin.suggestions.index');
+    Route::patch('/admin/sugerencias-terminales/{sugerencia}', [\App\Http\Controllers\SugerenciaRevisionController::class, 'revisar'])->name('admin.suggestions.review');
+    Route::middleware('admin.only')->group(function () {
+        Route::get('/admin/historial', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('admin.history');
+        Route::get('/admin/usuarios', [\App\Http\Controllers\AdminUserController::class, 'index'])->name('admin.users.index');
+        Route::post('/admin/usuarios', [\App\Http\Controllers\AdminUserController::class, 'store'])->name('admin.users.store');
+        Route::get('/admin/usuarios/{user}/editar', [\App\Http\Controllers\AdminUserController::class, 'edit'])->name('admin.users.edit');
+        Route::put('/admin/usuarios/{user}', [\App\Http\Controllers\AdminUserController::class, 'update'])->name('admin.users.update');
+    });
     Route::get('/admin/sugerencias-terminales/{sugerencia}/foto', [AdminAuthController::class, 'suggestionPhoto'])->name('admin.suggestions.photo');
 
 

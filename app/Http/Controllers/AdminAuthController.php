@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\SugerenciaTerminal;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
 
 class AdminAuthController extends Controller
 {
@@ -27,6 +29,22 @@ class AdminAuthController extends Controller
         $expectedUsername = config('admin.username');
         $passwordHash = config('admin.password_hash');
 
+        $user = Schema::hasTable('users')
+            ? User::where('email', strtolower($data['username']))->first()
+            : null;
+        if ($user && $user->is_active && in_array($user->role, ['admin', 'editor'], true) && Hash::check($data['password'], $user->password)) {
+            $request->session()->regenerate();
+            $request->session()->put([
+                'admin_authenticated' => true,
+                'admin_user_id' => $user->id,
+                'admin_session_version' => $user->session_version,
+                'admin_role' => $user->role,
+                'admin_actor' => $user->email,
+            ]);
+
+            return redirect($this->safeRedirect($request->input('redirect')));
+        }
+
         if (! is_string($expectedUsername) || ! is_string($passwordHash) || $expectedUsername === '' || $passwordHash === '') {
             Log::critical('Administrative login attempted without configured credentials.');
 
@@ -36,7 +54,10 @@ class AdminAuthController extends Controller
         }
 
         if (hash_equals($expectedUsername, $data['username']) && Hash::check($data['password'], $passwordHash)) {
+            $request->session()->forget(['admin_user_id', 'admin_session_version']);
             $request->session()->put('admin_authenticated', true);
+            $request->session()->put('admin_role', 'admin');
+            $request->session()->put('admin_actor', $expectedUsername);
             $request->session()->regenerate();
 
             return redirect($this->safeRedirect($request->input('redirect')));
@@ -57,9 +78,7 @@ class AdminAuthController extends Controller
 
     public function dashboard()
     {
-        return view('admin.dashboard', [
-            'sugerenciasTerminales' => SugerenciaTerminal::latest()->get(),
-        ]);
+        return app(AdminDashboardController::class)->index(request());
     }
 
     public function suggestionPhoto(SugerenciaTerminal $sugerencia)

@@ -18,6 +18,7 @@
                         <th>Placa</th>
                         <th>Destino</th>
                         <th>Salida</th>
+                        <th>Tarifa</th>
                         <th>Servicio</th>
                     </tr>
                 </thead>
@@ -26,6 +27,7 @@
                         <td>{{ $autobus->placa ?: '—' }}</td>
                         <td>{{ $autobus->destino }}</td>
                         <td>{{ $autobus->hora_salida }}</td>
+                        <td>{{ $autobus->tarifa !== null ? 'C$ '.number_format((float) $autobus->tarifa, 2) : 'Tarifa por confirmar' }}</td>
                         <td><span class="badge rounded-pill bg-success">{{ $autobus->categoria }}</span></td>
                     </tr>@endforeach</tbody>
             </table>

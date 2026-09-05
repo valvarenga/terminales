@@ -23,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        foreach ([\App\Models\Autobuses::class, \App\Models\Terminales::class,
+            \App\Models\Municipios::class, \App\Models\Departamentos::class,
+            \App\Models\SugerenciaTerminal::class, \App\Models\User::class] as $model) {
+            $model::observe(\App\Observers\AuditObserver::class);
+        }
+        \Illuminate\Pagination\Paginator::useBootstrapFive();
     }
 }

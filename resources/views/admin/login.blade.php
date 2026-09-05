@@ -26,8 +26,8 @@
                         <input type="hidden" name="redirect" value="{{ $redirect }}">
 
                         <div class="mb-3">
-                            <label for="username" class="form-label">Usuario</label>
-                            <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" required>
+                            <label for="username" class="form-label">Usuario o correo del equipo</label>
+                            <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" autocomplete="username" required>
                         </div>
 
                         <div class="mb-3">

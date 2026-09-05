@@ -12,4 +12,11 @@ class SugerenciaTerminal extends Model
     protected $table = 'sugerencias_terminales';
 
     protected $fillable = ['nombre_terminal', 'ubicacion', 'foto'];
+
+    protected $casts = ['revisada_at' => 'datetime'];
+
+    public function terminal()
+    {
+        return $this->belongsTo(Terminales::class, 'terminal_id');
+    }
 }

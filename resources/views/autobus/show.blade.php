@@ -11,11 +11,13 @@
                 </div>
                 <div class="d-flex gap-2">
                     <a href="{{ route('autobus.edit', $autobus) }}" class="btn btn-primary">Editar</a>
+                    @if(session('admin_role', 'admin') === 'admin')
                     <form action="{{ route('autobus.destroy', $autobus) }}" method="POST" onsubmit="return confirm('Eliminar este autobus?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Eliminar</button>
                     </form>
+                    @endif
                 </div>
             </div>
 
@@ -35,6 +37,7 @@
                         <p class="mb-1"><strong>Destino:</strong> {{ $autobus->destinoMunicipio?->nombre ?? $autobus->destino }}</p>
                         <p class="mb-1"><strong>Salida:</strong> {{ $autobus->hora_salida }}</p>
                         <p class="mb-1"><strong>Llegada:</strong> {{ $autobus->hora_llegada }}</p>
+                        <p class="mb-1"><strong>Tarifa por pasajero:</strong> {{ $autobus->tarifa !== null ? 'C$ '.number_format((float) $autobus->tarifa, 2) : 'Tarifa por confirmar' }}</p>
                         <p class="mb-1"><strong>Placa:</strong> {{ $autobus->placa ?: '—' }}</p>
                         <p class="mb-0"><strong>Categoría:</strong> {{ $autobus->categoria }}</p>
                     </div>

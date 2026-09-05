@@ -7,6 +7,9 @@
             <h3>Registrar servicio de autobús</h3>
         </div>
         <div class="card-body">
+            @if($errors->any())
+                <div class="alert alert-danger" role="alert"><ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
+            @endif
             <form action="{{ route('autobus') }}" method="POST">@csrf
                 <div class="row g-3">
                     <div class="col-md-6"><label for="terminal" class="form-label">Terminal de salida</label><select name="terminal" id="terminal" class="form-select" required>
@@ -26,17 +29,12 @@
                             <option value="Expreso" @selected(old('categoria')==='Expreso' )>Expreso</option>
                             <option value="Ruteado" @selected(old('categoria')==='Ruteado' )>Ruteado</option>
                         </select></div>
+                    <div class="col-md-4"><label for="tarifa" class="form-label">Tarifa por pasajero (C$)</label><input type="number" min="0" max="999999.99" step="0.01" name="tarifa" id="tarifa" class="form-control" value="{{ old('tarifa', $autobus->tarifa ?? '') }}" aria-describedby="tarifa-ayuda"><div id="tarifa-ayuda" class="form-text">Deje vacío si no se conoce. Cero indica servicio gratuito.</div>@error('tarifa')<div class="text-danger">{{ $message }}</div>@enderror</div>
                 </div>
                 <button type="submit" class="btn btn-info btn-lg mt-4">Guardar servicio</button>
             </form>
         </div>
     </div>
-    @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-    </div>
-@endif
    
 </div>
 @endsection

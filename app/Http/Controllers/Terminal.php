@@ -7,6 +7,8 @@ use App\Models\Municipios;
 use App\Models\Terminales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -60,17 +62,29 @@ class Terminal extends Controller
             'terminal' => $terminal,
             'departamento' => $terminal->departamentos,
             'municipio' => $terminal->municipios,
-            'todos_departamentos' => Departamentos::whereKeyNot($terminal->departamento_id)->orderBy('nombre')->get(),
-            'todos_municipios' => Municipios::where('departamento_id', $terminal->departamento_id)->whereKeyNot($terminal->municipio_id)->orderBy('nombre')->get(),
+            'todos_departamentos' => Departamentos::orderBy('nombre')->get(),
+            'todos_municipios' => Municipios::orderBy('nombre')->get(['id', 'nombre', 'departamento_id']),
         ]);
     }
 
     public function update(Request $request, Terminales $terminal)
     {
         $data = $this->validatedData($request);
-        $terminal->fill($data);
-        $terminal->slug = Str::slug($data['nombre']);
-        $terminal->save();
+        $request->validate(['remove_photo' => ['nullable', 'boolean']]);
+        DB::transaction(function () use ($request, $terminal, $data) {
+            if (((int) $terminal->municipio_id !== (int) $data['municipio_id'] ||
+                (int) $terminal->departamento_id !== (int) $data['departamento_id']) && $terminal->autobuses()->exists()) {
+                throw ValidationException::withMessages(['municipio' => 'No se puede trasladar una terminal con servicios asociados. Reasigne primero sus servicios.']);
+            }
+            $terminal->fill($data);
+            if ($request->boolean('remove_photo')) {
+                $terminal->url_T = null;
+            }
+            if ($request->hasFile('file_T')) {
+                $terminal->url_T = Storage::url($request->file('file_T')->store('public/imagenes/terminal'));
+            }
+            $terminal->save();
+        });
 
         return redirect()->route('ver.terminal', $terminal)->with('success', 'Terminal actualizada correctamente.');
     }

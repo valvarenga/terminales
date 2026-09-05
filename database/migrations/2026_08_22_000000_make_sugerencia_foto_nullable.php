@@ -7,11 +7,11 @@ return new class extends Migration
 {
     public function up()
     {
-        DB::statement('ALTER TABLE sugerencias_terminales MODIFY foto VARCHAR(255) NULL');
+        \Illuminate\Support\Facades\Schema::table('sugerencias_terminales', fn ($table) => $table->string('foto')->nullable()->change());
     }
 
     public function down()
     {
-        DB::statement("ALTER TABLE sugerencias_terminales MODIFY foto VARCHAR(255) NOT NULL");
+        \Illuminate\Support\Facades\Schema::table('sugerencias_terminales', fn ($table) => $table->string('foto')->nullable(false)->change());
     }
 };

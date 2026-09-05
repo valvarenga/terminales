@@ -20,6 +20,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Abrir menú"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="mainNavigation">
                 <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                    @if(session('admin_authenticated'))<li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link">Administración</a></li>@endif
                     <li class="nav-item"><a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Inicio</a></li>
                     <li class="nav-item"><a href="{{ route('departamentos.listar') }}" class="nav-link {{ request()->routeIs('departamentos.*', 'departamento.*') ? 'active' : '' }}">Destinos</a></li>
                     <li class="nav-item"><a href="{{ route('anuncios') }}" class="nav-link {{ request()->routeIs('anuncios') ? 'active' : '' }}">Anuncios</a></li>
@@ -31,6 +32,7 @@
     </nav>
 
     <main>
+        @if(session('error'))<div class="container pt-4"><div class="alert alert-danger" role="alert">{{ session('error') }}</div></div>@endif
         @if(session('success'))<div class="container pt-4"><div class="alert alert-success border-0 shadow-sm">{{ session('success') }}</div></div>@endif
         @yield('content')
     </main>

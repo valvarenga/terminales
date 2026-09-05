@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\SugerenciaTerminal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SugerenciaTerminalController extends Controller
@@ -23,11 +25,18 @@ class SugerenciaTerminalController extends Controller
             $photoPath = $image->storeAs('sugerencias-terminales', $filename, 'local');
         }
 
-        SugerenciaTerminal::create([
-            'nombre_terminal' => $data['nombre_terminal'],
-            'ubicacion' => $data['ubicacion'] ?? null,
-            'foto' => $photoPath,
-        ]);
+        try {
+            DB::transaction(fn () => SugerenciaTerminal::create([
+                'nombre_terminal' => $data['nombre_terminal'],
+                'ubicacion' => $data['ubicacion'] ?? null,
+                'foto' => $photoPath,
+            ]));
+        } catch (\Throwable $error) {
+            if ($photoPath) {
+                Storage::disk('local')->delete($photoPath);
+            }
+            throw $error;
+        }
 
         return redirect()->route('home')->with('success', 'Gracias. Tu foto fue enviada para revisión administrativa.');
     }

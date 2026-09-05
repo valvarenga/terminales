@@ -9,7 +9,9 @@ class Autobuses extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'categoria', 'placa', 'origen', 'hora_salida', 'destino', 'hora_llegada', 'municipio_origen_id', 'municipio_destino_id'];
+    protected $fillable = ['nombre', 'categoria', 'placa', 'origen', 'hora_salida', 'destino', 'hora_llegada', 'municipio_origen_id', 'municipio_destino_id', 'tarifa'];
+
+    protected $casts = ['tarifa' => 'decimal:2'];
 
     public function getRouteKeyName()
     {
