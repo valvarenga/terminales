@@ -1,4 +1,6 @@
 @extends('layouts.plantilla')
+@section('jquery', true)
+@section('datatables', true)
 @section('title', isset($autobuses) ? 'Horarios de '.$terminal->nombre : 'Terminales')
 @section('content')
 <section class="container">

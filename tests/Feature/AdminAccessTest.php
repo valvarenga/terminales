@@ -22,6 +22,20 @@ class AdminAccessTest extends TestCase
         $response->assertRedirectContains('/admin/login');
     }
 
+    public function test_public_navigation_never_exposes_administration_access(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertDontSee(route('admin.login'), false)
+            ->assertDontSee(route('admin.dashboard'), false);
+
+        $this->withSession(['admin_authenticated' => true])
+            ->get('/')
+            ->assertOk()
+            ->assertDontSee(route('admin.login'), false)
+            ->assertDontSee(route('admin.dashboard'), false);
+    }
+
     public function test_admin_login_allows_access_to_protected_route(): void
     {
         $response = $this->post('/admin/login', [

@@ -9,7 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    @hasSection('datatables')
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    @endif
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     @yield('estilos')
 </head>
@@ -20,7 +22,6 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Abrir menú"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="mainNavigation">
                 <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
-                    @if(session('admin_authenticated'))<li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link">Administración</a></li>@endif
                     <li class="nav-item"><a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Inicio</a></li>
                     <li class="nav-item"><a href="{{ route('departamentos.listar') }}" class="nav-link {{ request()->routeIs('departamentos.*', 'departamento.*') ? 'active' : '' }}">Destinos</a></li>
                     <li class="nav-item"><a href="{{ route('anuncios') }}" class="nav-link {{ request()->routeIs('anuncios') ? 'active' : '' }}">Anuncios</a></li>
@@ -43,11 +44,15 @@
             <div class="footer-links"><a href="{{ route('departamentos.listar') }}">Explorar destinos</a><a href="{{ route('contacto') }}">Contacto</a></div>
         </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-    <script>$(function () { if ($('#buses').length) $('#buses').DataTable({language:{url:'//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'}}); });</script>
+    @hasSection('jquery')
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @endif
+    @hasSection('datatables')
+        <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+        <script>$(function () { $('#buses').DataTable({language:{url:'//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'}}); });</script>
+    @endif
     @yield('scripts')
 </body>
 </html>

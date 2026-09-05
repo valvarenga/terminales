@@ -28,7 +28,10 @@
         const search = function (term) {
             const currentRequest = ++requestNumber;
             const request = new XMLHttpRequest();
-            request.open('GET', '/search/municipios?term=' + encodeURIComponent(term), true);
+            const endpoint = input.form && input.form.dataset.municipiosUrl
+                ? input.form.dataset.municipiosUrl
+                : '/search/municipios';
+            request.open('GET', endpoint + '?term=' + encodeURIComponent(term), true);
             request.setRequestHeader('Accept', 'application/json');
             request.onload = function () {
                 if (request.status < 200 || request.status >= 300 || currentRequest !== requestNumber) return;

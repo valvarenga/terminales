@@ -12,13 +12,31 @@ class RouteFinder
      */
     public function find(int $originId, int $destinationId): Collection
     {
-        $servicesByOrigin = Autobuses::query()
-            ->with(['origenMunicipio', 'destinoMunicipio', 'terminales'])
-            ->whereNotNull('municipio_origen_id')
-            ->whereNotNull('municipio_destino_id')
-            ->orderBy('hora_salida')
-            ->get()
-            ->groupBy('municipio_origen_id');
+        $services = collect();
+        $frontier = collect([$originId]);
+        $loadedOrigins = collect();
+
+        // Load only the portion of the network reachable within the supported
+        // four legs, instead of hydrating every service on every search.
+        for ($depth = 0; $depth < 4 && $frontier->isNotEmpty(); $depth++) {
+            $originIds = $frontier->diff($loadedOrigins)->values();
+            if ($originIds->isEmpty()) {
+                break;
+            }
+
+            $levelServices = Autobuses::query()
+                ->with(['origenMunicipio', 'destinoMunicipio', 'terminales'])
+                ->whereIn('municipio_origen_id', $originIds)
+                ->whereNotNull('municipio_destino_id')
+                ->orderBy('hora_salida')
+                ->get();
+
+            $services = $services->concat($levelServices);
+            $loadedOrigins = $loadedOrigins->concat($originIds)->unique();
+            $frontier = $levelServices->pluck('municipio_destino_id')->unique();
+        }
+
+        $servicesByOrigin = $services->groupBy('municipio_origen_id');
 
         return $this->findFromServices($servicesByOrigin, $originId, $destinationId);
     }

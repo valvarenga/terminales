@@ -12,7 +12,7 @@ php artisan view:clear
 
 En XAMPP, si `mysqldump` no está en PATH, configura `BACKUP_MYSQLDUMP=C:\xampp\mysql\bin\mysqldump.exe` en el entorno. Las migraciones nuevas agregan tarifas, revisión de sugerencias, roles, historial y estadísticas; no inventan tarifas ni consultas anteriores. Los registros existentes conservan sus datos. Las migraciones antiguas de imágenes ahora también funcionan con SQLite.
 
-Acceso: `/admin/login`. Se conserva el administrador configurado mediante `ADMIN_USERNAME` y `ADMIN_PASSWORD_HASH`. Desde **Usuarios y permisos** puede crear cuentas con correo y contraseña de al menos 12 caracteres, letras y números. Las cuentas antiguas sin rol administrativo no reciben acceso automáticamente.
+Acceso privado: `/admin/login`. Esta dirección no se muestra ni se enlaza en la navegación pública, incluso cuando hay una sesión administrativa activa; debe ser conocida y utilizada únicamente por administradores autorizados. Se conserva el administrador configurado mediante `ADMIN_USERNAME` y `ADMIN_PASSWORD_HASH`. Desde **Usuarios y permisos** puede crear cuentas con correo y contraseña de al menos 12 caracteres, letras y números. Las cuentas antiguas sin rol administrativo no reciben acceso automáticamente.
 
 ## Funciones
 

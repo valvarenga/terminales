@@ -1,4 +1,5 @@
 @extends('layouts.plantilla')
+@section('jquery', true)
 @section('title', 'Nueva terminal')
 @section('content')
 
