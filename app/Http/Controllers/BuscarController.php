@@ -8,29 +8,77 @@ use Illuminate\Http\Request;
 
 class BuscarController extends Controller
 {
-    public function index(Request $request, RouteFinder $routeFinder)
-    {
-        $data = $request->validate([
-            'origen_id' => ['required', 'integer', 'different:destino_id', 'exists:municipios,id'],
-            'destino_id' => ['required', 'integer', 'exists:municipios,id'],
-        ]);
 
-        $origen = Municipios::findOrFail($data['origen_id']);
-        $destino = Municipios::findOrFail($data['destino_id']);
-        $itinerarios = $routeFinder->find($origen->id, $destino->id);
+public function index(Request $request, RouteFinder $routeFinder)
+{
+    $origenId = $request->input('origen_id');
+    $destinoId = $request->input('destino_id');
 
-        // Demand statistics contain no IP addresses or visitor identities.
-        $searchKey = $origen->id.':'.$destino->id;
-        $previous = $request->session()->get('last_route_search', []);
-        if (($previous['key'] ?? null) !== $searchKey || ($previous['at'] ?? 0) < now()->timestamp - 60) {
-            \Illuminate\Support\Facades\DB::table('route_searches')->insert([
-                'origin_id' => $origen->id, 'destination_id' => $destino->id,
-                'origin_name' => $origen->nombre, 'destination_name' => $destino->nombre,
-                'result_count' => $itinerarios->count(), 'created_at' => now(),
-            ]);
-            $request->session()->put('last_route_search', ['key' => $searchKey, 'at' => now()->timestamp]);
+    $origenNombre = trim((string) $request->input('origen', ''));
+    $destinoNombre = trim((string) $request->input('destino', ''));
+
+    $resolver = function ($nombre) {
+        if ($nombre === '') {
+            return null;
         }
 
-        return view('rutas.resultados', compact('origen', 'destino', 'itinerarios'));
+        return Municipios::whereRaw(
+            'LOWER(TRIM(nombre)) = ?',
+            [mb_strtolower(trim($nombre))]
+        )->first();
+    };
+
+    // Buscar por ID
+    $origen = $origenId
+        ? Municipios::find($origenId)
+        : null;
+
+    $destino = $destinoId
+        ? Municipios::find($destinoId)
+        : null;
+
+    // Si no hay ID, buscar por nombre
+    if (!$origen) {
+        $origen = $resolver($origenNombre);
     }
+
+    if (!$destino) {
+        $destino = $resolver($destinoNombre);
+    }
+
+    // Origen no encontrado
+    if (!$origen) {
+        return redirect()
+            ->to(route('home') . '#buscar-ruta')
+            ->withInput()
+            ->with('error', 'No pudimos identificar el municipio de origen.');
+    }
+
+    // Destino no encontrado
+    if (!$destino) {
+        return redirect()
+            ->to(route('home') . '#buscar-ruta')
+            ->withInput()
+            ->with('error', 'No pudimos identificar el municipio de destino.');
+    }
+
+    // Mismo municipio
+    if ($origen->id === $destino->id) {
+        return redirect()
+            ->to(route('home') . '#buscar-ruta')
+            ->withInput()
+            ->with('error', 'El origen y el destino deben ser diferentes.');
+    }
+
+    // Buscar rutas
+    $itinerarios = $routeFinder->find(
+        $origen->id,
+        $destino->id
+    );
+
+    return view(
+        'rutas.resultados',
+        compact('origen', 'destino', 'itinerarios')
+    );
+}
 }

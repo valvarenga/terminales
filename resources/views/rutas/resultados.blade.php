@@ -11,6 +11,17 @@
         <p>Opciones basadas en los servicios y horarios registrados.</p>
     </header>
     @if($itinerarios->isEmpty())
+        @section('toast')
+            <div class="toast toast-float fade show text-bg-warning border-0" id="sin-resultados-toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="7000" style="display: block;">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <strong>⚠️ Sin resultados</strong><br>
+                        No encontramos buses de {{ $origen->nombre }} a {{ $destino->nombre }}. Prueba otro trayecto o revisa más tarde.
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+                </div>
+            </div>
+        @endsection
         <div class="empty-state content-card"><h2>No hay rutas disponibles</h2><p class="mb-0">Aún no hay una combinación registrada para este trayecto.</p><a href="{{ route('home') }}#buscar-ruta" class="btn btn-primary mt-3">Probar otra búsqueda</a></div>
     @else
         <div class="row g-4 align-items-start">
@@ -34,6 +45,14 @@
         </div>
     @endif
 </section>
+@endsection
+@section('toast_scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toastEl = document.getElementById('sin-resultados-toast');
+            if (toastEl) new bootstrap.Toast(toastEl).show();
+        });
+    </script>
 @endsection
 @section('scripts')
 @if($itinerarios->isNotEmpty())

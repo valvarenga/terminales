@@ -17,6 +17,18 @@
         <div class="col-sm-6 col-lg-3"><div class="content-card p-3 h-100"><h2 class="h5">{{ $label }}</h2><div class="d-flex flex-wrap gap-2"><a class="btn btn-outline-primary btn-sm" href="{{ route($list) }}">Ver y editar</a><a class="btn btn-primary btn-sm" href="{{ route($create) }}">Registrar</a></div></div></div>
         @endforeach
     </div>
+    <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-lg-3">
+            <div class="content-card p-3 h-100">
+                <h2 class="h5">Horarios</h2>
+                <p class="text-muted mb-3">Horarios de salida y llegada de los buses.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-outline-primary btn-sm" href="{{ route('autobuses.list') }}">Ver y editar</a>
+                    <a class="btn btn-success btn-sm" href="{{ route('newbus') }}">Registrar horario</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <section class="content-card p-3 p-md-4 mb-4">
         <h2 class="h4">Información por completar</h2>
         <div class="d-flex flex-wrap gap-2 mb-3"><a class="btn btn-outline-primary" href="{{ route('admin.suggestions.index') }}">{{ $pendingSuggestions }} sugerencias pendientes</a><span class="badge bg-light text-dark border p-3">{{ $withoutFare }} servicios sin tarifa</span><span class="badge bg-light text-dark border p-3">{{ $incompleteServices }} servicios sin municipios vinculados</span></div>

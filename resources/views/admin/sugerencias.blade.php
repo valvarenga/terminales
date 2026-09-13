@@ -12,6 +12,8 @@
             @foreach(['pendiente' => 'Pendientes', 'aprobada' => 'Aprobadas', 'rechazada' => 'Rechazadas', 'todas' => 'Todas'] as $value => $label)<option value="{{ $value }}" @selected($estado === $value)>{{ $label }}</option>@endforeach
         </select></div><button class="btn btn-primary">Filtrar</button>
     </form>
+    @include('partials.search-filter', ['targetId' => 'lista-sugerencias', 'placeholder' => 'Buscar por nombre de terminal o ubicación...'])
+    <div id="lista-sugerencias">
     @forelse($sugerencias as $sugerencia)
         @php($restore = (string) old('sugerencia_id') === (string) $sugerencia->id)
         <article class="card mb-4" id="sugerencia-{{ $sugerencia->id }}"><div class="card-body">
@@ -42,6 +44,7 @@
     @empty
         <div class="alert alert-light border">No hay sugerencias en este estado.</div>
     @endforelse
+    </div>
     {{ $sugerencias->links() }}
 </div>
 @endsection

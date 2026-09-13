@@ -12,10 +12,11 @@
 
     <div class="card">
         <div class="card-body">
+            @include('partials.search-filter', ['targetId' => 'tabla-autobuses', 'placeholder' => 'Buscar por nombre, terminal, origen o destino...'])
             @if($autobuses->isEmpty())
                 <div class="alert alert-info mb-0">No hay autobuses registrados todavía.</div>
             @else
-                <div class="table-responsive">
+                <div class="table-responsive" id="tabla-autobuses">
                     <table class="table table-hover align-middle">
                         <thead>
                             <tr>

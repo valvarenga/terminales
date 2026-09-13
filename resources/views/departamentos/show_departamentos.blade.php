@@ -5,7 +5,8 @@
 @section('content')
 <div class="container py-4">
     @if(session('success')) <div class="alert alert-success">{{ session('success') }}</div> @endif
-    <table class="table table-bordered align-middle">
+    @include('partials.search-filter', ['targetId' => 'tabla-departamentos', 'placeholder' => 'Buscar departamento por nombre...'])
+    <table class="table table-bordered align-middle" id="tabla-departamentos">
         <thead><tr><th>Nombre</th><th>Imagen</th><th>Acciones</th></tr></thead>
         <tbody>
         @forelse($departamentos as $departamento)
@@ -19,6 +20,7 @@
         @endforelse
         </tbody>
     </table>
-    <a href="{{ route('ruta.index') }}" class="btn btn-outline-primary">Regresar</a>
+    <a href="{{ session('admin_role') ? route('admin.dashboard') : route('admin.login') }}" class="btn btn-warning btn-sm px-3">Home</a>
+
 </div>
 @endsection
