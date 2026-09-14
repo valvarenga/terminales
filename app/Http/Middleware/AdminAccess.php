@@ -18,7 +18,7 @@ class AdminAccess
                     $request->session()->regenerateToken();
                     return redirect()->route('admin.login')->with('error', 'Tu acceso cambió. Inicia sesión nuevamente.');
                 }
-                session(['admin_role' => $user->role, 'admin_actor' => $user->email]);
+                session(['admin_role' => $user->role, 'admin_actor' => $user->email, 'admin_name' => $user->name]);
             }
             if ($request->isMethod('DELETE') && session('admin_role', 'admin') !== 'admin') {
                 abort(403, 'Solo un administrador puede eliminar registros.');

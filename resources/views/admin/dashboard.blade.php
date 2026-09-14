@@ -4,7 +4,6 @@
 <section class="container py-4">
     <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
         <div><p class="eyebrow">Administración</p><h1 class="h2">Un vistazo a Terminales</h1><p class="text-muted mb-0">Gestiona la información y descubre qué viajes buscan los pasajeros.</p></div>
-        <form method="POST" action="{{ route('admin.logout') }}">@csrf<button class="btn btn-outline-secondary">Cerrar sesión</button></form>
     </div>
     @include('admin.partials.navigation')
     <div class="row g-3 mb-4">

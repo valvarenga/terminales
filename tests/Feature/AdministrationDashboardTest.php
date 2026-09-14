@@ -13,6 +13,26 @@ class AdministrationDashboardTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_private_pages_show_profile_and_logout_while_public_pages_do_not(): void
+    {
+        $session = [
+            'admin_authenticated' => true,
+            'admin_name' => 'Ana Administradora',
+            'admin_actor' => 'ana@example.test',
+            'admin_role' => 'admin',
+        ];
+
+        $this->withSession($session)->get('/admin')
+            ->assertOk()
+            ->assertSee('Ana Administradora')
+            ->assertSee('ana@example.test')
+            ->assertSee('Administrador')
+            ->assertSee('Cerrar sesión');
+        $this->get('/')->assertOk()->assertDontSee('Ana Administradora')->assertDontSee('Cerrar sesión');
+        $this->post('/admin/logout')->assertRedirect(route('home'));
+        $this->assertFalse((bool) session('admin_authenticated'));
+    }
+
     public function test_dashboard_counts_only_searches_inside_selected_period(): void
     {
         DB::table('route_searches')->insert([

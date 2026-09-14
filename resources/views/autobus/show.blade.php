@@ -38,6 +38,7 @@
                         <p class="mb-1"><strong>Salida:</strong> {{ $autobus->hora_salida }}</p>
                         <p class="mb-1"><strong>Llegada:</strong> {{ $autobus->hora_llegada }}</p>
                         <p class="mb-1"><strong>Tarifa por pasajero:</strong> {{ $autobus->tarifa !== null ? 'C$ '.number_format((float) $autobus->tarifa, 2) : 'Tarifa por confirmar' }}</p>
+                        @if($autobus->paradas->isNotEmpty())<ol class="mt-3 mb-2">@foreach($autobus->paradas as $parada)<li><strong>{{ $parada->municipio->nombre }}</strong> · {{ substr($parada->hora_paso, 0, 5) }} · {{ $parada->tarifa_acumulada !== null ? 'C$ '.number_format((float)$parada->tarifa_acumulada, 2).' acumulado' : 'Tarifa por confirmar' }}</li>@endforeach</ol>@endif
                         <p class="mb-1"><strong>Placa:</strong> {{ $autobus->placa ?: '—' }}</p>
                         <p class="mb-0"><strong>Categoría:</strong> {{ $autobus->categoria }}</p>
                     </div>

@@ -31,4 +31,9 @@ class Municipios extends Model
     {
         return $this->hasMany(Autobuses::class, 'municipio_destino_id');
     }
+
+    public function paradasDeAutobus()
+    {
+        return $this->hasMany(AutobusParada::class, 'municipio_id');
+    }
 }

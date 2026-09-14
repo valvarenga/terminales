@@ -77,7 +77,7 @@ class Municipio extends Controller
 
         DB::transaction(function () use ($request, $municipio, $data) {
             if ((int) $municipio->departamento_id !== (int) $data['departamento_id'] &&
-                ($municipio->terminales()->exists() || $municipio->autobusesOrigen()->exists() || $municipio->autobusesDestino()->exists())) {
+                ($municipio->terminales()->exists() || $municipio->autobusesOrigen()->exists() || $municipio->autobusesDestino()->exists() || $municipio->paradasDeAutobus()->exists())) {
                 throw ValidationException::withMessages(['departamento_id' => 'No se puede trasladar un municipio con terminales o servicios asociados. Reasigne primero sus relaciones.']);
             }
             $nombreCambio = $municipio->nombre !== $data['nombre'];
@@ -110,8 +110,8 @@ class Municipio extends Controller
 
     public function destroy(Municipios $municipio)
     {
-        if ($municipio->terminales()->exists()) {
-            return back()->withErrors(['municipio' => 'No se puede eliminar un municipio que todavía tiene terminales.']);
+        if ($municipio->terminales()->exists() || $municipio->paradasDeAutobus()->exists()) {
+            return back()->withErrors(['municipio' => 'No se puede eliminar un municipio que todavía tiene terminales o forma parte de un recorrido.']);
         }
 
         $municipio->delete();

@@ -34,5 +34,10 @@ class Autobuses extends Model
         return $this->belongsTo(Municipios::class, 'municipio_destino_id');
     }
 
+    public function paradas()
+    {
+        return $this->hasMany(AutobusParada::class, 'autobus_id')->orderBy('posicion');
+    }
+
     
 }

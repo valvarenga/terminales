@@ -40,6 +40,7 @@ class AdminAuthController extends Controller
                 'admin_session_version' => $user->session_version,
                 'admin_role' => $user->role,
                 'admin_actor' => $user->email,
+                'admin_name' => $user->name,
             ]);
 
             return redirect($this->safeRedirect($request->input('redirect')));
@@ -58,6 +59,7 @@ class AdminAuthController extends Controller
             $request->session()->put('admin_authenticated', true);
             $request->session()->put('admin_role', 'admin');
             $request->session()->put('admin_actor', $expectedUsername);
+            $request->session()->put('admin_name', $expectedUsername);
             $request->session()->regenerate();
 
             return redirect($this->safeRedirect($request->input('redirect')));

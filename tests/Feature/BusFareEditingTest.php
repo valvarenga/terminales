@@ -19,13 +19,23 @@ class BusFareEditingTest extends TestCase
             DB::table('municipios')->insert(['id' => $id, 'nombre' => 'Municipio '.$id, 'slug' => 'm-'.$id, 'departamento_id' => 1]);
         }
         foreach ([1, 2] as $id) {
-            DB::table('terminales')->insert(['id' => $id, 'nombre' => 'Terminal '.$id, 'slug' => 't-'.$id, 'departamento_id' => 1, 'municipio_id' => 1, 'hora_apertura' => '05:00', 'hora_cierre' => '20:00', 'url_T' => '']);
+            DB::table('terminales')->insert(['id' => $id, 'nombre' => 'Terminal '.$id, 'slug' => 't-'.$id, 'departamento_id' => 1, 'municipio_id' => $id, 'hora_apertura' => '05:00', 'hora_cierre' => '20:00', 'url_T' => '']);
         }
     }
 
     private function data(): array
     {
         return ['nombre' => 'Servicio Nuevo', 'placa' => 'ABC123', 'municipio_origen_id' => 1, 'municipio_destino_id' => 2, 'hora_salida' => '06:00', 'hora_llegada' => '08:00', 'terminal' => 1, 'categoria' => 'Expreso', 'tarifa' => '25.50'];
+    }
+
+    public function test_bus_form_exposes_departments_for_origin_filtering(): void
+    {
+        $this->withSession(['admin_authenticated' => true])
+            ->get(route('newbus'))
+            ->assertOk()
+            ->assertSee('data-municipio="1" data-departamento="1"', false)
+            ->assertSee('data-departamento="1" data-lat=', false)
+            ->assertSee('/js/bus-stops.js', false);
     }
 
     public function test_create_and_full_edit_preserve_url_and_save_terminal_and_fare(): void
@@ -72,7 +82,7 @@ class BusFareEditingTest extends TestCase
             throw new \RuntimeException('Audit unavailable');
         });
         try {
-            $this->put(route('autobus.update', $bus), array_replace($this->data(), ['nombre' => 'No guardar', 'terminal' => 2]))->assertStatus(500);
+            $this->put(route('autobus.update', $bus), array_replace($this->data(), ['nombre' => 'No guardar']))->assertStatus(500);
             $this->assertSame('Servicio Nuevo', $bus->refresh()->nombre);
             $this->assertSame([1], $bus->terminales()->pluck('terminales.id')->all());
         } finally {
@@ -83,13 +93,13 @@ class BusFareEditingTest extends TestCase
     public function test_public_itinerary_total_requires_all_fares_and_accepts_free_legs(): void
     {
         $this->withSession(['admin_authenticated' => true])->post(route('autobus'), $this->data())->assertSessionHasNoErrors();
-        $this->post(route('autobus'), array_replace($this->data(), ['municipio_origen_id' => 2, 'municipio_destino_id' => 3, 'hora_salida' => '09:00', 'hora_llegada' => '11:00', 'tarifa' => '10.25']))->assertSessionHasNoErrors();
+        $this->post(route('autobus'), array_replace($this->data(), ['municipio_origen_id' => 2, 'municipio_destino_id' => 3, 'hora_salida' => '09:00', 'hora_llegada' => '11:00', 'tarifa' => '10.25', 'terminal' => 2]))->assertSessionHasNoErrors();
         $this->assertSame('35.75', app(RouteFinder::class)->find(1, 3)->first()['tarifa_total']);
         $this->get(route('buscar.index', ['origen_id' => 1, 'destino_id' => 3]))->assertOk()->assertSee('C$ 35.75');
-        Autobuses::orderByDesc('id')->first()->update(['tarifa' => null]);
+        Autobuses::orderByDesc('id')->first()->paradas()->reorder('posicion', 'desc')->first()->update(['tarifa_acumulada' => null]);
         $this->assertNull(app(RouteFinder::class)->find(1, 3)->first()['tarifa_total']);
         $this->get(route('buscar.index', ['origen_id' => 1, 'destino_id' => 3]))->assertOk()->assertSee('Por confirmar (faltan tarifas)');
-        Autobuses::orderByDesc('id')->first()->update(['tarifa' => 0]);
+        Autobuses::orderByDesc('id')->first()->paradas()->reorder('posicion', 'desc')->first()->update(['tarifa_acumulada' => 0]);
         $this->assertSame('25.50', app(RouteFinder::class)->find(1, 3)->first()['tarifa_total']);
     }
 }

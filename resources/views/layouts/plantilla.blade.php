@@ -32,6 +32,14 @@
         </div>
     </nav>
 
+    @php
+        $currentRoute = request()->route();
+        $isAdminArea = $currentRoute && in_array('admin', $currentRoute->gatherMiddleware(), true);
+    @endphp
+    @if($isAdminArea && session('admin_authenticated'))
+        @include('admin.partials.session-bar')
+    @endif
+
     <main>
         @if(session('error'))<div class="container pt-4"><div class="alert alert-danger" role="alert">{{ session('error') }}</div></div>@endif
         @if(session('success'))<div class="container pt-4"><div class="alert alert-success border-0 shadow-sm">{{ session('success') }}</div></div>@endif
