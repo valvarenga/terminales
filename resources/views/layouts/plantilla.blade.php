@@ -32,35 +32,51 @@
         </div>
     </nav>
 
-    @php
-        $currentRoute = request()->route();
-        $isAdminArea = $currentRoute && in_array('admin', $currentRoute->gatherMiddleware(), true);
-    @endphp
-    @if($isAdminArea && session('admin_authenticated'))
-        @include('admin.partials.session-bar')
-    @endif
+        <main>
 
-    <main>
-        @if(session('error'))<div class="container pt-4"><div class="alert alert-danger" role="alert">{{ session('error') }}</div></div>@endif
-        @if(session('success'))<div class="container pt-4"><div class="alert alert-success border-0 shadow-sm">{{ session('success') }}</div></div>@endif
-        @yield('content')
-    </main>
+            @yield('toast')
+            @if(session('success'))<div class="container pt-4"><div class="alert alert-success border-0 shadow-sm">{{ session('success') }}</div></div>@endif
+            @yield('content')
+        </main>
 
-    <footer class="site-footer mt-5">
-        <div class="container d-flex flex-column flex-md-row justify-content-between gap-3 py-4">
-            <div><strong>Terminales Nicaragua</strong><p class="mb-0">Tu guía para planificar cada viaje.</p></div>
-            <div class="footer-links"><a href="{{ route('departamentos.listar') }}">Explorar destinos</a><a href="{{ route('contacto') }}">Contacto</a></div>
-        </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    @hasSection('jquery')
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    @endif
-    @hasSection('datatables')
-        <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-        <script>$(function () { $('#buses').DataTable({language:{url:'//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'}}); });</script>
-    @endif
-    @yield('scripts')
-</body>
-</html>
+        <footer class="site-footer mt-5">
+            <div class="container d-flex flex-column flex-md-row justify-content-between gap-3 py-4">
+                <div><strong>Terminales Nicaragua</strong><p class="mb-0">Tu guía para planificar cada viaje.</p></div>
+                <div class="footer-links"><a href="{{ route('departamentos.listar') }}">Explorar destinos</a><a href="{{ route('contacto') }}">Contacto</a></div>
+            </div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <style>
+            .toast-float { position: fixed; top: 80px; right: 20px; z-index: 1090; min-width: 320px; max-width: 380px; }
+        </style>
+        @yield('toast_scripts')
+        @hasSection('jquery')
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        @endif
+        @hasSection('datatables')
+            <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+            <script>$(function () { $('#buses').DataTable({language:{url:'//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'}}); });</script>
+        @endif
+        <script>
+            // Filtro de búsqueda en vivo para tablas/listas.
+            document.addEventListener('input', function (e) {
+                if (!e.target.matches('.search-filter input[type="search"]')) return;
+                const filterBox = e.target.closest('.search-filter');
+                const container = document.getElementById(filterBox.dataset.filterTarget);
+                if (!container) return;
+                const term = e.target.value.trim().toLowerCase();
+                const rows = container.querySelectorAll('tbody tr, li');
+                let visibles = 0;
+                rows.forEach(function (row) {
+                    const match = row.textContent.toLowerCase().includes(term);
+                    row.style.display = match ? '' : 'none';
+                    if (match) visibles++;
+                });
+                const aviso = filterBox.querySelector('.filtro-sin-resultados');
+                if (aviso) aviso.classList.toggle('d-none', visibles > 0);
+            });
+        </script>
+        @yield('scripts')
+    </body>
+    </html>

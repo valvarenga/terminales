@@ -2,12 +2,80 @@
 @section('title', 'Horarios de buses')
 @section('content')
 <section class="hero"><div class="container"><div class="row align-items-center g-5">
-    <div class="col-lg-7"><p class="eyebrow">Viaja con claridad</p><h1 class="hero-title">Tu ruta comienza aquí.</h1><p class="hero-copy mt-4">Encuentra los buses y transbordos necesarios para viajar entre municipios de Nicaragua.</p>
-        <form id="buscar-ruta" method="GET" action="{{ route('buscar.index') }}" data-municipios-url="{{ route('municipios.search') }}" class="search-card mt-4"><div class="row g-3">
-            <div class="col-md-6"><label for="origen" class="fw-bold mb-2">Origen</label><input type="text" class="form-control" placeholder="Selecciona un municipio" id="origen" autocomplete="off" value="{{ old('origen') }}"><input type="hidden" id="origen_id" name="origen_id" value="{{ old('origen_id') }}">@error('origen_id')<small class="text-danger d-block mt-1">{{ $message }}</small>@enderror</div>
-            <div class="col-md-6"><label for="destino" class="fw-bold mb-2">Destino</label><input type="text" class="form-control" placeholder="Selecciona un municipio" id="destino" autocomplete="off" value="{{ old('destino') }}"><input type="hidden" id="destino_id" name="destino_id" value="{{ old('destino_id') }}">@error('destino_id')<small class="text-danger d-block mt-1">{{ $message }}</small>@enderror</div>
-            <div class="col-12"><button type="submit" class="btn btn-warning px-4">Buscar rutas</button></div>
-        </div></form>
+    <div class="col-lg-7"><p class="eyebrow">Viaja con claridad</p>
+    <h1 class="hero-title">Tu ruta comienza aquí.</h1>
+    <p class="hero-copy mt-4">Encuentra los buses y transbordos necesarios para viajar entre municipios de Nicaragua.</p>
+        <form id="buscar-ruta"
+      method="GET"
+      action="{{ route('buscar.index') }}"
+      data-municipios-url="{{ route('municipios.search') }}"
+      class="search-card mt-4">
+
+    <div class="row g-3">
+
+        {{-- ORIGEN --}}
+        <div class="col-md-6">
+            <label for="origen" class="fw-bold mb-2">
+                Origen
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                placeholder="Selecciona un municipio"
+                id="origen"
+                name="origen"
+                autocomplete="off"
+                value="{{ old('origen') }}"
+            >
+
+            <input
+                type="hidden"
+                id="origen_id"
+                name="origen_id"
+                value="{{ old('origen_id') }}"
+            >
+        </div>
+
+
+        {{-- DESTINO --}}
+        <div class="col-md-6">
+            <label for="destino" class="fw-bold mb-2">
+                Destino
+            </label>
+<input
+    type="text"
+    class="form-control"
+    placeholder="Selecciona un municipio"
+    id="destino"
+    name="destino"
+    autocomplete="off"
+    value="{{ old('destino') }}"
+>
+
+
+            <input
+                type="hidden"
+                id="destino_id"
+                name="destino_id"
+                value="{{ old('destino_id') }}"
+            >
+        </div>
+
+
+        {{-- BOTÓN --}}
+        <div class="col-12">
+            <button
+                type="submit"
+                class="btn btn-warning px-4">
+                Buscar rutas
+            </button>
+        </div>
+
+    </div>
+</form>
+  @if(session('error'))<div class="container pt-4">
+    <div class="alert alert-danger" role="alert">{{ session('error') }}</div></div>@endif
     </div>
     <div class="col-lg-5"><div class="content-card overflow-hidden"><video class="w-100 d-block" controls preload="none" poster="{{ asset('images/inicio.png') }}" playsinline aria-label="Video de Terminales Nicaragua"><source src="{{ asset('images/video.mp4') }}" type="video/mp4"></video></div></div>
 </div></div></section>

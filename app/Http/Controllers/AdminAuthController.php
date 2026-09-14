@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditLog;
 use App\Models\SugerenciaTerminal;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -42,6 +43,7 @@ class AdminAuthController extends Controller
                 'admin_actor' => $user->email,
                 'admin_name' => $user->name,
             ]);
+            $this->logSession($request, 'inicio_sesion', $user->email, ['entity' => 'users', 'entity_id' => $user->id]);
 
             return redirect($this->safeRedirect($request->input('redirect')));
         }
@@ -61,9 +63,12 @@ class AdminAuthController extends Controller
             $request->session()->put('admin_actor', $expectedUsername);
             $request->session()->put('admin_name', $expectedUsername);
             $request->session()->regenerate();
+            $this->logSession($request, 'inicio_sesion', $expectedUsername, ['entity' => 'admin_config']);
 
             return redirect($this->safeRedirect($request->input('redirect')));
         }
+
+        $this->logSession($request, 'inicio_sesion_fallido', $data['username']);
 
         return back()->withErrors([
             'username' => 'Usuario o contraseña inválidos.',
@@ -72,6 +77,7 @@ class AdminAuthController extends Controller
 
     public function logout(Request $request)
     {
+        $this->logSession($request, 'cierre_sesion', $request->session()->get('admin_actor', 'Administrador'));
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
@@ -97,6 +103,23 @@ class AdminAuthController extends Controller
         abort_unless(is_file($legacyPath), 404);
 
         return response()->file($legacyPath, ['Cache-Control' => 'private, no-store']);
+    }
+
+    /**
+     * Registra eventos de sesión en la tabla audit_logs (sin credenciales).
+     */
+    private function logSession(Request $request, string $action, string $actor, array $extra = []): void
+    {
+        AuditLog::create([
+            'actor' => mb_substr($actor, 0, 255),
+            'entity' => $extra['entity'] ?? 'sesion_admin',
+            'entity_id' => $extra['entity_id'] ?? null,
+            'label' => $action === 'inicio_sesion_fallido' ? 'Intento fallido de acceso' : 'Sesión administrativa',
+            'action' => $action,
+            'before' => null,
+            'after' => null,
+            'created_at' => now(),
+        ]);
     }
 
     private function safeRedirect(?string $redirect): string
