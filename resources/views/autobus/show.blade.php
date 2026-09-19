@@ -10,6 +10,7 @@
                     <p class="text-muted mb-0">Detalle completo del servicio registrado.</p>
                 </div>
                 <div class="d-flex gap-2">
+                    <a href="{{ route('autobus.duplicate', $autobus) }}" class="btn btn-success">Registrar otra salida</a>
                     <a href="{{ route('autobus.edit', $autobus) }}" class="btn btn-primary">Editar</a>
                     @if(session('admin_role', 'admin') === 'admin')
                     <form action="{{ route('autobus.destroy', $autobus) }}" method="POST" onsubmit="return confirm('Eliminar este autobus?')">

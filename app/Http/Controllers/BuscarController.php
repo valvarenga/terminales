@@ -46,6 +46,12 @@ public function index(Request $request, RouteFinder $routeFinder)
         $destino = $resolver($destinoNombre);
     }
 
+    $request->merge(['origen_id' => $origen?->id, 'destino_id' => $destino?->id]);
+    $request->validate([
+        'origen_id' => ['required', 'integer', 'different:destino_id', 'exists:municipios,id'],
+        'destino_id' => ['required', 'integer', 'exists:municipios,id'],
+    ]);
+
     // Origen no encontrado
     if (!$origen) {
         return redirect()
@@ -75,6 +81,17 @@ public function index(Request $request, RouteFinder $routeFinder)
         $origen->id,
         $destino->id
     );
+
+    $searchKey = $origen->id.':'.$destino->id;
+    $previous = $request->session()->get('last_route_search', []);
+    if (($previous['key'] ?? null) !== $searchKey || ($previous['at'] ?? 0) < now()->timestamp - 60) {
+        \Illuminate\Support\Facades\DB::table('route_searches')->insert([
+            'origin_id' => $origen->id, 'destination_id' => $destino->id,
+            'origin_name' => $origen->nombre, 'destination_name' => $destino->nombre,
+            'result_count' => $itinerarios->count(), 'created_at' => now(),
+        ]);
+        $request->session()->put('last_route_search', ['key' => $searchKey, 'at' => now()->timestamp]);
+    }
 
     return view(
         'rutas.resultados',

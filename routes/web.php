@@ -62,6 +62,7 @@ Route::middleware(['admin', 'admin.transaction'])->group(function () {
     Route::get('newautobus', [AutobusController::class, 'index'])->name('newbus');
     Route::get('autobuses', [AutobusController::class, 'list'])->name('autobuses.list');
     Route::post('autobus', [AutobusController::class, 'store'])->name('autobus');
+    Route::get('autobus/{autobus}/nueva-salida', [AutobusController::class, 'duplicate'])->name('autobus.duplicate');
     Route::get('autobus/{autobus}', [AutobusController::class, 'show'])->name('autobus.show');
     Route::get('autobus/{autobus}/edit', [AutobusController::class, 'edit'])->name('autobus.edit');
     Route::put('autobus/{autobus}', [AutobusController::class, 'update'])->name('autobus.update');

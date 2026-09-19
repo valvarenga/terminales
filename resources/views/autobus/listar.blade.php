@@ -43,6 +43,7 @@
                                     <td>
                                         <a href="{{ route('autobus.show', $autobus) }}" class="btn btn-outline-info btn-sm">Ver</a>
                                         <a href="{{ route('autobus.edit', $autobus) }}" class="btn btn-outline-primary btn-sm">Editar</a>
+                                        <a href="{{ route('autobus.duplicate', $autobus) }}" class="btn btn-outline-success btn-sm">Otra salida</a>
                                     </td>
                                 </tr>
                             @endforeach

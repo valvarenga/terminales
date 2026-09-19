@@ -74,6 +74,39 @@ class BusFareEditingTest extends TestCase
         $this->assertDatabaseCount('autobuses', 0);
     }
 
+    public function test_an_existing_service_can_be_reused_to_register_another_departure(): void
+    {
+        $this->withSession(['admin_authenticated' => true])->post(route('autobus'), $this->data())->assertSessionHasNoErrors();
+        $bus = Autobuses::firstOrFail();
+
+        $this->get(route('autobus.duplicate', $bus))
+            ->assertOk()
+            ->assertSee('Registrar otra salida')
+            ->assertSee('Recorrido reutilizado.')
+            ->assertSee('value="ABC123"', false)
+            ->assertSee('value="06:00"', false)
+            ->assertSee('value="25.50"', false);
+
+        $anotherDeparture = array_replace($this->data(), [
+            'hora_salida' => '14:00',
+            'hora_llegada' => '16:00',
+        ]);
+        $this->post(route('autobus'), $anotherDeparture)->assertSessionHasNoErrors();
+
+        $this->assertDatabaseCount('autobuses', 2);
+        $this->assertSame(2, Autobuses::where('placa', 'ABC123')->count());
+    }
+
+    public function test_the_same_bus_departure_cannot_be_registered_twice(): void
+    {
+        $this->withSession(['admin_authenticated' => true])->post(route('autobus'), $this->data())->assertSessionHasNoErrors();
+
+        $this->post(route('autobus'), $this->data())
+            ->assertSessionHasErrors('paradas.0.hora_paso');
+
+        $this->assertDatabaseCount('autobuses', 1);
+    }
+
     public function test_failed_audit_rolls_back_service_and_terminal_changes(): void
     {
         $this->withSession(['admin_authenticated' => true])->post(route('autobus'), $this->data())->assertSessionHasNoErrors();

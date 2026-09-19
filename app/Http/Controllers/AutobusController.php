@@ -16,6 +16,7 @@ class AutobusController extends Controller
     public function store(Request $request)
     {
         $data = $this->validatedData($request);
+        $this->ensureDepartureIsNotDuplicated($data);
         DB::transaction(function () use ($data) {
             $autobus = new Autobuses();
             $autobus->slug = substr(Str::slug($data['nombre'].'-'.($data['placa'] ?? '')), 0, 240).'-'.Str::lower(Str::random(8));
@@ -27,6 +28,8 @@ class AutobusController extends Controller
     public function index()
     {
         return view('autobus.index', [
+            'autobus' => null,
+            'copyingService' => false,
             'terminales' => Terminales::with('municipios')->orderBy('nombre')->get(),
             'municipios' => Municipios::orderBy('nombre')->get(),
             'autobusesPendientes' => Autobuses::query()
@@ -34,6 +37,17 @@ class AutobusController extends Controller
                 ->orWhereNull('municipio_destino_id')
                 ->orderBy('nombre')
                 ->get(),
+        ]);
+    }
+
+    public function duplicate(Autobuses $autobus)
+    {
+        return view('autobus.index', [
+            'autobus' => $autobus->load(['terminales', 'paradas.municipio']),
+            'copyingService' => true,
+            'terminales' => Terminales::with('municipios')->orderBy('nombre')->get(),
+            'municipios' => Municipios::orderBy('nombre')->get(),
+            'autobusesPendientes' => collect(),
         ]);
     }
 
@@ -156,6 +170,27 @@ class AutobusController extends Controller
         $newStops = $autobus->paradas()->get()->map(fn ($stop) => $stop->only(['municipio_id', 'posicion', 'hora_paso', 'tarifa_acumulada']))->all();
         if ($oldStops !== $newStops) {
             AuditLogger::record($autobus, 'recorrido_actualizado', ['paradas' => $oldStops], ['paradas' => $newStops]);
+        }
+    }
+
+    private function ensureDepartureIsNotDuplicated(array $data): void
+    {
+        $query = Autobuses::query()
+            ->where('municipio_origen_id', $data['municipio_origen_id'])
+            ->where('municipio_destino_id', $data['municipio_destino_id'])
+            ->where('hora_salida', $data['hora_salida'])
+            ->whereHas('terminales', fn ($terminal) => $terminal->whereKey($data['terminal']));
+
+        if (! empty($data['placa'])) {
+            $query->where('placa', $data['placa']);
+        } else {
+            $query->where('nombre', $data['nombre'])->whereNull('placa');
+        }
+
+        if ($query->exists()) {
+            throw ValidationException::withMessages([
+                'paradas.0.hora_paso' => 'Esta salida ya está registrada para el mismo bus, terminal y recorrido.',
+            ]);
         }
     }
 

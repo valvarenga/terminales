@@ -32,6 +32,14 @@
         </div>
     </nav>
 
+    @php
+        $currentRoute = request()->route();
+        $isAdminArea = $currentRoute && in_array('admin', $currentRoute->gatherMiddleware(), true);
+    @endphp
+    @if($isAdminArea && session('admin_authenticated'))
+        @include('admin.partials.session-bar')
+    @endif
+
         <main>
 
             @yield('toast')
