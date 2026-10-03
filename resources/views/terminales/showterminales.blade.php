@@ -12,7 +12,7 @@
 
     <div>
         <h1 class="fw-bold mb-1">
-            <i class="bi bi-bus-front-fill text-warning me-2"></i>
+            <i class="bi bi-bus-front-fill text-warning me-2" aria-hidden="true"></i>
             Terminales
         </h1>
 
@@ -23,8 +23,8 @@
 
     <a href="{{ session('admin_role') ? route('admin.dashboard') : route('admin.login') }}"
        class="btn btn-warning px-4 shadow-sm">
-        <i class="bi bi-house-door-fill me-1"></i>
-        Home
+        <i class="bi bi-house-door-fill me-1" aria-hidden="true"></i>
+        Volver al panel
     </a>
 
 </div>
@@ -37,7 +37,7 @@
         <div class="d-flex align-items-center gap-3 mb-3">
 
             <div class="search-icon">
-                <i class="bi bi-search"></i>
+                <i class="bi bi-search" aria-hidden="true"></i>
             </div>
 
             <div>
@@ -78,7 +78,7 @@
 
                         {{-- Icono --}}
                         <div class="terminal-icon">
-                            <i class="bi bi-bus-front-fill"></i>
+                            <i class="bi bi-bus-front-fill" aria-hidden="true"></i>
                         </div>
 
                         {{-- Información --}}
@@ -90,14 +90,14 @@
 
                             <span>
                                 Ver información
-                                <i class="bi bi-arrow-right"></i>
+                                <i class="bi bi-arrow-right" aria-hidden="true"></i>
                             </span>
 
                         </div>
 
                         {{-- Flecha --}}
                         <div class="terminal-arrow">
-                            <i class="bi bi-chevron-right"></i>
+                            <i class="bi bi-chevron-right" aria-hidden="true"></i>
                         </div>
 
                     </div>
@@ -113,7 +113,7 @@
                 <div class="empty-state text-center py-5">
 
                     <div class="empty-icon mb-3">
-                        <i class="bi bi-bus-front"></i>
+                        <i class="bi bi-bus-front" aria-hidden="true"></i>
                     </div>
 
                     <h4 class="fw-bold">
@@ -144,8 +144,8 @@
         width: 45px;
         height: 45px;
         border-radius: 12px;
-        background: rgba(255, 193, 7, .15);
-        color: #b8860b;
+        background: rgba(168, 196, 236, .35);
+        color: #06457F;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -169,7 +169,7 @@
     .terminal-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 12px 28px rgba(0, 0, 0, .13);
-        border-color: rgba(255, 193, 7, .4);
+        border-color: rgba(4, 116, 196, .4);
     }
 
 
@@ -189,8 +189,8 @@
         height: 55px;
         min-width: 55px;
         border-radius: 15px;
-        background: rgba(255, 193, 7, .14);
-        color: #b8860b;
+        background: rgba(168, 196, 236, .35);
+        color: #0474C4;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -200,8 +200,8 @@
 
 
     .terminal-card:hover .terminal-icon {
-        background: #ffc107;
-        color: #212529;
+        background: #0474C4;
+        color: #ffffff;
         transform: scale(1.05);
     }
 
@@ -223,7 +223,7 @@
 
 
     .terminal-info span {
-        color: #b8860b;
+        color: #0474C4;
         font-size: .9rem;
         font-weight: 600;
     }
@@ -254,8 +254,8 @@
 
 
     .terminal-card:hover .terminal-arrow {
-        background: #ffc107;
-        color: #212529;
+        background: #0474C4;
+        color: #ffffff;
     }
 
 

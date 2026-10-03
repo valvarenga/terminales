@@ -126,7 +126,7 @@ class Municipio extends Controller
         return Municipios::where('nombre', 'like', '%' . $term . '%')
             ->orderBy('nombre')
             ->limit(10)
-            ->get()
+            ->get(['id', 'nombre'])
             ->map(fn (Municipios $municipio) => ['id' => $municipio->id, 'value' => $municipio->nombre]);
     }
 }

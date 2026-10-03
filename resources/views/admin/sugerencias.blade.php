@@ -5,7 +5,7 @@
     <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary mb-3">Volver al panel</a>
     <h1 class="h3">Revisar sugerencias de terminales</h1>
     <p class="text-muted">Vincula las aprobadas a una terminal existente. Publicar una foto requiere confirmación expresa.</p>
-    @include('admin.partials.navigation')
+
     @if($errors->any())<div class="alert alert-danger" role="alert"><ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
     <form method="GET" class="d-flex gap-2 align-items-end mb-4">
         <div><label for="estado" class="form-label">Estado</label><select id="estado" name="estado" class="form-select">

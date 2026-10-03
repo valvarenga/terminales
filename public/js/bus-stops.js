@@ -73,19 +73,7 @@
             origin.options[0].textContent = departmentId ? 'Seleccione municipio de origen' : 'Seleccione primero una terminal';
             if (origin.selectedOptions[0]?.disabled) {
                 origin.value = '';
-                syncLegacyFields();
             }
-        }
-
-        function syncLegacyFields() {
-            const rows = Array.from(list.querySelectorAll('[data-stop-row]'));
-            const first = rows[0], last = rows[rows.length - 1];
-            if (!first || !last) return;
-            document.getElementById('legacy-origin').value = first.querySelector('.stop-municipality').value;
-            document.getElementById('legacy-destination').value = last.querySelector('.stop-municipality').value;
-            document.getElementById('legacy-departure').value = first.querySelector('.stop-time').value;
-            document.getElementById('legacy-arrival').value = last.querySelector('.stop-time').value;
-            document.getElementById('legacy-fare').value = last.querySelector('.stop-fare').value;
         }
 
         addButton.addEventListener('click', function () { list.appendChild(template.content.cloneNode(true)); reindex(); });
@@ -96,10 +84,8 @@
             if (event.target.closest('.remove-stop') && list.children.length > Number(list.dataset.minStops)) row.remove();
             reindex();
         });
-        list.addEventListener('change', function () { syncLegacyFields(); filterOriginMunicipalities(); refreshMap(); });
+        list.addEventListener('change', function () { filterOriginMunicipalities(); refreshMap(); });
         document.getElementById('terminal')?.addEventListener('change', function () { filterOriginMunicipalities(); refreshMap(); });
-        list.closest('form').addEventListener('submit', syncLegacyFields);
         reindex();
-        syncLegacyFields();
     });
 }());

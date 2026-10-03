@@ -13,7 +13,7 @@
         <div>
             <a href="{{ session('admin_role') ? route('admin.dashboard') : route('admin.login') }}"
                class="eyebrow text-decoration-none">
-                ← Home
+                ← Volver al panel
             </a>
 
             <h1 class="mt-2 mb-1">
@@ -63,7 +63,7 @@
                         @else
 
                             <div class="municipio-sin-imagen">
-                                <i class="bi bi-geo-alt-fill"></i>
+                                <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
                             </div>
 
                         @endif

@@ -1,64 +1,35 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Terminales Nicaragua
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicación Laravel para consultar terminales, horarios y rutas entre municipios de Nicaragua. El área administrativa gestiona catálogos, recorridos, tarifas, sugerencias, usuarios e historial.
 
-## About Laravel
+## Desarrollo
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP 8.2 o superior y las dependencias de `composer.lock`.
+- Copiar `.env.example` a `.env` al preparar un entorno nuevo y configurar la base de datos.
+- Instalar dependencias con `composer install`, generar la clave con `php artisan key:generate` y aplicar migraciones con `php artisan migrate`.
+- Los archivos CSS y JavaScript se sirven directamente desde `public/css` y `public/js`; no se necesita una compilación de npm, Mix ni Tailwind.
+- Bootstrap, Bootstrap Icons, Leaflet y DataTables se cargan desde sus CDN en las vistas que los requieren. jQuery se carga únicamente junto con DataTables.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Validación
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```sh
+php artisan test
+node --test tests/Frontend/*.test.cjs
+php artisan view:cache
+php artisan view:clear
+```
 
-## Learning Laravel
+Las pruebas JavaScript usan el ejecutor integrado de Node y no requieren paquetes npm. Comprueban los filtros de tablas y tarjetas y las respuestas fuera de orden del selector de municipios.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Código principal
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- `routes/web.php`: rutas públicas y administrativas; las páginas estáticas usan `Route::view`.
+- `app/Services/RouteFinder.php`: rutas directas y conexiones compatibles con los horarios y paradas.
+- `app/Http/Controllers/AutobusController.php`: formularios compartidos, validación, guardado de servicios y auditoría de recorridos.
+- `public/css/style.css`: tema y componentes compartidos; consultar `docs/ui-design.md`.
+- `public/js/list-filter.js`: índice de listas estáticas para filtrar sin recorrer el DOM en cada pulsación.
+- `public/js/terminal-form.js`: carga de municipios por departamento sin dependencia de jQuery.
 
-## Laravel Sponsors
+La configuración del acceso principal utiliza `ADMIN_USERNAME` y `ADMIN_PASSWORD_HASH`; el hash se prepara con el comando administrativo disponible en `php artisan list`. No guardar credenciales en Git.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Ver `docs/refactoring.md` para el alcance de la limpieza y la recuperación de archivos retirados.

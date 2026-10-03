@@ -43,7 +43,7 @@ class BusFareEditingTest extends TestCase
         $this->withSession(['admin_authenticated' => true])->post(route('autobus'), $this->data())->assertSessionHasNoErrors()->assertRedirect(route('newbus'));
         $bus = Autobuses::firstOrFail();
         $slug = $bus->slug;
-        $this->get(route('autobus.edit', $bus))->assertOk()->assertSee('name="tarifa"', false)->assertSee('name="hora_salida"', false)->assertSee('name="terminal"', false);
+        $this->get(route('autobus.edit', $bus))->assertOk()->assertSee('name="paradas[1][tarifa_acumulada]"', false)->assertSee('name="paradas[0][hora_paso]"', false)->assertSee('name="terminal"', false);
         $changed = array_replace($this->data(), ['nombre' => 'Otro nombre', 'placa' => 'XYZ789', 'municipio_origen_id' => 2, 'municipio_destino_id' => 3, 'hora_salida' => '10:00', 'hora_llegada' => '12:00', 'terminal' => 2, 'categoria' => 'Ruteado', 'tarifa' => '0']);
         $this->put(route('autobus.update', $bus), $changed)->assertSessionHasNoErrors()->assertRedirect(route('autobuses.list'));
         $bus->refresh();
@@ -105,6 +105,36 @@ class BusFareEditingTest extends TestCase
             ->assertSessionHasErrors('paradas.0.hora_paso');
 
         $this->assertDatabaseCount('autobuses', 1);
+    }
+
+    public function test_editing_service_identity_preserves_unchanged_stops(): void
+    {
+        $this->withSession(['admin_authenticated' => true])->post(route('autobus'), $this->data())->assertSessionHasNoErrors();
+        $bus = Autobuses::firstOrFail();
+        $stops = $bus->paradas()->get()->toArray();
+        $routeAudits = DB::table('audit_logs')->where('action', 'recorrido_actualizado')->count();
+
+        $this->put(route('autobus.update', $bus), array_replace($this->data(), ['nombre' => 'Nuevo nombre']))
+            ->assertSessionHasNoErrors()->assertRedirect(route('autobuses.list'));
+
+        $this->assertSame('Nuevo nombre', $bus->refresh()->nombre);
+        $this->assertSame($stops, $bus->paradas()->get()->toArray());
+        $this->assertSame($routeAudits, DB::table('audit_logs')->where('action', 'recorrido_actualizado')->count());
+    }
+
+    public function test_changed_stops_are_saved_and_audited(): void
+    {
+        $this->withSession(['admin_authenticated' => true])->post(route('autobus'), $this->data())->assertSessionHasNoErrors();
+        $bus = Autobuses::firstOrFail();
+        $auditId = DB::table('audit_logs')->max('id');
+
+        $this->put(route('autobus.update', $bus), array_replace($this->data(), ['hora_llegada' => '08:30', 'tarifa' => '30.00']))
+            ->assertSessionHasNoErrors();
+
+        $lastStop = $bus->paradas()->reorder('posicion', 'desc')->first();
+        $this->assertStringStartsWith('08:30', $lastStop->hora_paso);
+        $this->assertSame('30.00', $lastStop->tarifa_acumulada);
+        $this->assertTrue(DB::table('audit_logs')->where('id', '>', $auditId)->where('action', 'recorrido_actualizado')->exists());
     }
 
     public function test_failed_audit_rolls_back_service_and_terminal_changes(): void

@@ -27,28 +27,12 @@ class AutobusController extends Controller
 
     public function index()
     {
-        return view('autobus.index', [
-            'autobus' => null,
-            'copyingService' => false,
-            'terminales' => Terminales::with('municipios')->orderBy('nombre')->get(),
-            'municipios' => Municipios::orderBy('nombre')->get(),
-            'autobusesPendientes' => Autobuses::query()
-                ->whereNull('municipio_origen_id')
-                ->orWhereNull('municipio_destino_id')
-                ->orderBy('nombre')
-                ->get(),
-        ]);
+        return view('autobus.index', $this->formData() + ['copyingService' => false]);
     }
 
     public function duplicate(Autobuses $autobus)
     {
-        return view('autobus.index', [
-            'autobus' => $autobus->load(['terminales', 'paradas.municipio']),
-            'copyingService' => true,
-            'terminales' => Terminales::with('municipios')->orderBy('nombre')->get(),
-            'municipios' => Municipios::orderBy('nombre')->get(),
-            'autobusesPendientes' => collect(),
-        ]);
+        return view('autobus.index', $this->formData($autobus) + ['copyingService' => true]);
     }
 
     public function list()
@@ -67,11 +51,16 @@ class AutobusController extends Controller
 
     public function edit(Autobuses $autobus)
     {
-        return view('autobus.edit', [
-            'autobus' => $autobus->load(['terminales', 'paradas.municipio']),
+        return view('autobus.edit', $this->formData($autobus));
+    }
+
+    private function formData(?Autobuses $autobus = null): array
+    {
+        return [
+            'autobus' => $autobus?->load(['terminales', 'paradas.municipio']),
             'terminales' => Terminales::with('municipios')->orderBy('nombre')->get(),
-            'municipios' => Municipios::orderBy('nombre')->get(),
-        ]);
+            'municipios' => Municipios::orderBy('nombre')->get(['id', 'nombre', 'departamento_id', 'latitud', 'longitud']),
+        ];
     }
 
     public function update(Request $request, Autobuses $autobus)
@@ -154,23 +143,39 @@ class AutobusController extends Controller
         $autobus->fill(array_diff_key($data, ['terminal' => true, 'paradas' => true]));
         $autobus->save();
         $newTerminals = [(int) $data['terminal']];
-        $autobus->terminales()->sync($newTerminals);
         if ($oldTerminals !== $newTerminals) {
+            $autobus->terminales()->sync($newTerminals);
             AuditLogger::record($autobus, 'terminales_actualizadas', ['terminales' => $oldTerminals], ['terminales' => $newTerminals]);
         }
+
+        $requestedStops = array_map(fn ($position, $stop) => [
+            'municipio_id' => $stop['municipio_id'],
+            'posicion' => $position,
+            'hora_paso' => $stop['hora_paso'],
+            'tarifa_acumulada' => $stop['tarifa_acumulada'],
+        ], array_keys($data['paradas']), $data['paradas']);
+        if ($this->normalizeStops($oldStops) === $this->normalizeStops($requestedStops)) {
+            return;
+        }
+
         $autobus->paradas()->delete();
-        foreach ($data['paradas'] as $position => $stop) {
-            $autobus->paradas()->create([
-                'municipio_id' => $stop['municipio_id'],
-                'posicion' => $position,
-                'hora_paso' => $stop['hora_paso'],
-                'tarifa_acumulada' => $stop['tarifa_acumulada'],
-            ]);
+        foreach ($requestedStops as $stop) {
+            $autobus->paradas()->create($stop);
         }
         $newStops = $autobus->paradas()->get()->map(fn ($stop) => $stop->only(['municipio_id', 'posicion', 'hora_paso', 'tarifa_acumulada']))->all();
         if ($oldStops !== $newStops) {
             AuditLogger::record($autobus, 'recorrido_actualizado', ['paradas' => $oldStops], ['paradas' => $newStops]);
         }
+    }
+
+    private function normalizeStops(array $stops): array
+    {
+        return array_map(fn ($stop) => [
+            'municipio_id' => (int) $stop['municipio_id'],
+            'posicion' => (int) $stop['posicion'],
+            'hora_paso' => substr($stop['hora_paso'], 0, 5),
+            'tarifa_acumulada' => $stop['tarifa_acumulada'] === null ? null : number_format((float) $stop['tarifa_acumulada'], 2, '.', ''),
+        ], $stops);
     }
 
     private function ensureDepartureIsNotDuplicated(array $data): void

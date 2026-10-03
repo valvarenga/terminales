@@ -1,7 +1,7 @@
 @extends('layouts.plantilla')
 @section('title', 'Historial de cambios')
 @section('content')
-<section class="container py-4"><h1 class="h2 mb-3">Historial de cambios</h1>@include('admin.partials.navigation')
+<section class="container py-4"><h1 class="h2 mb-3">Historial de cambios</h1>
 <p class="text-muted">Consulta quién creó, modificó o eliminó registros desde la activación del historial. Las contraseñas nunca se muestran.</p>
 @include('admin.partials.errors')
 @include('partials.search-filter', ['targetId' => 'lista-historial', 'placeholder' => 'Buscar en el historial...'])
@@ -10,7 +10,7 @@
 @php($actions = ['creado'=>'Creación','actualizado'=>'Edición','eliminado'=>'Eliminación','terminales_actualizadas'=>'Cambio de terminal','contraseña_actualizada'=>'Cambio de contraseña'])
 @forelse($logs as $log)
 <article class="content-card p-3 mb-3"><div class="d-flex justify-content-between flex-wrap gap-2"><div><strong>{{ $log->label }}</strong><span class="text-muted"> · {{ $entities[$log->entity] ?? $log->entity }} #{{ $log->entity_id }}</span><p class="small mb-2">{{ $actions[$log->action] ?? $log->action }} por {{ $log->actor }}</p></div><time class="small text-muted">{{ $log->created_at->format('d/m/Y H:i:s') }}</time></div>
-@if($log->before || $log->after)<details><summary class="text-primary">Ver valores anteriores y nuevos</summary><div class="table-responsive mt-2"><table class="table table-sm"><thead><tr><th>Campo</th><th>Antes</th><th>Después</th></tr></thead><tbody>@foreach(array_unique(array_merge(array_keys($log->before ?? []), array_keys($log->after ?? []))) as $field)<tr><th>{{ str_replace('_', ' ', $field) }}</th>@foreach([$log->before, $log->after] as $values)<td style="overflow-wrap:anywhere;min-width:120px">@if(!array_key_exists($field, $values ?? []) || $values[$field] === null)<span class="text-muted">Sin valor</span>@elseif(is_array($values[$field])){{ implode(', ', $values[$field]) }}@elseif(is_bool($values[$field])){{ $values[$field] ? 'Sí' : 'No' }}@else{{ $values[$field] }}@endif</td>@endforeach</tr>@endforeach</tbody></table></div></details>@endif</article>
+@if($log->before || $log->after)<details><summary class="text-primary">Ver valores anteriores y nuevos</summary><div class="table-responsive mt-2"><table class="table table-sm"><thead><tr><th scope="col">Campo</th><th scope="col">Antes</th><th scope="col">Después</th></tr></thead><tbody>@foreach(array_unique(array_merge(array_keys($log->before ?? []), array_keys($log->after ?? []))) as $field)<tr><th>{{ str_replace('_', ' ', $field) }}</th>@foreach([$log->before, $log->after] as $values)<td style="overflow-wrap:anywhere;min-width:120px">@if(!array_key_exists($field, $values ?? []) || $values[$field] === null)<span class="text-muted">Sin valor</span>@elseif(is_array($values[$field])){{ implode(', ', $values[$field]) }}@elseif(is_bool($values[$field])){{ $values[$field] ? 'Sí' : 'No' }}@else{{ $values[$field] }}@endif</td>@endforeach</tr>@endforeach</tbody></table></div></details>@endif</article>
 @empty<div class="content-card p-4 text-muted">No hay cambios para los filtros seleccionados.</div>@endforelse
 </div>
 {{ $logs->links() }}</section>

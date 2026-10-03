@@ -1,57 +1,41 @@
 @extends('layouts.plantilla')
-@section('title', 'Autobuses')
-@section('content')
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-            <h1 class="h3 mb-1">Autobuses registrados</h1>
-            <p class="text-muted mb-0">Gestiona los servicios y edita su información.</p>
-        </div>
-        <a href="{{ route('newbus') }}" class="btn btn-primary">Registrar nuevo</a>
-    </div>
 
-    <div class="card">
-        <div class="card-body">
-            @include('partials.search-filter', ['targetId' => 'tabla-autobuses', 'placeholder' => 'Buscar por nombre, terminal, origen o destino...'])
-            @if($autobuses->isEmpty())
-                <div class="alert alert-info mb-0">No hay autobuses registrados todavía.</div>
-            @else
-                <div class="table-responsive" id="tabla-autobuses">
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Terminal</th>
-                                <th>Origen</th>
-                                <th>Destino</th>
-                                <th>Salida</th><th>Tarifa</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($autobuses as $autobus)
-                                <tr>
-                                    <td>{{ $autobus->nombre }}</td>
-                                    <td>
-                                        @foreach($autobus->terminales as $terminal)
-                                            <span class="badge bg-secondary">{{ $terminal->nombre }}</span>
-                                        @endforeach
-                                    </td>
-                                    <td>{{ $autobus->origenMunicipio?->nombre ?? $autobus->origen }}</td>
-                                    <td>{{ $autobus->destinoMunicipio?->nombre ?? $autobus->destino }}</td>
-                                    <td>{{ $autobus->hora_salida }}</td><td>{{ $autobus->tarifa !== null ? 'C$ '.number_format((float) $autobus->tarifa, 2) : 'Tarifa por confirmar' }}</td>
-                                    <td>
-                                        <a href="{{ route('autobus.show', $autobus) }}" class="btn btn-outline-info btn-sm">Ver</a>
-                                        <a href="{{ route('autobus.edit', $autobus) }}" class="btn btn-outline-primary btn-sm">Editar</a>
-                                        <a href="{{ route('autobus.duplicate', $autobus) }}" class="btn btn-outline-success btn-sm">Otra salida</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @endif
-        </div>
+@section('title', 'Autobuses')
+
+@section('content')
+<section class="container app-shell">
+    <header class="app-heading">
+        <div><p class="eyebrow mb-2">Administración</p><h1>Autobuses y horarios</h1><p>Consulta, actualiza o reutiliza los servicios registrados.</p></div>
+        <a href="{{ route('newbus') }}" class="btn btn-primary"><i class="bi bi-plus-lg me-1" aria-hidden="true"></i> Registrar servicio</a>
+    </header>
+
+    <div class="content-card p-3 p-md-4">
+        @include('partials.search-filter', ['targetId' => 'tabla-autobuses', 'placeholder' => 'Buscar por nombre, terminal, origen o destino...'])
+        @if($autobuses->isEmpty())
+            <div class="empty-state"><i class="bi bi-bus-front fs-2 d-block mb-2" aria-hidden="true"></i><h2 class="h5">No hay autobuses registrados</h2><p class="mb-3">Registra el primer servicio para comenzar.</p><a href="{{ route('newbus') }}" class="btn btn-primary btn-sm">Registrar servicio</a></div>
+        @else
+            <div class="table-responsive" id="tabla-autobuses">
+                <table class="table table-hover align-middle">
+                    <thead><tr><th scope="col">Servicio</th><th scope="col">Terminal</th><th scope="col">Recorrido</th><th scope="col">Salida</th><th scope="col">Tarifa</th><th class="text-end" scope="col">Acciones</th></tr></thead>
+                    <tbody>
+                    @foreach($autobuses as $autobus)
+                        <tr>
+                            <td><strong class="d-block">{{ $autobus->nombre }}</strong><span class="small text-muted">{{ $autobus->categoria ?: 'Sin categoría' }}@if($autobus->placa) · {{ $autobus->placa }}@endif</span></td>
+                            <td>@forelse($autobus->terminales as $terminal)<span class="badge bg-light text-dark border">{{ $terminal->nombre }}</span>@empty<span class="text-muted small">Sin terminal</span>@endforelse</td>
+                            <td><span class="d-block">{{ $autobus->origenMunicipio?->nombre ?? $autobus->origen }}</span><span class="small text-muted"><i class="bi bi-arrow-right me-1" aria-hidden="true"></i>{{ $autobus->destinoMunicipio?->nombre ?? $autobus->destino }}</span></td>
+                            <td><span class="badge bg-success">{{ $autobus->hora_salida ? substr($autobus->hora_salida, 0, 5) : 'Por confirmar' }}</span></td>
+                            <td class="fw-semibold">{{ $autobus->tarifa !== null ? 'C$ '.number_format((float) $autobus->tarifa, 2) : 'Por confirmar' }}</td>
+                            <td class="text-end text-nowrap">
+                                <a href="{{ route('autobus.show', $autobus) }}" class="btn btn-info btn-sm" title="Ver detalle"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden"> Ver</span></a>
+                                <a href="{{ route('autobus.edit', $autobus) }}" class="btn btn-outline-primary btn-sm" title="Editar"><i class="bi bi-pencil-square" aria-hidden="true"></i><span class="visually-hidden"> Editar</span></a>
+                                <a href="{{ route('autobus.duplicate', $autobus) }}" class="btn btn-outline-success btn-sm" title="Registrar otra salida"><i class="bi bi-copy" aria-hidden="true"></i><span class="visually-hidden"> Otra salida</span></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </div>
-</div>
+</section>
 @endsection

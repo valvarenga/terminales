@@ -12,6 +12,11 @@ class CatalogEditingTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_legacy_route_redirects_to_the_terminal_catalog(): void
+    {
+        $this->get(route('ruta.index'))->assertRedirect(route('show_terminal'));
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -76,6 +81,23 @@ class CatalogEditingTest extends TestCase
         $this->get(route('municipio.edit', 'pueblo'))->assertOk()->assertSee('file_M', false);
         $this->withSession(['_old_input' => ['nombre' => 'Nombre pendiente', 'departamento' => 2, 'municipio' => 2]])
             ->get(route('terminal.edit', 'central'))->assertOk()->assertSee('Nombre pendiente')->assertSee('value="06:00"', false)->assertSee('Ciudad');
+    }
+
+    public function test_public_department_shows_only_municipalities_with_assigned_terminals(): void
+    {
+        DB::table('municipios')->insert([
+            'id' => 3,
+            'nombre' => 'Municipio sin terminal',
+            'slug' => 'sin-terminal',
+            'departamento_id' => 1,
+        ]);
+
+        $this->get(route('departamentos.municipios', 'norte'))
+            ->assertOk()
+            ->assertSee('Terminales de Norte')
+            ->assertSee('Pueblo')
+            ->assertSee('Central')
+            ->assertDontSee('Municipio sin terminal');
     }
 
     public function test_municipality_rename_updates_service_labels_and_preserves_slug(): void

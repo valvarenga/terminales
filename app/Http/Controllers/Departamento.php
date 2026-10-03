@@ -93,9 +93,17 @@ class Departamento extends Controller
 
     public function departamentos_municipios(Departamentos $departamento)
     {
+        $terminalesPorMunicipio = $departamento->terminales()
+            ->with('municipios')
+            ->orderBy('nombre')
+            ->get()
+            ->filter(fn (Terminales $terminal) => $terminal->municipios !== null)
+            ->groupBy(fn (Terminales $terminal) => $terminal->municipios->id)
+            ->sortBy(fn ($terminales) => $terminales->first()->municipios->nombre);
+
         return view('departamentos.municipios', [
             'departamento' => $departamento,
-            'municipios' => $departamento->municipios()->orderBy('nombre')->get(),
+            'terminalesPorMunicipio' => $terminalesPorMunicipio,
         ]);
     }
 

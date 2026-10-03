@@ -24,6 +24,7 @@
                 class="form-control"
                 placeholder="Selecciona un municipio"
                 id="origen"
+                aria-describedby="search-help"
                 name="origen"
                 autocomplete="off"
                 value="{{ old('origen') }}"
@@ -48,6 +49,7 @@
     class="form-control"
     placeholder="Selecciona un municipio"
     id="destino"
+    aria-describedby="search-help"
     name="destino"
     autocomplete="off"
     value="{{ old('destino') }}"
@@ -63,11 +65,12 @@
         </div>
 
 
+        <div class="col-12"><p id="search-help" class="search-hint"><i class="bi bi-info-circle" aria-hidden="true"></i> Escribe el municipio y selecciona una sugerencia de la lista.</p></div>
         {{-- BOTÓN --}}
         <div class="col-12">
             <button
                 type="submit"
-                class="btn btn-warning px-4">
+                class="btn btn-primary px-4">
                 Buscar rutas
             </button>
         </div>
@@ -84,7 +87,7 @@
     <div class="col-md-4"><a href="{{ route('departamentos.listar') }}" class="process-card content-card p-4 h-100"><p class="eyebrow">02</p><h3>Encuentra la terminal</h3><p class="mb-3 text-muted">Explora destinos, municipios y las terminales disponibles.</p><span>Explorar destinos <span aria-hidden="true">→</span></span></a></div>
     <div class="col-md-4"><a href="{{ route('departamentos.listar') }}" class="process-card content-card p-4 h-100"><p class="eyebrow">03</p><h3>Consulta horarios</h3><p class="mb-3 text-muted">Selecciona un destino y una terminal para ver sus salidas registradas.</p><span>Ver horarios <span aria-hidden="true">→</span></span></a></div>
 </div></section>
-<section class="container pb-5"><div class="content-card p-4 p-lg-5"><div class="row align-items-center g-4">
+<section id="sugerir-terminal" class="container pb-5"><div class="content-card p-4 p-lg-5"><div class="row align-items-center g-4">
     <div class="col-lg-5"><p class="eyebrow">Ayúdanos a crecer</p><h2 class="h3">¿Conoces una terminal que aún no aparece?</h2><p class="text-muted mb-0">Comparte su nombre, ubicación o una foto si la tienes. El equipo administrador revisará la sugerencia antes de agregarla al sitio.</p></div>
     <div class="col-lg-7"><form action="{{ route('sugerencias-terminales.store') }}" method="POST" enctype="multipart/form-data" class="row g-3">@csrf
         <div class="col-md-6"><label for="nombre_terminal" class="form-label">Nombre de la terminal</label><input id="nombre_terminal" name="nombre_terminal" class="form-control" value="{{ old('nombre_terminal') }}" required>@error('nombre_terminal')<small class="text-danger">{{ $message }}</small>@enderror</div>
@@ -94,4 +97,4 @@
     </form></div>
 </div></div></section>
 @endsection
-@section('scripts')<script src="{{ asset('js/municipio-autocomplete.js') }}" defer></script>@endsection
+@section('scripts')<script src="{{ asset('js/municipio-autocomplete.js') }}?v={{ filemtime(public_path('js/municipio-autocomplete.js')) }}" defer></script>@endsection

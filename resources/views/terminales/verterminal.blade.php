@@ -14,7 +14,7 @@
         <a href="{{ route('show_terminal') }}"
            class="text-decoration-none text-muted">
 
-            <i class="bi bi-arrow-left me-1"></i>
+            <i class="bi bi-arrow-left me-1" aria-hidden="true"></i>
 
             Regresar a terminales
 
@@ -30,7 +30,7 @@
 
         <div class="alert alert-danger border-0 shadow-sm rounded-3">
 
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <i class="bi bi-exclamation-triangle-fill me-2" aria-hidden="true"></i>
 
             {{ $message }}
 
@@ -60,7 +60,7 @@
 
                 <div class="no-image">
 
-                    <i class="bi bi-bus-front-fill"></i>
+                    <i class="bi bi-bus-front-fill" aria-hidden="true"></i>
 
                     <span>
                         Sin imagen disponible
@@ -80,7 +80,7 @@
 
             <div class="terminal-header-icon">
 
-                <i class="bi bi-bus-front-fill"></i>
+                <i class="bi bi-bus-front-fill" aria-hidden="true"></i>
 
             </div>
 
@@ -129,7 +129,7 @@
 
                         <div class="info-icon apertura">
 
-                            <i class="bi bi-clock-fill"></i>
+                            <i class="bi bi-clock-fill" aria-hidden="true"></i>
 
                         </div>
 
@@ -165,7 +165,7 @@
 
                         <div class="info-icon cierre">
 
-                            <i class="bi bi-clock-history"></i>
+                            <i class="bi bi-clock-history" aria-hidden="true"></i>
 
                         </div>
 
@@ -201,7 +201,7 @@
 
                         <div class="info-icon departamento">
 
-                            <i class="bi bi-map-fill"></i>
+                            <i class="bi bi-map-fill" aria-hidden="true"></i>
 
                         </div>
 
@@ -237,7 +237,7 @@
 
                         <div class="info-icon municipio">
 
-                            <i class="bi bi-geo-alt-fill"></i>
+                            <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
 
                         </div>
 
@@ -282,7 +282,7 @@
                 <a href="{{ route('terminal.edit', $terminales) }}"
                    class="btn btn-success px-4">
 
-                    <i class="bi bi-pencil-square me-1"></i>
+                    <i class="bi bi-pencil-square me-1" aria-hidden="true"></i>
 
                     Editar
 
@@ -303,7 +303,7 @@
                             class="btn btn-danger px-4"
                             onclick="return confirm('¿Eliminar esta terminal?')">
 
-                        <i class="bi bi-trash3 me-1"></i>
+                        <i class="bi bi-trash3 me-1" aria-hidden="true"></i>
 
                         Eliminar
 
@@ -316,7 +316,7 @@
                 <a href="{{ route('departamento.autobuses', $terminales) }}"
                    class="btn btn-warning px-4">
 
-                    <i class="bi bi-bus-front me-1"></i>
+                    <i class="bi bi-bus-front me-1" aria-hidden="true"></i>
 
                     Ver autobuses
 
@@ -327,7 +327,7 @@
                 <a href="{{ route('show_terminal') }}"
                    class="btn btn-outline-secondary px-4">
 
-                    <i class="bi bi-arrow-left me-1"></i>
+                    <i class="bi bi-arrow-left me-1" aria-hidden="true"></i>
 
                     Regresar
 

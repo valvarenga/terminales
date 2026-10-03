@@ -1,19 +1,16 @@
 <?php
 
 use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\AnunciosController;
 use App\Http\Controllers\AutobusController;
 use App\Http\Controllers\BuscarController;
 use App\Http\Controllers\Departamento;
-use App\Http\Controllers\EnlacesController;
-use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Municipio;
 use App\Http\Controllers\PeticionAjaxController;
 use App\Http\Controllers\SugerenciaTerminalController;
 use App\Http\Controllers\Terminal;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::view('/', 'index_con_sugerencias')->name('home');
 Route::post('/sugerencias-terminales', [SugerenciaTerminalController::class, 'store'])->middleware('throttle:terminal-suggestions')->name('sugerencias-terminales.store');
 
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
@@ -51,7 +48,7 @@ Route::middleware(['admin', 'admin.transaction'])->group(function () {
     Route::get('municipio/{municipio}', [Municipio::class, 'ver'])->name('municipio.ver');
 
     // Administración de terminales y autobuses.
-    Route::get('ruta', [Terminal::class, 'index'])->name('ruta.index');
+    Route::get('ruta', fn () => redirect()->route('show_terminal'))->name('ruta.index');
     Route::get('newterminal', [Terminal::class, 'newterminal'])->name('newterminal');
     Route::post('terminal', [Terminal::class, 'store'])->name('terminal');
     Route::get('show', [Terminal::class, 'show'])->name('show_terminal');
@@ -78,6 +75,6 @@ Route::match(['get', 'post'], 'rutas', [BuscarController::class, 'index'])->name
 Route::get('search/municipios', [Municipio::class, 'search'])->name('municipios.search');
 
 Route::get('ajax/{departamento_id}', [PeticionAjaxController::class, 'ajax_municipios'])->name('municipio.ajax');
-Route::get('anuncios', [AnunciosController::class, 'index'])->name('anuncios');
-Route::get('Acerca', [EnlacesController::class, 'index'])->name('Acerca');
+Route::view('anuncios', 'anuncios.anuncios')->name('anuncios');
+Route::view('Acerca', 'enlaces.acerca')->name('Acerca');
 Route::view('contacto', 'enlaces.contacto')->name('contacto');

@@ -16,6 +16,22 @@ class RouteSearchTest extends TestCase
             ->assertSessionHasErrors(['origen_id', 'destino_id']);
     }
 
+    public function test_name_fallback_still_resolves_municipalities(): void
+    {
+        $this->seedLocationData();
+        $this->get(route('buscar.index', ['origen' => '  las sabanas  ', 'destino' => 'Estelí']))
+            ->assertOk()->assertSee('Ruta Norte');
+    }
+
+    public function test_search_rejects_unknown_and_equal_municipalities(): void
+    {
+        $this->seedLocationData();
+        $this->get(route('buscar.index', ['origen_id' => 999, 'destino_id' => 2]))
+            ->assertSessionHasErrors('origen_id');
+        $this->get(route('buscar.index', ['origen_id' => 1, 'destino_id' => 1]))
+            ->assertSessionHasErrors('origen_id');
+    }
+
     public function test_it_displays_a_registered_direct_route(): void
     {
         $this->seedLocationData();
@@ -26,7 +42,10 @@ class RouteSearchTest extends TestCase
             ->assertSee('Las Sabanas')
             ->assertSee('Estelí')
             ->assertSee('Ruta Norte')
-            ->assertSee('Ruta directa');
+            ->assertSee('Ruta directa')
+            ->assertSee('3 h 0 min en total')
+            ->assertSee('Punto de abordaje por confirmar en Las Sabanas')
+            ->assertSee('aria-controls="route-map"', false);
     }
 
     public function test_it_displays_a_connected_route_when_the_schedules_are_compatible(): void
@@ -46,7 +65,9 @@ class RouteSearchTest extends TestCase
             ->assertSee('Somoto')
             ->assertSee('Esteli')
             ->assertSee('Leon')
-            ->assertSee('1 transbordo(s)')
+            ->assertSee('1 transbordo')
+            ->assertSee('30 min de espera')
+            ->assertSee('5 h 30 min en total')
             ->assertSee('toma el siguiente bus.');
     }
 
@@ -60,6 +81,25 @@ class RouteSearchTest extends TestCase
         $this->get(route('buscar.index', ['origen_id' => 1, 'destino_id' => 2]))
             ->assertOk()
             ->assertSee('No hay rutas disponibles');
+    }
+
+    public function test_boarding_terminal_matches_the_selected_origin(): void
+    {
+        $this->seedLocationData();
+        DB::table('terminales')->insert([
+            ['id' => 1, 'nombre' => 'Terminal destino', 'slug' => 'terminal-destino', 'municipio_id' => 2, 'hora_apertura' => '05:00', 'hora_cierre' => '20:00', 'url_T' => ''],
+            ['id' => 2, 'nombre' => 'Terminal origen', 'slug' => 'terminal-origen', 'municipio_id' => 1, 'hora_apertura' => '05:00', 'hora_cierre' => '20:00', 'url_T' => ''],
+        ]);
+        $busId = DB::table('autobuses')->value('id');
+        DB::table('autobus_terminal')->insert([
+            ['autobus_id' => $busId, 'terminal_id' => 1],
+            ['autobus_id' => $busId, 'terminal_id' => 2],
+        ]);
+
+        $this->get(route('buscar.index', ['origen_id' => 1, 'destino_id' => 2]))
+            ->assertOk()
+            ->assertSee('Aborda en Terminal origen')
+            ->assertDontSee('Aborda en Terminal destino');
     }
 
     private function seedLocationData(): void

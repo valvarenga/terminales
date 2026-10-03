@@ -14,11 +14,6 @@ use Illuminate\Validation\Rule;
 
 class Terminal extends Controller
 {
-    public function index()
-    {
-        return view('ruta.index');
-    }
-
     public function newterminal()
     {
         return view('terminales.terminal', [

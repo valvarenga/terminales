@@ -1,44 +1,17 @@
 @extends('layouts.plantilla')
-
 @section('title', 'Anuncios')
-
 @section('content')
-<div class="container-sm bg-light.bg-gradient fst-italic fs-3" id="anun">
-<div class="row">
-<h1 class="display-4 text-center text-success">¿Te gustaría anunciarte en Nicaragua Buses?</h1>
-<p>
-Esta es una plataforma que está siempre disponible para todos los Nicaraguenses y la mayor meta, es 
-seguir mejorando y poder ampliar los servicios y funcionalidades de la misma, por ahora, para poder hacer 
-que esté accesible para los usuarios es incluir anuncios.</p>
-
-<p>Esto me ayuda mucho a que la plataforma esté siempre disponible para todos, es una pequeña forma de demostrar tu apoyo a este proyecto 
-y me compromete a seguir mejorándolo. Otra forma de demostrar tu apoyo es compartir la plataforma en tus redes sociales, solamente comparte 
-el enlace en tus redes sociales.</p>
-
-<p>Sin embargo, dentro de la plataforma se pueden incluir anuncios de negocios locales, esto con la idea de ayudarte a dar a conocer tu local o negocio ante los usuarios de la plataforma. 
-</p>
-<h2 class="text-success fw-bolder">¿Cómo puedes publicitarte?</h2>
-<p class="fst-italic fs-3">
-    Si quieres apoyar o invertir en este proyecto publicitándote, existen 3 planes de coste mensual:
-  
-    <p class="fw-bold">Básico: </p> 
-    <p>
-        Un anuncio banner del negocio, que aparecerá en la vista de Inicio ya que son las más visitadas por los usuarios.
-        Máximo 1 actualización del diseño del banner.
-</p>
-  <p class="fw-bold">  Intermedio:</P> 
-      <p> Un anuncio banner del negocio, que aparecerá en todas las vistas de la plataforma.
-        Máximo 3 actualizaciones del diseño del banner.</p> 
-  <p class="fw-bold">  Avanzado:</p>
-  <p> Una vista dedicada del negocio con toda la información necesaria (imágenes, descripciones, mapa de ubicación, etc.) para hacerse destacar ante los potenciales clientes. </p>
-</p>
-<h3 class="text-success fw-bolder">¿Quiéres cotizar los planes?</h3>
-<button type="button" class="btn btn-info">Contáctame</button>
-
-
-
-
-</div>
-</div>           
-
+<section class="container pb-5">
+    <header class="page-header"><p class="eyebrow">Negocios locales</p><h1>Da a conocer tu negocio.</h1><p>Los anuncios ayudan a mantener disponible la plataforma y permiten que más viajeros conozcan tu negocio.</p></header>
+    <div class="row g-4">
+        @foreach([
+            ['Básico', 'Presencia en el inicio', ['Un banner de tu negocio en la página de inicio.', 'Hasta una actualización del diseño del banner.']],
+            ['Intermedio', 'Más espacios para tu negocio', ['Un banner en las vistas de la plataforma.', 'Hasta tres actualizaciones del diseño del banner.']],
+            ['Avanzado', 'Una página para tu negocio', ['Una vista dedicada con información de tu negocio.', 'Imágenes, descripción y mapa de ubicación.']],
+        ] as [$plan, $heading, $features])
+            <div class="col-lg-4"><article class="content-card plan-card"><span class="info-icon"><i class="bi bi-megaphone" aria-hidden="true"></i></span><p class="plan-label">Plan {{ $plan }}</p><h2 class="h4">{{ $heading }}</h2><ul class="mt-3 mb-0">@foreach($features as $feature)<li>{{ $feature }}</li>@endforeach</ul></article></div>
+        @endforeach
+    </div>
+    <div class="content-card p-4 mt-4 d-flex flex-wrap justify-content-between align-items-center gap-3"><div><h2 class="h5">Planes de costo mensual</h2><p class="text-muted mb-0">Los precios y el canal de cotización aún no están publicados.</p></div><a href="{{ route('Acerca') }}" class="btn btn-outline-primary">Conocer el proyecto</a></div>
+</section>
 @endsection

@@ -20,7 +20,7 @@
 {{-- Mensaje de error --}}
 @error('municipio')
     <div class="alert alert-danger shadow-sm border-0 rounded-3">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <i class="bi bi-exclamation-triangle-fill me-2" aria-hidden="true"></i>
         {{ $message }}
     </div>
 @enderror
@@ -44,7 +44,7 @@
                 @else
 
                     <div class="sin-imagen">
-                        <i class="bi bi-geo-alt-fill"></i>
+                        <i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
                         <span>Sin imagen</span>
                     </div>
 
@@ -77,7 +77,7 @@
                 <div class="info-item mb-4">
 
                     <div class="info-icon">
-                        <i class="bi bi-map-fill"></i>
+                        <i class="bi bi-map-fill" aria-hidden="true"></i>
                     </div>
 
                     <div>
@@ -97,7 +97,7 @@
                 <div class="info-item mb-4">
 
                     <div class="info-icon">
-                        <i class="bi bi-hash"></i>
+                        <i class="bi bi-hash" aria-hidden="true"></i>
                     </div>
 
                     <div>
@@ -124,7 +124,7 @@
                     <a href="{{ route('municipio.edit', $municipio) }}"
                        class="btn btn-primary px-4">
 
-                        <i class="bi bi-pencil-square me-1"></i>
+                        <i class="bi bi-pencil-square me-1" aria-hidden="true"></i>
                         Editar
 
                     </a>
@@ -142,7 +142,7 @@
                                 class="btn btn-outline-danger px-4"
                                 onclick="return confirm('¿Estás seguro de que deseas eliminar este municipio?')">
 
-                            <i class="bi bi-trash3 me-1"></i>
+                            <i class="bi bi-trash3 me-1" aria-hidden="true"></i>
                             Eliminar
 
                         </button>
@@ -154,7 +154,7 @@
                     <a href="{{ route('municipio.show') }}"
                        class="btn btn-outline-secondary px-4">
 
-                        <i class="bi bi-arrow-left me-1"></i>
+                        <i class="bi bi-arrow-left me-1" aria-hidden="true"></i>
                         Regresar
 
                     </a>
