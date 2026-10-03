@@ -137,9 +137,7 @@
                                             <i class="bi bi-clock-fill" aria-hidden="true"></i>
                                         </span>
                                         <strong>
-                                            {{ \Carbon\Carbon::parse(
-                                                $autobus->hora_salida
-                                            )->format('g:i A') }}
+                                            {{ formato_hora($autobus->hora_salida) }}
                                         </strong>
                                     </div>
                                 </td>

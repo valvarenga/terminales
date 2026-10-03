@@ -49,7 +49,7 @@
                                 <span class="destination-kicker"><i class="bi bi-building me-1" aria-hidden="true"></i> Terminal</span>
                                 <h3>{{ $terminal->nombre }}</h3>
                                 @if($terminal->hora_apertura || $terminal->hora_cierre)
-                                    <p class="small text-muted mb-2"><i class="bi bi-clock me-1" aria-hidden="true"></i>{{ $terminal->hora_apertura ? substr($terminal->hora_apertura, 0, 5) : 'Horario abierto' }}@if($terminal->hora_cierre) – {{ substr($terminal->hora_cierre, 0, 5) }}@endif</p>
+                                    <p class="small text-muted mb-2"><i class="bi bi-clock me-1" aria-hidden="true"></i>{{ $terminal->hora_apertura ? formato_hora($terminal->hora_apertura, 'Horario abierto') : 'Horario abierto' }}@if($terminal->hora_cierre) – {{ formato_hora($terminal->hora_cierre) }}@endif</p>
                                 @endif
                                 <span>Consultar horarios <i class="bi bi-arrow-right" aria-hidden="true"></i></span>
                             </div>

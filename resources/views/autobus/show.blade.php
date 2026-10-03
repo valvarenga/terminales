@@ -59,8 +59,8 @@
 @php
     $originName = $autobus->origenMunicipio?->nombre ?? $autobus->origen ?? 'Origen por confirmar';
     $destinationName = $autobus->destinoMunicipio?->nombre ?? $autobus->destino ?? 'Destino por confirmar';
-    $departureTime = $autobus->hora_salida ? substr($autobus->hora_salida, 0, 5) : 'Por confirmar';
-    $arrivalTime = $autobus->hora_llegada ? substr($autobus->hora_llegada, 0, 5) : 'Por confirmar';
+    $departureTime = $autobus->hora_salida ? formato_hora($autobus->hora_salida, 'Por confirmar') : 'Por confirmar';
+    $arrivalTime = $autobus->hora_llegada ? formato_hora($autobus->hora_llegada, 'Por confirmar') : 'Por confirmar';
 @endphp
 
 <section class="bus-detail-page container py-4 py-lg-5">
@@ -124,7 +124,7 @@
                         <span class="stop-marker" aria-hidden="true">{{ $loop->iteration }}</span>
                         <div class="pt-1">
                             <h3 class="h6 mb-1">{{ $parada->municipio?->nombre ?? 'Municipio no disponible' }}</h3>
-                            <div class="stop-meta"><i class="bi bi-clock me-1" aria-hidden="true"></i>{{ $parada->hora_paso ? substr($parada->hora_paso, 0, 5) : 'Hora por confirmar' }}@if($loop->first)<span class="ms-2">Salida</span>@elseif($loop->last)<span class="ms-2">Destino</span>@endif</div>
+                            <div class="stop-meta"><i class="bi bi-clock me-1" aria-hidden="true"></i>{{ $parada->hora_paso ? formato_hora($parada->hora_paso, 'Hora por confirmar') : 'Hora por confirmar' }}@if($loop->first)<span class="ms-2">Salida</span>@elseif($loop->last)<span class="ms-2">Destino</span>@endif</div>
                         </div>
                         <span class="fare-chip">{{ $parada->tarifa_acumulada !== null ? 'C$ '.number_format((float) $parada->tarifa_acumulada, 2) : 'Tarifa por confirmar' }}</span>
                     </li>

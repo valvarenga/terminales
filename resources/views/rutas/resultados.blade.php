@@ -29,9 +29,9 @@
                                 <span class="route-duration"><i class="bi bi-clock me-1" aria-hidden="true"></i>{{ intdiv($duration, 60) }} h {{ $duration % 60 }} min en total</span>
                             </div>
                             <div class="route-overview">
-                                <div><span class="metric-label">Salida</span><strong class="route-time">{{ substr($itinerario['salida'], 0, 5) }}</strong><span class="metric-place">{{ $origen->nombre }}</span></div>
+                                <div><span class="metric-label">Salida</span><strong class="route-time">{{ formato_hora($itinerario['salida']) }}</strong><span class="metric-place">{{ $origen->nombre }}</span></div>
                                 <span class="journey-arrow" aria-hidden="true"><i class="bi bi-arrow-right" aria-hidden="true"></i></span>
-                                <div><span class="metric-label">Llegada</span><strong class="route-time">{{ substr($itinerario['llegada'], 0, 5) }}</strong><span class="metric-place">{{ $destino->nombre }}</span></div>
+                                <div><span class="metric-label">Llegada</span><strong class="route-time">{{ formato_hora($itinerario['llegada']) }}</strong><span class="metric-place">{{ $destino->nombre }}</span></div>
                                 <div class="route-total"><span class="metric-label">Total estimado por pasajero</span><strong>{{ $itinerario['tarifa_total'] !== null ? 'C$ '.number_format((float) $itinerario['tarifa_total'], 2) : 'Por confirmar (faltan tarifas)' }}</strong>@if($itinerario['tarifa_total'] === null)<span class="metric-place">Consulta la tarifa antes de viajar</span>@endif</div>
                             </div>
                             <details class="route-details" open>
@@ -43,7 +43,7 @@
                                             <div class="leg-content">
                                                 <h4>{{ $tramo->origenMunicipio->nombre }} <span aria-hidden="true">→</span> {{ $tramo->destinoMunicipio->nombre }}</h4>
                                                 <p class="leg-service">{{ $tramo->nombre }} @if($tramo->categoria)<span class="service-category">{{ $tramo->categoria }}</span>@endif</p>
-                                                <p class="leg-schedule"><i class="bi bi-clock me-1" aria-hidden="true"></i>{{ substr($tramo->hora_salida, 0, 5) }} – {{ substr($tramo->hora_llegada, 0, 5) }} <span>Tarifa: <strong>{{ $tramo->tarifa !== null ? 'C$ '.number_format((float) $tramo->tarifa, 2) : 'Por confirmar' }}</strong></span></p>
+                                                <p class="leg-schedule"><i class="bi bi-clock me-1" aria-hidden="true"></i>{{ formato_hora($tramo->hora_salida) }} – {{ formato_hora($tramo->hora_llegada) }} <span>Tarifa: <strong>{{ $tramo->tarifa !== null ? 'C$ '.number_format((float) $tramo->tarifa, 2) : 'Por confirmar' }}</strong></span></p>
                                                 @php
                                                     $boardingTerminal = $tramo->terminales->first(fn ($terminal) => (int) $terminal->municipio_id === (int) $tramo->municipio_origen_id);
                                                 @endphp

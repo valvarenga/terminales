@@ -23,7 +23,7 @@
                             <td><strong class="d-block">{{ $autobus->nombre }}</strong><span class="small text-muted">{{ $autobus->categoria ?: 'Sin categoría' }}@if($autobus->placa) · {{ $autobus->placa }}@endif</span></td>
                             <td>@forelse($autobus->terminales as $terminal)<span class="badge bg-light text-dark border">{{ $terminal->nombre }}</span>@empty<span class="text-muted small">Sin terminal</span>@endforelse</td>
                             <td><span class="d-block">{{ $autobus->origenMunicipio?->nombre ?? $autobus->origen }}</span><span class="small text-muted"><i class="bi bi-arrow-right me-1" aria-hidden="true"></i>{{ $autobus->destinoMunicipio?->nombre ?? $autobus->destino }}</span></td>
-                            <td><span class="badge bg-success">{{ $autobus->hora_salida ? substr($autobus->hora_salida, 0, 5) : 'Por confirmar' }}</span></td>
+                            <td><span class="badge bg-success">{{ $autobus->hora_salida ? formato_hora($autobus->hora_salida, 'Por confirmar') : 'Por confirmar' }}</span></td>
                             <td class="fw-semibold">{{ $autobus->tarifa !== null ? 'C$ '.number_format((float) $autobus->tarifa, 2) : 'Por confirmar' }}</td>
                             <td class="text-end text-nowrap">
                                 <a href="{{ route('autobus.show', $autobus) }}" class="btn btn-info btn-sm" title="Ver detalle"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden"> Ver</span></a>

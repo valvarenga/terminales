@@ -145,7 +145,7 @@
 
                             <strong class="fs-5">
 
-                                {{ $terminales->hora_apertura }}
+                                {{ formato_hora($terminales->hora_apertura) }}
 
                             </strong>
 
@@ -181,7 +181,7 @@
 
                             <strong class="fs-5">
 
-                                {{ $terminales->hora_cierre }}
+                                {{ formato_hora($terminales->hora_cierre) }}
 
                             </strong>
 
