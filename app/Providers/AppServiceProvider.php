@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     {
         foreach ([\App\Models\Autobuses::class, \App\Models\Terminales::class,
             \App\Models\Municipios::class, \App\Models\Departamentos::class,
-            \App\Models\SugerenciaTerminal::class, \App\Models\User::class] as $model) {
+            \App\Models\SugerenciaTerminal::class, \App\Models\Anuncio::class, \App\Models\User::class] as $model) {
             $model::observe(\App\Observers\AuditObserver::class);
         }
         \Illuminate\Pagination\Paginator::useBootstrapFive();

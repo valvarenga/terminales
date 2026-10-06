@@ -22,6 +22,11 @@ Route::middleware(['admin', 'admin.transaction'])->group(function () {
     Route::patch('/admin/sugerencias-terminales/{sugerencia}', [\App\Http\Controllers\SugerenciaRevisionController::class, 'revisar'])->name('admin.suggestions.review');
     Route::middleware('admin.only')->group(function () {
         Route::get('/admin/historial', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('admin.history');
+        Route::get('/admin/anuncios', [\App\Http\Controllers\AdminAnuncioController::class, 'index'])->name('admin.anuncios.index');
+        Route::post('/admin/anuncios', [\App\Http\Controllers\AdminAnuncioController::class, 'store'])->name('admin.anuncios.store');
+        Route::get('/admin/anuncios/{anuncio}/editar', [\App\Http\Controllers\AdminAnuncioController::class, 'edit'])->name('admin.anuncios.edit');
+        Route::put('/admin/anuncios/{anuncio}', [\App\Http\Controllers\AdminAnuncioController::class, 'update'])->name('admin.anuncios.update');
+        Route::delete('/admin/anuncios/{anuncio}', [\App\Http\Controllers\AdminAnuncioController::class, 'destroy'])->name('admin.anuncios.destroy');
         Route::get('/admin/usuarios', [\App\Http\Controllers\AdminUserController::class, 'index'])->name('admin.users.index');
         Route::post('/admin/usuarios', [\App\Http\Controllers\AdminUserController::class, 'store'])->name('admin.users.store');
         Route::get('/admin/usuarios/{user}/editar', [\App\Http\Controllers\AdminUserController::class, 'edit'])->name('admin.users.edit');

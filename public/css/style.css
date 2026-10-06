@@ -1334,6 +1334,19 @@ details > summary {
     margin-bottom: .6rem;
 }
 
+.ad-banner {
+    border-left: 4px solid var(--green);
+}
+
+.ad-label {
+    color: var(--green-dark);
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 700;
+    margin-bottom: .5rem;
+}
+
 .site-footer {
     background: var(--ink);
     box-shadow: none;

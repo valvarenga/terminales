@@ -16,6 +16,7 @@ class AuditLogger
         'hora_apertura', 'hora_cierre', 'latitud', 'longitud', 'url', 'url_M', 'url_T',
         'nombre_terminal', 'ubicacion', 'foto', 'estado', 'motivo_revision',
         'revisada_por', 'revisada_at', 'terminal_id', 'terminales', 'paradas',
+        'titulo', 'negocio', 'imagen', 'enlace', 'activo', 'orden',
     ];
 
     public static function record(Model $model, string $action, array $before = [], array $after = []): void

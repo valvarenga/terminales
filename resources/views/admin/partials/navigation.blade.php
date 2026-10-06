@@ -11,7 +11,7 @@
         <a class="btn btn-sm {{ $active ? 'btn-primary' : 'btn-outline-primary' }}" href="{{ route($route) }}" @if($active) aria-current="page" @endif><i class="bi bi-{{ $icon }}" aria-hidden="true"></i> {{ $label }}</a>
     @endforeach
     @if(session('admin_role', 'admin') === 'admin')
-        @foreach([['Historial', 'admin.history', 'admin.history', 'clock-history'], ['Usuarios', 'admin.users.index', 'admin.users.*', 'people']] as [$label, $route, $pattern, $icon])
+        @foreach([['Historial', 'admin.history', 'admin.history', 'clock-history'], ['Publicidad', 'admin.anuncios.index', 'admin.anuncios.*', 'megaphone'], ['Usuarios', 'admin.users.index', 'admin.users.*', 'people']] as [$label, $route, $pattern, $icon])
             @php($active = request()->routeIs($pattern))
             <a class="btn btn-sm {{ $active ? 'btn-primary' : 'btn-outline-primary' }}" href="{{ route($route) }}" @if($active) aria-current="page" @endif><i class="bi bi-{{ $icon }}" aria-hidden="true"></i> {{ $label }}</a>
         @endforeach

@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 
 class AuditLogController extends Controller
 {
-    public const ENTITIES = ['autobuses' => 'Autobuses', 'terminales' => 'Terminales', 'municipios' => 'Municipios', 'departamentos' => 'Departamentos', 'sugerencias_terminales' => 'Sugerencias', 'users' => 'Usuarios'];
+    public const ENTITIES = ['autobuses' => 'Autobuses', 'terminales' => 'Terminales', 'municipios' => 'Municipios', 'departamentos' => 'Departamentos', 'sugerencias_terminales' => 'Sugerencias', 'anuncios' => 'Publicidad', 'users' => 'Usuarios'];
 
     public function index(Request $request)
     {

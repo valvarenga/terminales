@@ -82,6 +82,7 @@
     </div>
     <div class="col-lg-5"><div class="content-card overflow-hidden"><video class="w-100 d-block" controls preload="none" poster="{{ asset('images/inicio.png') }}" playsinline aria-label="Video de Terminales Nicaragua"><source src="{{ asset('images/video.mp4') }}" type="video/mp4"></video></div></div>
 </div></div></section>
+@include('partials.anuncios-home')
 <section class="container py-5"><div class="row g-4">
     <div class="col-md-4"><a href="{{ route('home') }}#buscar-ruta" class="process-card content-card p-4 h-100"><p class="eyebrow">01</p><h3>Elige tu ciudad</h3><p class="mb-3 text-muted">Indica el municipio desde el que iniciarás tu viaje.</p><span>Buscar una ruta <span aria-hidden="true">→</span></span></a></div>
     <div class="col-md-4"><a href="{{ route('departamentos.listar') }}" class="process-card content-card p-4 h-100"><p class="eyebrow">02</p><h3>Encuentra la terminal</h3><p class="mb-3 text-muted">Explora destinos, municipios y las terminales disponibles.</p><span>Explorar destinos <span aria-hidden="true">→</span></span></a></div>
